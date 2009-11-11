@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class ProcuraFicheiro {
@@ -10,27 +11,55 @@ public class ProcuraFicheiro {
 	static BufferedReader br;
 	static FileReader fr;
 	static StringTokenizer st;
+	static Scanner scanner;
+	static String palavra;
+	static String line;
+	static int encontradas;
 
-	public static void ler_ficheiro() {
+	public static void lerFicheiro() {
 		try {
-			fr = new FileReader(new File(
-					"/TrabalhoFinalPCD/src/ficheiro_teste.txt"));
+			fr = new FileReader(new File("testeeeee.txt"));
 			br = new BufferedReader(fr);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void passar_para_token() {
+
+	public static void lerToken() {
 		try {
-			st = new StringTokenizer(br.readLine());
+			System.out.println("ler ficheiro");
+			line = br.readLine();
+
+			while (line != null) {
+				st = new StringTokenizer(line);
+				while (st.hasMoreTokens()) {
+					if (st.nextToken().equals(palavra)) {
+						encontradas++;
+					}
+				}
+				line = br.readLine();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public static int compara() {
+		while (st.hasMoreTokens()) {
+			if (st.nextToken().equals(palavra)) {
+				encontradas++;
+			}
+		}
+		return encontradas;
+	}
+
 	public static void main(String args[]) {
-		ler_ficheiro();
-		passar_para_token();
+
+		System.out.print("Palavra : ");
+		scanner = new Scanner(System.in);
+		palavra = scanner.next();
+		lerFicheiro();
+		lerToken();
+		System.out.println(encontradas);
 	}
 }
