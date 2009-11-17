@@ -1,0 +1,226 @@
+MIB_API(3)                         Net-SNMP                         MIB_API(3)
+
+
+
+NAME
+       init_mib,   add_mibdir,   init_mib_internals,   add_module_replacement,
+       read_module,  read_mib,  read_all_mibs,  read_objid,  read_module_node,
+       get_module_node,   snmp_set_mib_warnings,   snmp_set_save_descriptions,
+       shutdown_mib, print_mib, print_variable, fprint_variable, snprint_vari-
+       able,      sprint_realloc_variable,      print_value,     fprint_value,
+       snprint_value,   sprint_realloc_value,    print_objid,    fprint_objid,
+       snprint_objid, sprint_realloc_objid, print_description, fprint_descrip-
+       tion - mib_api functions
+
+SYNOPSIS
+       #include <net-snmp/mib_api.h>
+
+       void init_mib(void);
+       int add_mibdir(const char *dirname);
+       int add_module_replacement(const char *old_module, const char *new_mod-
+       ule, const char *tag, int len);
+       void init_mib_internals(void);
+       struct tree *read_module(const char *name);
+       struct tree *read_mib(const char *filename);
+       struct tree *read_all_mibs(void);
+
+       void shutdown_mib(void);
+
+       void print_mib(FILE *fp);
+
+       int read_objid(const char *input, oid *output, size_t *out_len);
+       int  get_module_node(const  char *name, const char *module, oid *objid,
+       size_t *objidlen);
+
+       void print_variable(const  oid  *objid,  size_t  objidlen,  const  net-
+       snmp_variable_list *variable);
+       void fprint_variable(FILE *fp, const oid *objid, size_t objidlen, const
+       netsnmp_variable_list *variable);
+       int snprint_variable(char *buf, size_t len, const  oid  *objid,  size_t
+       objidlen, const netsnmp_variable_list *variable);
+       int   sprint_realloc_variable(u_char  **buf,  size_t  *buf_len,  size_t
+       *out_len, int allow_realloc, const oid *objid, size_t  objidlen,  const
+       netsnmp_variable_list *variable);
+
+       void  print_value(oid  *objid,  size_t  objidlen,  const  netsnmp_vari-
+       able_list *variable)
+       void fprint_value(FILE *fp, const oid *objid,  size_t  objidlen,  const
+       netsnmp_variable_list *variable);
+       int snprint_value(char *buf, size_t len, const oid *objid, size_t obji-
+       dlen, const netsnmp_variable_list *variable);
+       int  sprint_realloc_value(u_char   **buf,   size_t   *buf_len,   size_t
+       *out_len,  int  allow_realloc, const oid *objid, size_t objidlen, const
+       netsnmp_variable_list *variable);
+
+       void print_objid(const oid *objid, size_t objidlen);
+       void fprint_objid(FILE *fp, const oid *objid, size_t objidlen);
+       int snprint_objid(char *buf, size_t len, const oid *objid, size_t obji-
+       dlen);
+       int   sprint_realloc_objid(u_char   **buf,   size_t   *buf_len,  size_t
+       *out_len, int allow_realloc, const oid *objid, size_t objidlen);
+
+       void print_description(oid *objid, size_t objidlen, int width);
+       void fprint_description(FILE *fp, const oid  *objid,  size_t  objidlen,
+       int width);
+
+       void snmp_set_mib_warnings(int level);
+       void snmp_set_save_descriptions(int save);
+
+
+DESCRIPTION
+       The  functions  dealing  with MIB modules fall into four groups.  Those
+       dealing with initialisation and shutdown, those that read in and  parse
+       MIB files, those that search the MIB tree, and various output routines.
+
+   Initialisation and Shutdown
+       init_mib is a convenience function that handles all calls  to  add_mib-
+       dir,  read_module and read_mib for standard applications.  It should be
+       called before any other routine that manipulates or  accesses  the  MIB
+       tree.   This  routine  sets  up various internal structures, as well as
+       reading in the default MIB modules, as detailed below.
+
+       add_mibdir is used to define the range of directory locations which are
+       searched  for  files  containing MIB modules (one module per file).  By
+       default, this will be set to the directory /usr/share/mibs but this can
+       be  overridden by setting the environment variable MIBDIRS to a (colon-
+       separated) list of directories to search.   Note  that  this  does  not
+       actually load the MIB modules located in that directory, but is an ini-
+       tialisation step to make them available.  This function returns a count
+       of files found in the directory, or a -1 if there is an error.
+
+       init_mib_internals  sets  up  the  internal  structures, preparatory to
+       reading in MIB modules.   It  should  be  called  after  all  calls  to
+       add_mibdir,  and before and calls to read_module.  This is called auto-
+       matically if init_mib is used.
+
+       shutdown_mib will clear the information that was gathered by  read_mod-
+       ule, add_mibdir and add_module_replacement.  It is strongly recommended
+       that one does not invoke shutdown_mib while  there  are  SNMP  sessions
+       being actively managed.
+
+   Reading and Parsing MIBs
+       add_module_replacement can be used to allow new MIB modules to obsolete
+       older ones, without needing to amend the imports clauses of other  mod-
+       ules.   It takes the names of the old and new modules, together with an
+       indication of which portions of the old module are affected.
+
+              tag      len       load the new module when:
+              NULL     0         always (the old module is a strict subset of the new)
+              name     0         for the given tag only
+              name     non-0     for any identifier with this prefix
+       It can also be used to handle errors in the module identifiers used  in
+       MIB   import   clauses   (such  as  referring  to  RFC1213  instead  of
+       RFC1213-MIB).
+
+       read_module locates and parses the module specified, together with  any
+       modules that it imports from, and adds the contents of these modules to
+       the active MIB tree.  Note that add_mibdir must first be called to  add
+       the  directory  containing the file with the module definition, if this
+       is not in the standard path.
+       By default, the following MIB modules will be loaded:  IP-MIB,  IF-MIB,
+       TCP-MIB,  UDP-MIB,  SNMPv2-MIB, RFC1213-MIB, UCD-SNMP-MIB.  This can be
+       overridden by setting the environment variable MIBS to  a  (colon-sepa-
+       rated)  list  of  modules to load.  If this variable starts with a plus
+       character, then the specified modules are added to  the  default  list.
+       Otherwise  only those modules listed are loaded (together with any oth-
+       ers they import from).  If MIBS is set to ALL, read_all_mibs is  called
+       to load all the MIB files found in all the specified MIBDIRS.
+
+       read_mib  parses  the file specified, together with any modules that it
+       imports from, and adds the contents to the active  MIB  tree.   Such  a
+       file  can  contain more then one module, though care must be taken that
+       any imports occur earlier in the file, if they are not to be read  from
+       the  installed  modules.  Note that the file specified does not need to
+       be in any of the directories initialised by add_mibdir (or the  default
+       setup), though any imported modules do.
+       The  environment  variable  MIBFILES  can be set to a (colon-separated)
+       list of files containing MIBs to load.
+
+       read_objid takes a string containing a textual  version  of  an  object
+       identifier  (in either numeric or descriptor form), and transforms this
+       into the corresponding list of sub-identifiers.  This  is  returned  in
+       the  output  parameter, with the number of sub-identifiers returned via
+       out_len.  When called, out_len must hold the maximum length of the out-
+       put  array.   If  multiple object identifiers are being processed, then
+       this length should be reset before each call.  This function returns  a
+       value of 1 if it succeeds in parsing the string and 0 otherwise.
+
+   Searching the MIB Tree
+       get_module_node  takes  a  descriptor  and  the  name  of a module, and
+       returns the corresponding oid list,  in  the  same  way  as  read_objid
+       above.
+       If the module name is specified as "ANY", then this routine will assume
+       that the descriptor given is unique within the tree,  and  will  return
+       the  matching entry.  If this assumption is invalid, then the behaviour
+       as to which variable is returned is implementation dependent.
+
+   Output
+       print_mib will print out a representation of the currently  active  MIB
+       tree to the specified FILE pointer.
+
+       print_variable   will   take  an  object  identifier  (as  returned  by
+       read_objid or get_module_node) and an instance of such a variable,  and
+       prints to the standard output the textual form of the object identifier
+       together with the value of  the  variable.   fprint_variable  does  the
+       same,  but  prints to the FILE pointer specified by the initial parame-
+       ter.
+       snprint_variable prints the same information into the buffer pointed to
+       by  buf which is of length len and returns either the number of charac-
+       ters printed, or -1 if the buffer was not large enough.  In the  latter
+       case,  buf will typically contained a truncated version of the informa-
+       tion (but this behaviour is not guaranteed).   This  function  replaces
+       the obsolete function sprint_variable.
+       sprint_realloc_variable is the low-level function used to implement all
+       these functions.  It prints to a specified offset in a  string  buffer.
+       The buf parameter points to a pointer to that buffer; buf_len points to
+       a variable holding the current size of that buffer, and out_len  points
+       to  a  variable  holding the offset to which to print.  out_len will be
+       updated to hold the offset of the  character  following  the  last  one
+       added to the buffer.  If allow_realloc is 1, the buffer will be dynami-
+       cally expanded, as necessary, to hold the output; the variables pointed
+       to  by  buf  and  buf_len  will be updated.  If allow_realloc is 0, the
+       buffer  will  not  be  dynamically  expanded.   sprint_realloc_variable
+       returns  0  if  allow_realloc is 1 and an attempt to allocate memory to
+       expand the buffer fails, or  if  allow_realloc  is  0  and  the  output
+       wouldn't  fit  in the buffer.  Otherwise it returns 1.  When using this
+       function you should be careful to call free(3) on *buf  when  you  have
+       finished with it.
+
+       print_value,  fprint_value,  snprint_value  and sprint_realloc_value do
+       the same as the equivalent print_variable routines, but only displaying
+       the value of the variable, without the corresponding object identifier.
+
+       print_objid, fprint_objid, snprint_objid, and sprint_realloc_objid take
+       an  object  identifier  (without an accompanying variable instance) and
+       print out the textual representation.
+
+       print_description and fprint_description take an object identifier  (as
+       for print_objid above) and print out the associated DESCRIPTION clause.
+       The width argument gives the number of subidentifiers of an OID,  e.g.,
+       .1.3.6 is composed of 3 subidentifiers.
+
+       Note  that  there  are no corresponding routines snprint_description or
+       sprint_realloc_description.   By  default  the  parser  does  not  save
+       descriptions  since  they  may  be  huge.  In order to be able to print
+       them, you must call snmp_set_save_descriptions(1).
+
+       In general the parser is silent about what strangenesses it sees in the
+       MIB  files. To get warnings reported, call snmp_set_mib_warnings with a
+       level of 1 (or 2 for even more warnings).
+
+ENVIRONMENT VARIABLES
+       MIBDIRS   A colon separated list of directories to search for MIB  mod-
+                 ules.  Default: /usr/share/snmp/mibs
+
+       MIBFILES  A colon separated list of files to load.  Default: (none)
+
+       MIBS      A  colon separated list of MIB modules to load.  Default: IP-
+                 MIB:IF-MIB:TCP-MIB:UDP-MIB:SNMPv2-MIB:RFC1213-MIB:UCD-SNMP-
+                 MIB.
+
+SEE ALSO
+       snmp_api(3)
+
+
+
+4.2 Berkeley Distribution         06 Mar 2002                       MIB_API(3)
