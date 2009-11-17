@@ -61,6 +61,7 @@ public class Indexacao extends Thread {
 			//break;
 			}
 		 }
+		System.out.println(list.size());
 		 return list;
 	}
 	
