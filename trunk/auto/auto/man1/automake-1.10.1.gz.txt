@@ -1,0 +1,14 @@
+AUTOMAKE(1)               BSD General Commands Manual              AUTOMAKE(1)
+
+NAME
+     automake, aclocal -- Create Makefiles from template files
+
+DESCRIPTION
+     The automake and aclocal tools are documented via Texinfo. Please run the
+     following command
+
+           info automake
+
+     to access the complete documentation.
+
+BSD                              July 9, 2005                              BSD

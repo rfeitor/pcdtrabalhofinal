@@ -1,0 +1,196 @@
+PERLJP(1)              Perl Programmers Reference Guide              PERLJP(1)
+
+
+
+NAME
+       perljp - AE""",` Perl =~=o='
+
+`^``
+       Perl o^`o3|o/o`o|o3o1/2!
+
+       Perl 5.8.0 o`o^,/Uni-   _
+       code=,=',1/4=`o~^,''o"9| 21/2o,o`,/o1/2o^."2`='=AE='^,>>'o^3oo^^,>>'=3,1/4='o^=,=',1/4=`o~
+       CJK
+       (~ae1~,`,/AE""",`,/="='=o=")o`'Io'oAE2~o"o^oIo.o',-Unicodeo"`o3|~aeo^^,>>'o`o`o"o^^,>>'=3,1/4='o,o.o|o3o`o``">>/o.o'',1/2`,~3^o,o/o^,/o`o<<o'`3/4,/o"o'oIo'o1/2o^'"o^^,>>',^=(R)=^=.=~^,>>',/=-
+       =^,1/4="^,>>',/=/='='=/^,>>',/=/="='=o^,>>',/=,=-,1/4=^=,=^=~,1/4=^^,>>',/o^o'o^o',"o",/o3o`oIo,o"OS=`='=`,1/4o~AE`1/4<<o""^o'oAEooo'^,>>'(PCoao`o'Mac-
+       intosh)o~o1o,o"'IoIo`oAEoooIo1,-
+
+       Perl 1/4<<'`o" Unicode o,AEoo^o.oIo1,-Perl
+       =1= =^=x=`AE^o^^,>>'^'=^=AE='="o"`,,~'1/2,1/2o" Unicode
+       o`'o"'o`o.oAEoooIo1,-o1/2o.oAEAEp1/2-^"o^o'o'o"o",/o3o`oIo,>>`o"o`oAEo-
+       o'o,oIo9|oIo^^,>>'=3,1/4='o"^-+-po1o"=^=,=o,1/4=",/," Encode
+       ,xo~',1/2`'~`-:-o,o`oAEoao^,/Unicode
+       o`o3o`o'o^^,>>'=3,1/4='o^'^,B^~'1o^'^~+-o"1^o"o"o`o|o"o^o~oAEoooIo1,-
+
+       ,1/2>>po`o, Encode o~=,=',1/4=`o1o"^,>>'=3,1/4='o"o^21/4o^o`oao^o,o1,-
+
+         7bit-jis      AdobeStandardEncoding AdobeSymbol       AdobeZdingbat
+         ascii             big5              big5-hkscs        cp1006
+         cp1026            cp1047            cp1250            cp1251
+         cp1252            cp1253            cp1254            cp1255
+         cp1256            cp1257            cp1258            cp37
+         cp424             cp437             cp500             cp737
+         cp775             cp850             cp852             cp855
+         cp856             cp857             cp860             cp861
+         cp862             cp863             cp864             cp865
+         cp866             cp869             cp874             cp875
+         cp932             cp936             cp949             cp950
+         dingbats          euc-cn            euc-jp            euc-kr
+         gb12345-raw       gb2312-raw        gsm0338           hp-roman8
+         hz                iso-2022-jp       iso-2022-jp-1     iso-8859-1
+         iso-8859-10       iso-8859-11       iso-8859-13       iso-8859-14
+         iso-8859-15       iso-8859-16       iso-8859-2        iso-8859-3
+         iso-8859-4        iso-8859-5        iso-8859-6        iso-8859-7
+         iso-8859-8        iso-8859-9        iso-ir-165        jis0201-raw
+         jis0208-raw       jis0212-raw       johab             koi8-f
+         koi8-r            koi8-u            ksc5601-raw       MacArabic
+         MacCentralEurRoman  MacChineseSimp    MacChineseTrad    MacCroatian
+         MacCyrillic       MacDingbats       MacFarsi          MacGreek
+         MacHebrew         MacIcelandic      MacJapanese       MacKorean
+         MacRoman          MacRomanian       MacRumanian       MacSami
+         MacSymbol         MacThai           MacTurkish        MacUkrainian
+         nextstep          posix-bc          shiftjis          symbol
+         UCS-2BE           UCS-2LE           UTF-16            UTF-16BE
+         UTF-16LE          UTF-32            UTF-32BE          UTF-32LE
+         utf8              viscii
+
+       (''1141/4"^`)
+
+       ^~o"o-,/^,>>'=3,1/4='FOOo^=~=,=o="o`UTF-8o"^~'1o1o"o"o",/o^21/4o^o`o|o"o.oIo1,-
+
+           perl -Mencoding=FOO,STDOUT,utf8 -pe1 < file.FOO > file.utf8
+
+       oIo',/Perlo"o",/'''^o~Perlo,1/2~o<<o`o'^,>>'=3,1/4='^~'1=ae,1/4=AE=-=^=AE=-,/piconvo^'~^oo.oAEooo"o^o,,/o^21/4o^o`o|o"o1o"o3o`o^o,o-
+       oIo1,-
+
+          piconv -f FOO -t utf8 < file.FOO > file.utf8
+          piconv -f utf8 -t FOO < file.utf8 > file.FOO
+
+       About (jcode.pl|Jcode.pm|JPerl)
+                     _
+       5.8o^'oo^,/=1= =^=x=`o~EUC-JPo,o/o`o-=^=AE='="o`o+-o"o.o|o3o`o~o,o-
+       oIo.o',-oIo',/AEp1/2-^"o`o.o|=^=,=o,1/4="o`o.oAEo"Jcode.pmo~(
+       http://openlab.jp/Jcode/
+       ),/perl4'~o^=ae,1/4=AE=-=^=AE=-o`o.oAEo"jcode.pl(
+       http://srekcah.org/jcode/                     _                                     _   _                                                              _
+       )o~o1/2o`o3/4o`^,oBo.,/AE""",`o^o.o"o"CGIo,o`o '/'~o,o`oAEooo"o3o`o`,ae^,o,o^^'o^3/4 o^o o^ooo<<o`>>xo"o`oIo1,-o'o`o.,/AE""",`o"o`o"`,,~'1/2,1/2o`o|oIo o.o|o3o`o"'^2",1/2o,o.o',-
+
+       5.005o^'oo^Perlo"o",/AE""",`o"AE~21/2o.o'=',1/4=<<='=o=o`,,/Jperlo~^,oBo.oIo.o'(
+       http://homepage2.nifty.com/kipp/perl/jperl/index.html ),-oIo',/Mac OS
+       9.x/Clas-
+       sic'~o^Perl,/MacPerlo^AE""",``,o^MacJPerlo`o.oAE^,oBo.oAEoIo.o',-(
+       http://world.std.com/~habilis/macjperl/
+       ).o3o`o'o,o"^,>>'=3,1/4='o`o.oAEEUC-JPo"2~o"Shift_JISo^o1/2o^oIoIo.o|o3o`o~o,o-
+       ,/oIo'AE""",`o"o`o"`,,~'1/2,1/2o`o.o|o3o`o^2",1/2o,o.o',-
+
+       Perl5.8o,o",/o3o`o'o^,,,1/2o~o1o`oAEPerl""^^o`o+-o,1/4^,1/2o,o-
+       o"3/4oo",/AE""",`o^oBo^o'oo3/4o,-
+       114o^^,>>'=3,1/4='o`o1o`oAE,/o.o<<o^AE+->>po"o.o|o3o`o~o,o-
+       oIo1,-o,o'o",/CPANo^o'o<<o''.o.oo^,>>'=3,1/4=''~o^=^=,=o,1/4="o`AEp1/4^o1o"o3o`o^'^~+-o"o,o-
+       o"o`o|o"o^o~oAEoooIo1,-
+
+       +   AEp1/2-^"
+
+           o^21/4o^^~o"ooooo`o^Shift_JISo^AEp^"o`EUC-JPo"^~'1o.oAE1/2-^"o.oIo1,-
+
+             # jcode.pl
+             require "jcode.pl";
+             while(<>){
+               jcode::convert(*_, 'euc', 'sjis');
+               print;
+             }
+             # Jcode.pm
+             use Jcode;
+             while(<>){
+                   print Jcode->new($_, 'sjis')->euc;
+             }
+             # Perl 5.8
+             use Encode;
+             while(<>){
+               from_to($_, 'shiftjis', 'euc-jp');
+               print;
+             }
+             # Perl 5.8 - encoding o`'/'~o.oAE
+             use encoding 'euc-jp', STDIN => 'shiftjis';
+             while(<>){
+                   print;
+             }
+                        _
+       +   Jperl ,B'1=1= =^=x=`
+
+            ooo"oaeo""shebang"o`^~11o1o"o`o+-o,,/Jperl'~o^scripto^o^o`o'o'o"^~11o^o.o"'/'~2",1/2o`o`>>xo"o`oIo1,-
+
+              #!/path/to/jperl
+              /
+              #!/path/to/perl -Mencoding=euc-jp
+                   _                                   _
+            3/4"o.o o" perldoc encoding o`>>23/4`o.oAEo o`o,oo,-
+                    _
+       o,o'o"3/4"o.o
+
+       Perlo"o"""^,o^>>~^'o~'~^oo.oAEoao^,/Perlo^'.,,,1/2o"Uni-        _
+       code=,=',1/4=`,/o1/2o.oAEEncode=^=,=o,1/4="o^>>`'~",o^o'o~o`o<<o `"'oo,o`oAEoooIo1,^>>",oo^o~o',/o^o`o'o'+-~,`o,o"o/o^oIo1o~,",-o^21/4o^=3=I='='o,o1/2o`o'o^o`'^o`+-"'-:-o1o"o3o`o~2",1/2o,o1,-
+
+         perldoc perlunicode # Perlo^Unicode=,=',1/4=`''``
+         perldoc Encode      # Encode=^=,=o,1/4="o"'/o.oAE
+         perldoc Encode::JP  # o|o'AE""",`^,>>'=3,1/4='o"'/o.oAE
+
+       Perl''``o"'/o1o" URL
+
+
+       <http://www.perl.com/>
+           Perl =^,1/4=`=',1/4=, (O'Reilly and Associates)
+
+       <http://www.cpan.org/>
+           CPAN (Comprehensive Perl Archive Network)
+
+       <http://lists.perl.org/>
+           Perl =',1/4=^='=o=^=1=`1/2,
+
+       Perlo^1/2oAE`o"``^(C)o" URL
+
+
+       <http://www.oreilly.com.tw/chinese/>
+           O'Reilly 1/4`o^Perl'/"/1/2~``(`"^^>>'~ae1~,`)
+
+       <http://www.oreilly.com.cn/chinese/>
+           O'Reilly 1/4`o^Perl'/"/1/2~``('^^^>>'~ae1~,`)
+
+       <http://www.oreilly.co.jp/catalog.htm>
+           =a='=o=^,1/41/4`o^Perl'/"/1/2~``(AE""",`)
+
+       Perl =ae,1/4=9|,1/4=o=",1/4=x
+
+
+       <http://www.pm.org/groups/asia.html>
+           ~ae1~,^~ae2'''`+-9||"^1~,"
+
+       <http://www.pm.org/groups/asia.shtml#Japan>
+           AE"""
+
+       <http://www.pm.org/groups/asia.shtml#Korea%20(Republic%20of)>
+           ''1~,^^,''`+-1~,"
+
+       <http://www.pm.org/groups/asia.shtml#Taiwan>
+           ^ae"~,^~ae2'`+-1~,"
+
+       Unicode'/"/o^URL
+
+
+       <http://www.unicode.org/>
+           Unicode =3='=1/2,1/4=.=/=` (Unicode,~3^o^'a"^~"^^)
+
+       <http://www.cl.cam.ac.uk/%7Emgk25/unicode.html>
+           UTF-8 and Unicode FAQ for Unix/Linux
+
+       <http://kldp.org/Translations/html/UTF8-Unicode-KLDP/UTF8-Uni-
+       code-KLDP.html>
+           UTF-8 and Unicode FAQ for Unix/Linux (="='=o="`~)
+
+AUTHORS
+       Jarkko Hietaniemi <jhi@iki.fi> Dan Kogai (3/4(R)>>^,,~AE) <danko-
+       gai@dan.co.jp>
+
+
+
+perl v5.8.9                       2007-11-17                         PERLJP(1)

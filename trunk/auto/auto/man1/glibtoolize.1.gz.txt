@@ -1,0 +1,30 @@
+GLIBTOOL(1)               BSD General Commands Manual              GLIBTOOL(1)
+
+NAME
+     glibtool, glibtoolize -- generic shared library support
+
+SYNOPSIS
+     glibtool [arguments]
+     glibtoolize [arguments]
+
+DESCRIPTION
+     glibtool and glibtoolize are scripts that provide generic shared library
+     support to package developers.  It is actually the GNU libtool and
+     libtoolize scripts, renamed to avoid conflict with the Apple-provided
+     libtool(1).
+
+     As of version 1.5.22, better Mac OS X support is provided.  The -arch,
+     -framework and -isysroot options are now passed to the compiler/linker as
+     would be expected.  Bundles can be built using the --undefined
+     dynamic_lookup link option, if the MACOSX_DEPLOYMENT_TARGET environment
+     variable is set to 10.3 or greater.
+
+     The rest of this manual page describes the additional features added to
+     glibtool for Mac OS X.  More general documentation is listed below.
+
+SEE ALSO
+     ar(1), libtool(1), ranlib(1)
+
+     /Developer/ADC Reference Library/documentation/DeveloperTools/glibtool
+
+GNU                              July 25, 2003                             GNU

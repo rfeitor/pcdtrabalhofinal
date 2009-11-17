@@ -1,0 +1,317 @@
+NTPDSIM(1)                    Programmer's Manual                   NTPDSIM(1)
+
+
+
+NAME
+       ntpdsim - NTP daemon simulation program
+
+SYNOPSIS
+       ntpdsim [-flag [value]]... [--opt-name [[=| ]value]]...
+
+       All arguments must be options.
+
+DESCRIPTION
+       This manual page documents, briefly, the ntpdsim command.
+
+
+OPTIONS
+       -4, --ipv4
+              Force  IPv4 DNS name resolution.  This option is a member of the
+              ipv4 class of options.
+
+              Force DNS resolution of following host names on the command line
+              to the IPv4 namespace.
+
+       -6, --ipv6
+              Force  IPv6 DNS name resolution.  This option is a member of the
+              ipv4 class of options.
+
+              Force DNS resolution of following host names on the command line
+              to the IPv6 namespace.
+
+       -a, --authreq
+              Require  crypto  authentication.  This option must not appear in
+              combination with any of the following options: authnoreq.
+
+              Require cryptographic authentication for broadcast client,  mul-
+              ticast  client  and symmetric passive associations.  This is the
+              default.
+
+       -A, --authnoreq
+              Do not require crypto  authentication.   This  option  must  not
+              appear  in  combination  with  any  of  the  following  options:
+              authreq.
+
+              Do  not  require  cryptographic  authentication  for   broadcast
+              client,  multicast  client  and  symmetric passive associations.
+              This is almost never a good idea.
+
+       -b, --bcastsync
+              Allow us to sync to broadcast servers.
+
+
+
+       -B string, --simbroadcastdelay=string
+              Simulator broadcast delay.
+
+
+
+       -c string, --configfile=string
+              configuration file name.
+
+              The name and path of the configuration  file,  /etc/ntp.conf  by
+              default.
+
+       -C string, --phasenoise=string
+              Phase noise level.
+
+
+
+       -d, --debug-level
+              Increase  output debug message level.  This option may appear an
+              unlimited number of times.
+
+              Increase the debugging message output level.
+
+       -D string, --set-debug-level=string
+              Set the output debug message level.  This option may  appear  an
+              unlimited number of times.
+
+              Set the output debugging level.  Can be supplied multiple times,
+              but each overrides the previous value(s).
+
+       -f string, --driftfile=string
+              frequency drift file name.
+
+              The name and path  of  the  frequency  file,  /etc/ntp.drift  by
+              default.   This is the same operation as the driftfile driftfile
+              configuration specification in the /etc/ntp.conf file.
+
+       -g, --panicgate
+              Allow the first adjustment to be Big.
+
+              Normally, ntpd exits with a message to the  system  log  if  the
+              offset  exceeds the panic threshold, which is 1000 s by default.
+              This option allows the time to  be  set  to  any  value  without
+              restriction;  however, this can happen only once. If the thresh-
+              old is exceeded after that, ntpd will exit with a message to the
+              system  log. This option can be used with the -q and -x options.
+              See the tinker configuration file directive for other options.
+
+       -H string, --simslew=string
+              Simuator slew.
+
+
+
+       -i string, --jaildir=string
+              Jail directory.
+
+              Chroot the server to the  directory  jaildir  This  option  also
+              implies  that  the  server  attempts  to drop root privileges at
+              startup (otherwise, chroot gives very  little  additional  secu-
+              rity),  and  it  is only available if the OS supports to run the
+              server without full root privileges.  You may need to also spec-
+              ify a -u option.
+
+       -I iface, --interface=iface
+              Listen on interface.  This option may appear an unlimited number
+              of times.
+
+
+
+       -k string, --keyfile=string
+              path to symmetric keys.
+
+              Specify  the  name  and  path  of  the   symmetric   key   file.
+              /etc/ntp.keys is the default.  This is the same operation as the
+              keys keyfile configuration file directive.
+
+       -l string, --logfile=string
+              path to the log file.
+
+              Specify the name and path of the log file.  The default  is  the
+              system log file.  This is the same operation as the logfile log-
+              file configuration file directive.
+
+       -L, --novirtualips
+              Do not listen to virtual IPs.
+
+              Do not listen to virtual IPs. The default is to listen.
+
+       -M, --modifymmtimer
+              Modify Multimedia Timer (Windows only).
+
+              Set the Windows Multimedia Timer to highest resolution.
+
+       -n, --nofork
+              Do not fork.
+
+
+
+       -N, --nice
+              Run at high priority.
+
+              To the extent permitted by the operating system, run ntpd at the
+              highest priority.
+
+       -O string, --servertime=string
+              Server time.
+
+
+
+       -p string, --pidfile=string
+              path to the PID file.
+
+              Specify  the  name  and  path  of the file used to record ntpd's
+              process ID.  This is the same operation as the  pidfile  pidfile
+              configuration file directive.
+
+       -P number, --priority=number
+              Process  priority.   This  option takes an integer number as its
+              argument.
+
+              To the extent permitted by the operating system, run ntpd at the
+              specified sched_setscheduler(SCHED_FIFO) priority.
+
+       -q, --quit
+              Set the time and quit.
+
+              ntpd  will exit just after the first time the clock is set. This
+              behavior mimics that of the ntpdate  program,  which  is  to  be
+              retired.   The  -g  and -x options can be used with this option.
+              Note: The kernel time discipline is disabled with this option.
+
+       -r string, --propagationdelay=string
+              Broadcast/propagation delay.
+
+              Specify the default propagation delay from the  broadcast/multi-
+              cast  server to this client. This is necessary only if the delay
+              cannot be computed automatically by the protocol.
+
+       -U number, --updateinterval=number
+              interval in seconds between scans for new or dropped interfaces.
+              This option takes an integer number as its argument.
+
+              Give  the  time  in seconds between two scans for new or dropped
+              interfaces.  For systems with routing socket support  the  scans
+              will  be  performed  shortly after the interface change has been
+              detected by the system.  Use 0 to disable scanning.  60  seconds
+              is the minimum time between scans.
+
+       -s string, --statsdir=string
+              Statistics file location.
+
+              Specify  the  directory path for files created by the statistics
+              facility.  This is the same operation as the  statsdir  statsdir
+              configuration file directive.
+
+       -S string, --endsimtime=string
+              Simulation end time.
+
+
+
+       -t tkey, --trustedkey=tkey
+              Trusted  key number.  This option may appear an unlimited number
+              of times.
+
+              Add a key number to the trusted key list.
+
+       -T string, --freqerr=string
+              Simulation frequency error.
+
+
+
+       -W string, --walknoise=string
+              Simulation random walk noise.
+
+
+
+       -u string, --user=string
+              Run as userid (or userid:groupid).
+
+              Specify a user, and optionally a  group,  to  switch  to.   This
+              option  is  only  available if the OS supports to run the server
+              without full root privileges.  Currently, this  option  is  sup-
+              ported  under  NetBSD  (configure  with  --enable-clockctl ) and
+              Linux (configure with --enable-linuxcaps ).
+
+       -v nvar, --var=nvar
+              make ARG an ntp variable (RW).  This option may appear an unlim-
+              ited number of times.
+
+
+
+       -V ndvar, --dvar=ndvar
+              make  ARG  an  ntp variable (RW|DEF).  This option may appear an
+              unlimited number of times.
+
+
+
+       -x, --slew
+              Slew up to 600 seconds.
+
+              Normally, the time is slewed if the offset is less than the step
+              threshold,  which is 128 ms by default, and stepped if above the
+              threshold.  This option sets the threshold to 600  s,  which  is
+              well  within  the  accuracy  window  to  set the clock manually.
+              Note: Since the slew rate of typical Unix kernels is limited  to
+              0.5  ms/s,  each  second  of adjustment requires an amortization
+              interval of 2000 s.  Thus, an adjustment as much as 600  s  will
+              take  almost  14 days to complete.  This option can be used with
+              the -g and -q options.  See the tinker configuration file direc-
+              tive  for  other  options.   Note: The kernel time discipline is
+              disabled with this option.
+
+       -Y string, --ndelay=string
+              Simulation network delay.
+
+
+
+       -Z string, --pdelay=string
+              Simulation processing delay.
+
+
+
+       -?, --help
+              Display usage information and exit.
+
+       -!, --more-help
+              Extended usage information passed thru pager.
+
+       -> [rcfile], --save-opts[=rcfile]
+              Save the option state to rcfile.  The default is the  last  con-
+              figuration file listed in the OPTION PRESETS section, below.
+
+       -< rcfile, --load-opts=rcfile, --no-load-opts
+              Load  options  from  rcfile.  The no-load-opts form will disable
+              the loading of earlier RC/INI files.  --no-load-opts is  handled
+              early, out of order.
+
+       -v [{v|c|n}], --version[={v|c|n}]
+              Output  version of program and exit.  The default mode is `v', a
+              simple version.  The `c' mode will print  copyright  information
+              and `n' will print the full copyright notice.
+
+OPTION PRESETS
+       Any option that is not marked as not presettable may be preset by load-
+       ing values from configuration ("RC" or ".INI") file(s) and values  from
+       environment variables named:
+         NTPDSIM_<option-name> or NTPDSIM
+       The  environmental  presets  take precedence (are processed later than)
+       the configuration files.  The homerc files are "$HOME",  and  ".".   If
+       any  of  these  are  directories,  then the file .ntprc is searched for
+       within those directories.
+
+AUTHOR
+       David L. Mills and/or others
+       Please send bug reports to:  http://bugs.ntp.isc.org, bugs@ntp.org
+
+
+       see html/copyright.html
+
+       This manual page was AutoGen-erated from  the  ntpdsim  option  defini-
+       tions.
+
+
+
+( 4.2.4p4)                        2007-09-10                        NTPDSIM(1)

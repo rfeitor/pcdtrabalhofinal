@@ -1,0 +1,85 @@
+CHUDREMOTECTRL(1)                                            CHUDREMOTECTRL(1)
+
+
+
+NAME
+       chudRemoteCtrl  -  start  or stop the collection of performance monitor
+       data in a performance monitor remote server application.
+
+SYNOPSIS
+       chudRemoteCtrl [ -m ] [ executable [args... ] ]
+
+       chudRemoteCtrl -s label
+
+       chudRemoteCtrl -e
+
+       chudRemoteCtrl -k PID
+
+
+DESCRIPTION
+       chudRemoteCtrl is a command line tool that allows for the collection of
+       performance data by any active performance monitor remote server appli-
+       cation. There are currently two CHUD Tools that can be put in remote
+       performance monitor server mode: MONster, and Shark (as well as their
+       command line counterparts). Typically, chudRemoteCtrl is invoked on the
+       command line or in a shell script, followed by the path to an exe-
+       cutable to be measured and its arguments.  chudRemoteCtrl issues a
+       chudStartRemotePerfMonitor message immediately after launching the
+       specified target program. When the launched program terminates, chu-
+       dRemoteCtrl issues a chudStopRemotePerfMonitor message, and then exits.
+       When the '-s', '-e' or '-k PID' options are used, no program is
+       launched.
+
+
+OPTIONS
+       -r     seconds: If the 'chudStartRemotePerfMonitor' message fails to
+              either acquire or start the remote monitoring service, then keep
+              trying to start again, until the specified number of seconds has
+              elapsed.  The same thing is true of the '-e' option. If there is
+              a '-r <seconds>' argument on the command line, and a failure
+              occurs trying to stop the remote profiling program, the stop
+              message will be sent again until the retry time limit is
+              reached.
+
+       -s     label: Issue a chudStartRemotePerfMonitor message with the spec-
+              ified label and exit. A 'label' is a string of up to 32 charac-
+              ters.
+
+       -e     Issue a chudStopRemotePerfMonitor message and exit.
+
+       -q     silence some of the non-essential warning and error output.
+
+       -kPID  Send a UNIX signal (SIGUSR1 to start profiling, SIGUSR2 to stop
+              profiling) to the specified process-id. For example, if a com-
+              mand-line profiling tool, is running as PID 4267, using '-k
+              4267' along with a '-s' will send a SIGUSR1 to the command-line
+              profiling tool and it will start sampling, while '-k 4267' along
+              with a '-e' will send a SIGUSR2 to the command-line profiling
+              tool and it will stop sampling. A 'start' example: % chudRemo-
+              teCtrl -s session_42 -k 4267.  And a 'stop' example: % chudRemo-
+              teCtrl -e -k 4267.  The command-line CHUD tool 'shark' responds
+              to UNIX signals and toggles performance profiling.  You can
+              repeatedly send '-s <label> -k <PID#>' to shark and it will tog-
+              gle profiling start or stop.  Sending '-e -k <PID#>' to shark
+              will stop sampling (if it's running) and cause shark to EXIT.
+
+       -m     Set the performance monitor mark bit in the main thread of the
+              launched child process.
+
+
+DIAGNOSTICS
+       chudRemoteCtrl returns a zero (0) upon success and a non-zero value on
+       failure.
+
+
+BUGS
+       Please send your comments, suggestions and bug reports to: perftools-
+       feedback@group.apple.com
+
+
+SEE ALSO
+       monster(1), shark(1)
+
+
+
+CHUD                            6 October 2003               CHUDREMOTECTRL(1)

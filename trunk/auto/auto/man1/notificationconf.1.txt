@@ -1,0 +1,54 @@
+notificationconf(1)       BSD General Commands Manual      notificationconf(1)
+
+NAME
+     notificationconf -- configures how aosnotifyd responds to the NSServer-
+     NotificationCenter api
+
+SYNOPSIS
+     notificationconf command [command_args]
+
+DESCRIPTION
+     notificationconf is a utility to configure the push notification client
+     functionality.  The functionality is accessed by programs using the
+     NSServerNotification api, and this utility configures options for aosno-
+     tifyd that are outside the scope of the api.
+
+USAGE
+     You must specify a command to select a specific function to perform. Each
+     command accepts its own arguments.
+
+COMMAND SUMMARY
+     Here are brief descriptions of all the notificationconf commands:
+
+     setpass hostname username
+             Configures a password and user name in the keychain that aosnoti-
+             fyd can use to access a notification server.  It prompts for the
+             password.
+
+     removepass hostname
+             Removes the keychain entry for the specified server
+
+     usessl hostname
+             Forces the client to use an SSL connection to the specified
+             server.  The server must have a certificate the client will vali-
+             date.
+
+     nossl hostname
+             Sets the client back to the default state of not using an SSL
+             connection for the specified server.
+
+     createnode hostname nodename username
+             Creates a node on the server to send notifications using.  Before
+             a client can subscribe to notifications with a given name, the
+             server must be configured with a node with a matching name.  A
+             user name is specified and the tool prompts for a password.  This
+             user must have permissions to create notification nodes on the
+             server.
+
+FILES
+     /usr/bin/notificationconf
+
+SEE ALSO
+     aosnotifyd(8)
+
+Mac OS X                         12 March 2009                        Mac OS X

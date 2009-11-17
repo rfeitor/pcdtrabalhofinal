@@ -1,0 +1,163 @@
+XCODEBUILD(1)             BSD General Commands Manual            XCODEBUILD(1)
+
+NAME
+     xcodebuild -- build Xcode projects
+
+SYNOPSIS
+     xcodebuild [-project projectname] [-activetarget] [-alltargets]
+                [-target targetname] [-parallelizeTargets]
+                [-activeconfiguration] [-configuration configurationname]
+                [-sdk <sdkfullpath> | <sdkname>] [buildaction ...]
+                [setting=value ...] [-default=value ...]
+     xcodebuild -version [-sdk [<sdkfullpath> | <sdkname> [<single item>]]]
+     xcodebuild -find <binary> [-sdk <sdkfullpath> | <sdkname>]
+     xcodebuild -showsdks
+     xcodebuild -list
+     xcodebuild -help
+
+DESCRIPTION
+     xcodebuild builds a target contained in an Xcode project.
+
+   Usage
+     Run xcodebuild from the directory containing your project (i.e. the
+     directory containing the projectname.xcodeproj package). If you have
+     multiple projects in the this directory you will need to use -project to
+     indicate which project should be built.
+
+     By default, xcodebuild builds the first target listed in your project,
+     with the default build configuration. The order of the targets is a prop-
+     erty of the project and is the same for all users of the project. The
+     active target and active build configuration properties are set for each
+     user of the project and can vary from user to user.
+
+   Options
+     -project projectname
+           Build the project specified by projectname.  Required if there are
+           multiple project files in the same directory.
+
+     -activetarget
+           Builds the user's active target.
+
+     -alltargets
+           Build all the targets in the project.
+
+     -target targetname
+           Build the target specified by targetname.
+
+     -nodependencies
+           Only perform the action on the specified target(s), not on any tar-
+           gets upon which they depend.  This option only applies to the
+           'clean' action.
+
+     -parallelizeTargets
+           Build independent targets in parallel when possible.  With distrib-
+           uted builds or multiprocessor machines, this can cause projects
+           with many simple targets to build substantially faster.  This
+           option only applies to targets with target dependencies.
+
+     -activeconfiguration
+           Use the user's active build configuration when building the target.
+
+     -configuration configurationname
+           Use the build configuration specified by configurationname when
+           building the target.
+
+     -sdk <sdkfullpath> | <sdkname>
+           Build an Xcode project against the specified SDK, using build tools
+           appropriate for that SDK. The argument may be an absolute path to
+           an SDK, or the canonical name of an SDK.
+
+     -showsdks
+           Lists all available SDKs, including their canonical names suitable
+           for use with -sdk.
+
+     buildaction ...
+           Specify a build action (or actions) to perform on the target.
+           Available build actions are:
+
+           build       Build the target in the build root (SYMROOT).  This is
+                       the default build action.
+
+           installsrc  Copy the source of the project to the source root
+                       (SRCROOT).
+
+           install     Build the target and install it into the target's
+                       installation directory in the distribution root
+                       (DSTROOT).
+
+           clean       Remove build products and intermediate files from the
+                       build root (SYMROOT).
+
+     setting=value
+           Set the build setting setting to value.
+
+     -find binary -sdk <sdkfullpath> | <sdkname>
+           Print the absolute path to binary in the context of sdk.  If the
+           -sdk argument is not provided, find uses the value of the build
+           setting SDKROOT, if set. Returns EINVAL if a valid SDK could not be
+           determined.  The search order is the usr/bin directory in the SDK,
+           the bin directory in the SDK, then each of the paths specified by
+           the PATH environment variable.  Returns ENOENT if the requested
+           binary could not be located in any of the searched directories.
+
+           NOTE: 'xcrun -find' is preferred because it caches the resulting
+           find; xcrun uses xcodebuild to populate its cache.
+
+     -version
+           Display version information.  When used in conjunction with -sdk,
+           the version of the specified SDK is displayed, or all SDKs if -sdk
+           is given no value.  Additionally, a single line of the reported
+           version information may be returned if specified.
+
+     -default=value
+           Set the user default default to value.
+
+     -list
+           Lists the targets in the project. Does not initiate a build.
+
+     -nodistribute
+           Disable distributed building. Overrides the distributed build set-
+           ting stored in the user defaults by the Xcode preferences panel.
+
+     -bonjourbuildhosts
+           Enable distributed building and search for build machines using
+           Bonjour. Build machines are added dynamically during the build as
+           they are discovered. May be used alone or in conjunction with
+           -buildhosts or -buildhostsfile.
+
+     -nobonjourbuildhosts
+           Do not search for build machines using Bonjour. Overrides the Bon-
+           jour distributed build setting stored in the user defaults by the
+           Xcode preferences panel.
+
+     -buildhosts hostlist
+           Enable distributed building and set the list of build machines to
+           the space separated list given in hostlist.
+
+     -buildhostsfile hostsfile
+           Enable distributed building and set the list of build machines to
+           the contents of hostsfile.  hostsfile is a text file containing
+           build machine names, one per line.
+
+     -help
+           Displays usage information for xcodebuild.
+
+EXAMPLES
+     xcodebuild clean install
+
+             Cleans the build directory; then builds and installs the first
+             target in the project.
+
+     xcodebuild -target MyTarget OBJROOT=/Build/MyProj/Obj.root
+             SYMROOT=/Build/MyProj/Sym.root
+
+             Builds the target MyTarget putting object (intermediate) files in
+             one directory and the products of the build in another directory.
+
+     xcodebuild -sdk macosx10.4
+
+             Builds an Xcode project against the Mac OS X 10.4 SDK.  The
+             canonical names of all available SDKs can be viewed using the
+             -showsdks option.
+
+Mac OS X                         April 8, 2008                        Mac OS X

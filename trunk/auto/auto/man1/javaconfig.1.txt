@@ -1,0 +1,36 @@
+javaconfig(1)             BSD General Commands Manual            javaconfig(1)
+
+NAME
+     javaconfig -- get Java configuration information
+
+SYNOPSIS
+     javaconfig [-vendor] key [key ...]
+
+DESCRIPTION
+     This tool is used to retrieve configuration data about the location of
+     Java-related files, for building or running Java projects.  The value for
+     the specified key or keys is printed to stdout, with any environment
+     variables such as $HOME expanded.
+
+     The information is searched for in the following locations, in this
+     order:
+
+     1.   vendor-specific information in JavaConfiguration user domain
+
+     2.   non-vendor-specific information in JavaConfiguration user domain
+
+     3.   vendor-specific information in /System/Library/Java/JavaConfig.plist
+
+     4.   non-vendor-specific information in /System/Library/Java/JavaCon-
+          fig.plist
+
+     The default vendor on Mac OS X is "apple".  A different vendor can be
+     specified with a -vendor flag.
+
+     Typical use of this tool is: javaconfig DefaultClasspath
+
+FILES
+     /System/Library/Java/JavaConfig.plist  System-wide Java configuration
+                                            information.
+
+Mac OS X                      September 18, 2009                      Mac OS X

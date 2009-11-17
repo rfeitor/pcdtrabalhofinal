@@ -1,0 +1,75 @@
+qtdefaults(1)             BSD General Commands Manual            qtdefaults(1)
+
+NAME
+     qtdefaults -- access the QuickTime Preferences
+
+SYNOPSIS
+     qtdefaults read LegacyCodecsEnabled
+     qtdefaults read TransportSettings
+     qtdefaults read MimeSettings
+     qtdefaults read MediaKeys [category]
+     qtdefaults reset DownloadCache
+     qtdefaults reset TransportSettings
+     qtdefaults reset MimeSettings
+     qtdefaults write LegacyCodecsEnabled <yes | no>
+     qtdefaults write MediaKeys <category> <key>
+     qtdefaults write TransportSettings <protocol> <port>
+     qtdefaults delete MediaKeys <category> <key>
+
+DESCRIPTION
+     qtdefaults allows users to read, write, reset and delete QuickTime user
+     preferences from a command line shell.  The commands are as follows:
+
+     read LegacyCodecsEnabled
+              Prints whether legacy codecs are enabled for use in the export
+              settings
+
+     read TransportSettings
+              Prints the transport settings being used by QuickTime for
+              streaming media.
+
+     read MimeSettings
+              Prints the MIME types currently being handled by the QuickTime
+              plugin.
+
+     read MediaKeys <category>
+              Prints the media keys being used by QuickTime to playback
+              encrypted movies.  The optional <category> parameter can be used
+              to list only the media keys associated with the specified cate-
+              gory.
+
+     reset DownloadCache
+              Empties the cache being used by QuickTime to store downloaded
+              content.
+
+     reset TransportSettings
+              Resets QuickTime to automatically determine the best protocol
+              and port for streaming media.
+
+     reset MimeSettings
+              Resets QuickTime plug-in to handle the default MIME types.
+
+     write LegacyCodecsEnabled <value>
+              A <value> of "yes" will enable the legacy codecs for use in the
+              export settings and a <value> of "no" will disable them.
+
+     write MediaKeys <category> <key>
+              Adds the media key specified by <category> and <key> values to
+              the list of media keys used to playback encrypted movies.
+
+     write TransportSettings [protocol [port]]
+              Sets QuickTime streaming to use the transport settings as speci-
+              fied by <protocol> and <port>.  Following are the recommended
+              values for <protocol> and <port>:
+                    - To use HTTP, specify <protocol> = HTTP and <port> = 80
+                    - To use UDP, specify <protocol> = UDP and either <port> =
+                    554 or <port> = 7070
+
+     delete MediaKeys <category> <key>
+              Deletes the media key specified by <category> and <key> if it
+              exists.
+
+SEE ALSO
+     defaults(1)
+
+MacOS X                       September 18, 2009                       MacOS X

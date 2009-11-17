@@ -1,0 +1,585 @@
+podcast(1)                BSD General Commands Manual               podcast(1)
+
+NAME
+     podcast -- Podcast Producer command line tool
+
+SYNOPSIS
+     podcast [-s server] [-u username] [-p password] [--auth {Password |
+             Kerberos}] [--checksslcert] [--timeout seconds] command
+             [command-options]
+
+DESCRIPTION
+     The Podcast Producer command line tool is used to interface with a Pod-
+     cast Producer Server. Using the tool it is possible to query the server
+     for status, bind a local device to the server for recording, or control
+     the capture and submission of media for processing by Podcast Producer.
+     It is also possible to perform a number of administrative configuration
+     tasks related to access control and feed generation.
+
+     Use podcast by passing options for making the connection to the server
+     (see OPTIONS) followed by a command (see COMMANDS). Commands may take
+     additional arguments or options as specified.
+
+OPTIONS
+     -s, --server server   The network address of the Podcast Producer server
+                           (defaults to the value returned by hostname(1))
+                           Format: "myserver.example.com" or
+                           "https://myserver.example.com:8170/podcastproducer"
+
+     -u, --user username   The username for authentication (used only with
+                           Password auth; defaults to the current console
+                           user)
+
+     -p, --pass password   The password for authentication (used only with
+                           Password auth; podcast will prompt for the password
+                           it is not provided on the command line)
+
+     --auth type           The type of authentication to use, either Password
+                           or Kerberos (defaults to Password)
+
+     --checksslcert        Validate server SSL certificate
+
+     --timeout seconds     Specify a network timeout in seconds (defaults to
+                           60 seconds)
+
+     --help                Display this man page
+
+COMMANDS
+   Information Commands
+     --listcameras         List available cameras
+
+     --listworkflows       List available workflows
+
+     --listfeeds           Lists available feeds
+
+     --listcatalogs        Lists available catalogs
+
+     --listservers         List available servers (Bonjour discovery)
+
+     --listinfo            List information for a given server (does not
+                           require authentication)
+
+   Agent Commands
+     --isbound             Check if the local camera agent is bound to a
+                           server (returns 1 if bound, 0 if unbound)
+
+     --bind camera_name [--lockdown]
+                           Bind local camera to a server with name
+                           camera_name.  The lockdown flag restricts the cam-
+                           era to the Administrator group (80).
+
+     --unbind camera_name  Remove binding for local camera
+
+     --presets             Lists available capture presets for camera agent
+                           configuration
+
+     --devices             Lists available devices for camera agent configura-
+                           tion
+
+     --getconfig           Read agent configuration settings
+
+     --setconfig key=value[;key=value ...]
+                           Write an agent configuration setting (requires root
+                           privileges). Valid keys are:
+
+                           +   Capture
+                                     Value takes the form of a
+                                     <Type>:<Quality> pair. Valid Types:
+                                     "Audio" or "Video" or "Screen". Valid
+                                     Qualities: "Good" or "Better" or "Best"
+
+                           +   AudioDevice
+                                     Value is one of [Automatic | SysPref |
+                                     <DeviceID>]
+                                     Automatic will use the default audio
+                                     device input. SysPref will use the audio
+                                     device input from System Preferences. Use
+                                     <DeviceID> to specify a particular audio
+                                     device.
+
+                           +   VideoDevice
+                                     Value is one of [Automatic | <DeviceID>]
+                                     Automatic will use the default video
+                                     device input. Use <DeviceID> to specify a
+                                     particular video device.
+
+   Camera Control Commands
+     --status camera_name [--update_preview_image [--include_preview_image]]
+                           Get status of a specific remote camera. Optionally,
+                           ask for the preview image to be updated. When
+                           updating the preview image, specifying
+                           --include_preview_image will return image data with
+                           the command response.
+
+     --start camera_name [--audio_only] [--delay seconds]
+                           Start capture on a specific remote camera. Option-
+                           ally, start recording with audio only mode or with
+                           delay
+
+     --pause camera_name   Pause capture on a specific remote camera
+
+     --resume camera_name  Resume capture on a specific remote camera
+
+     --stop camera_name {--workflow_uuid UUID | --submission_uuid UUID}
+                           [--user_metadata metadata_file_path] [--title
+                           title] [--description description]
+                           Stop capture on a specific remote camera and either
+                           submits footage for processing with the workflow
+                           specified by UUID or as the source for the pre-cre-
+                           ated submission specified by UUID (see MULTI-SOURCE
+                           RECORDING for more information). The
+                           metadata_file_path specifies the location of the
+                           file containing user metadata for the recording
+                           (note that for compatibility reasons
+                           --user_metadata and --metadata are equivalent). You
+                           can also specify this information by using title
+                           and description
+
+     --cancel camera_name  Cancel capture for a specific remote camera
+
+   Submission Commands
+     --create_recording --workflow_uuid UUID
+                           Create an empty recording container for the work-
+                           flow specified by UUID (see MULTI-SOURCE RECORDING
+                           for more information)
+
+     --submit --file file_path [--file file_path ...] {--workflow_uuid UUID |
+                           --submission_uuid UUID} [--user_metadata
+                           user_metadata_file_path] [--recording_metadata
+                           recording_metadata_file_path] [--title title]
+                           [--description description]
+                           Submit file(s) specified by the file_path arguments
+                           either for processing with the workflow specified
+                           by UUID or as the source for the pre-created sub-
+                           mission specified by UUID (see MULTI-SOURCE
+                           RECORDING for more information). The
+                           metadata_file_path, if present, specifies the
+                           location of the file containing user metadata for
+                           the submission (note that for compatibility reasons
+                           --user_metadata and --metadata are equivalent). You
+                           can also specify this information by using title
+                           and description.  The recording_metadata_file_path
+                           allows you to submit a metadata file containing
+                           recording information.
+
+                           The --submit command can also take the following
+                           optional arguments:
+
+                           --upload_buffer_size buffer_size     Specifies the
+                                                                network trans-
+                                                                fer size for
+                                                                an upload
+                                                                operation
+                                                                (default is
+                                                                128K)
+
+                           --delete                             Delete the
+                                                                local copy of
+                                                                the uploaded
+                                                                data on a suc-
+                                                                cessful sub-
+                                                                mission
+
+     --run_uploader        Start the uploader process
+
+     --list_uploads        Lists pending uploads and progress status
+
+     --clear_completed_uploads
+                           Clears completed uploads from list
+
+   Workflow Administration Commands
+     --installworkflow --path workflow_bundle_path [--overwrite]
+                           [--master_password password]
+                           Install the workflow at workflow_bundle_path. If a
+                           workflow already exists at this location on the
+                           server, then it will be replaced if --overwrite is
+                           specified. If the workflow bundle is protected by a
+                           master password, then the password can be specified
+                           with the --master_password argument. If the master
+                           password is needed but not specified the command
+                           line will attempt to retrieve it from the System
+                           Keychain.
+
+     --enableworkflow --workflow_uuid UUID
+                           Enable the workflow specified by UUID
+
+     --disableworkflow --workflow_uuid UUID
+                           Disable the workflow specified by UUID
+
+     --downloadworkflow --workflow_uuid UUID --path workflow_bundle_path
+                           Download the workflow bundle for the workflow spec-
+                           ified by UUID to the path specified by
+                           workflow_bundle_path
+
+     --infoworkflow --workflow_uuid UUID
+                           Get information about the workflow specified by
+                           UUID
+
+     --deleteworkflow --workflow_uuid UUID
+                           Delete the workflow specified by UUID from the
+                           server
+
+   ACL Administration Commands
+     --addaccess --resource_type {Camera | Workflow | Feed} --resource_uuid
+                           UUID --record_type {group | user} --shortname name
+                           Grant access for a user or group to a resource.
+                           This will only have an affect if access controls
+                           have been enabled via the --enableacls command.
+
+     --removeaccess --resource_type {Camera | Workflow | Feed} --resource_uuid
+                           UUID --record_type {group | user} --shortname name
+                           Remove access for a user or group to a resource.
+                           This will only have an affect if access controls
+                           have been enabled via the --enableacls command.
+
+     --showacl --resource_type {Camera | Workflow | Feed} --resource_uuid UUID
+                           List all of the access control entries for a
+                           resource
+
+     --enableacl --resource_type {Camera | Workflow | Feed} --resource_uuid
+                           UUID
+                           Enable access controls for a particular resource
+
+     --enableacls --resource_type {Camera | Workflow | Feed}
+                           Enable access controls for a particular resource
+                           type
+
+     --disableacl --resource_type {Camera | Workflow | Feed} --resource_uuid
+                           UUID
+                           Disable access controls for a particular resource
+
+     --disableacls --resource_type {Camera | Workflow | Feed}
+                           Disable access controls for a particular resource
+                           type
+
+     --checkaccess --resource_type {Camera | Workflow | Feed} --resource_uuid
+                           UUID --shortname username
+                           Verify that a given user has an access to a
+                           resource
+
+     The ACL Administration commands take the following options:
+
+     --resource_type {camera | workflow | feed}
+                           Specifies the type of resource for access control
+                           administration
+
+     --resource_uuid UUID  The UUID of the resource for access control admin-
+                           istration
+
+     --record_type {group | user}
+                           Indicates whether access should be modified for a
+                           single user or for a group of users
+
+     --shortname name      The directory service shortname of the user or
+                           group whose access is being modified
+
+   Feed Administration Commands
+     --addfeed {--shortname name | --keyword keyword_string | --query
+                           query_string --feed_name name --description
+                           description_string}
+                           Create a new feed on the server based either on a
+                           specific username, a keyword search of podcast
+                           metadata, or a query string. See FEED
+                           ADMINISTRATION for more information on creating new
+                           feeds.
+
+     --enablefeed --feed_uuid UUID
+                           Enable the feed specified by UUID
+
+     --disablefeed --feed_uuid UUID
+                           Disable the feed specified by UUID
+
+     --removefeed --feed_uuid UUID
+                           Remove the feed specified by UUID from the server
+
+     --setfeedimage --feed_uuid UUID --path PATH_TO_IMAGE
+                           Set the logo for the feed specified by UUID to the
+                           image at PATH_TO_IMAGE
+
+     --makeexplicit --feed_uuid UUID
+                           Tag the feed specified by UUID as explicit
+
+     --makenonexplicit --feed_uuid UUID
+                           Tag the feed specified by UUID as non explicit
+
+     --setfeedproperty --feed_uuid UUID --property_name PROPERTY --value VALUE
+                           Set the PROPERTY to the specified VALUE for the
+                           feed specified by UUID. The following properties
+                           can be set for a feed: 'name', 'description',
+                           'author_shortname', 'copyright'.
+
+   CATALOG ADMINISTRATION
+     --setcatalogimage --feed_uuid UUID --path PATH_TO_IMAGE
+                           Set the logo for the catalog specified by UUID to
+                           the image at PATH_TO_IMAGE
+
+     --setcatalogproperty --catalog_uuid UUID --property_name PROPERTY --value
+                           VALUE
+                           Set the PROPERTY to the specified VALUE for the
+                           catalog specified by UUID. The following properties
+                           can be set for a catalog: 'title', 'subtitle',
+                           'author_shortname', 'copyright'.
+
+COMMAND EXAMPLES
+     List Workflows on the server:
+
+           podcast -s myserver.example.com -u username -p password --listworkflows
+
+     List cameras agents currently bound to the server:
+
+           podcast -s myserver.example.com -u username -p password --listcameras
+
+     Submit a file to the server. (NOTE: Multiple files can be submitted to a
+     single workflow or source at once by appending additional --file
+     file_path arguments):
+
+           podcast -s myserver.example.com -u username -p password --submit --file /path/to/file --workflow_uuid 73CD7C50-E909-425B-AD22-C6359E5B5D74 --metadata /path/to/metadata.plist
+
+     Bind a camera agent to a server:
+
+           podcast -s myserver.example.com -u adminuser -p password --bind 'MyCamera'
+
+     Set the configuration for a camera agent:
+
+           podcast --setconfig 'Capture=Video:Good;VideoDevice=iSight;AudioDevice=Automatic'
+
+     Start a recording on a remote camera agent:
+
+           podcast -s myserver.example.com -u username -p password --start 'MyCamera'
+
+     Stop a recording on a remote camera agent:
+
+           podcast -s myserver.example.com -u username -p password --start 'MyCamera' --workflow_uuid 73CD7C50-E909-425B-AD22-C6359E5B5D74 --metadata /path/to/metadata.plist
+
+MULTI-SOURCE RECORDING
+     Multi-source workflows can be used with multiple cameras, multiple files
+     to be uploaded, or a combination of the two.With multi-source recording,
+     instead of submitting a file or camera recording to a workflow for pro-
+     cessing, a recording container is first generated for the workflow to be
+     used. This container creation returns submission UUIDs that can then be
+     used for file upload or camera recording. To create the container:
+
+           podcast -s myserver.example.com -u username -p password --create_recording --workflow_uuid 52DCABC4-8E4F-4A1F-848B-08A3B5692F40
+
+     If recording container creation is successful, the output of this command
+     will look like:
+
+           <?xml version="1.0" encoding="UTF-8"?>
+           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN""http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+           <plist version='1.0'>
+               <dict>
+                   <key>workflow_uuid</key>
+                   <string>751254C7-F3C1-4213-B778-4A36BFF59AE5</string>
+                   <key>recording_uuid</key>
+                   <string>62849E4F-56D2-4C18-90EF-A2DA8B4245F2</string>
+                   <key>submission_uuids</key>
+                   <array>
+                       <string>41A92378-0D9C-45EF-BD57-BADC89402771</string>
+                       <string>68192B93-374D-4E41-A8A4-5C1770B932EA</string>
+                   </array>
+               </dict>
+           </plist>
+
+     The array of submission UUIDs is the information needed to then use this
+     recording container. To submit one (or more) file(s) to the recording:
+
+           podcast -s myserver.example.com -u username -p password --submit --file /path/to/file --submission_uuid 41A92378-0D9C-45EF-BD57-BADC89402771
+
+     Cameras to be used with a multi-source recording are started as in the
+     original maner (see COMMAND EXAMPLES) and can even be started before the
+     creation of the recording container. When the camera to be used is
+     stopped, pass the submission UUID instead of the workflow UUID:
+
+           podcast -s myserver.example.com -u username -p password --stop 'MyCamera' --submission_uuid 68192B93-374D-4E41-A8A4-5C1770B932EA --metadata /path/to/metadata.plist
+
+     The ordering of the submission UUIDs returned when the recording con-
+     tainer is created is the same as the ordering of sources in the corre-
+     sponding workflow's sources.plist file. Workflow processing will begin
+     once all submission UUIDs have been used for either file submission or
+     camera recording.
+
+FEED ADMINISTRATION
+     Using the podcast tool, it is possible to add, remove, enable, and dis-
+     able feeds. These feeds utilize the Podcast Producer library to create
+     collections of Podcasts created by a particular user or based on a key-
+     word search. It is also possible to create a feed based on a custom query
+     string. Creating a feed based on username or keyword requires only the
+     username or keyword for feed generation:
+
+           podcast -s myserver.example.com -u username -p password --addfeed --shortname podcast_user
+
+     Generates a feed that will contain all of the episodes produced by the
+     user whose shortname is "podcast_user".
+
+           podcast -s myserver.example.com -u username -p passoword --addfeed --keyword gravity
+
+     Generates a feed that will contain all of the episodes that contain the
+     keywork "gravity".
+
+     On the other hand, creating a feed for a custom query string requires
+     that you give the feed a name and short description, in addition to the
+     string containing the query. The query string uses SQL syntax.
+
+           podcast -s
+           myserver.example.com -u
+           username -p
+           password --addfeed --feed_name
+           "Test feeds"
+           --description
+           "Feeds generated during testing" --query
+           "episode.title LIKE '%test%'"
+
+     Available fields include: episode.title, episode.summary,
+     episode.author_shortname, episode.author_fullname, episode.author_email,
+     episode.keywords, episode.workflow_uuid, episode.explicit,
+     episode.enabled, episode.created_at, episode.updated_at
+
+     After generating a feed, the feed can be checked with any RSS reader at:
+           feed://myserver.example.com:8171/podcastproducer/feeds/fetch?format=rss&uuid="UUID"
+     where "UUID" is the UUID of the created feed (returned by the podcast
+     command upon successful creation).
+
+RETURN VALUES
+     The podcast command has various return codes to indicate errors. They are
+     grouped generally as follows:
+           +   0 if command completed successfully.
+           +   10-19 for local command line issues.
+           +   20-29 for server connectivity problems.
+           +   30-39 for server command problems.
+           +   40 and above for agent response errors.
+
+     The specific return values are listed below.
+
+     10  Root is required.
+
+     11  There was an error reading or writing to a Plist
+
+     12  There were command line parameter errors.
+
+     20  The server is unavailable.
+
+     21  There was a server hostname lookup failure.
+
+     22  There was a server timeout.
+
+     23  The server is not running SSL.
+
+     24  The server certificate is not valid (only with --checksslcert).
+
+     25  There was a bad response from the server.
+
+     26  The server returned an authorization failure.
+
+     30  The submission create failed.
+
+     31  The upload server is unavailable.
+
+     32  The file upload failed.
+
+     33  The file copy failed.
+
+     34  The submission complete failed.
+
+     35  The agent bind failed on the server.
+
+     36  An agent command failed on the server.
+
+     37  An unknown server error occurred.
+
+METADATA EXAMPLE
+     Example of a metadata file submitted during camera stop or file upload
+     with --metadata:
+
+           <?xml version="1.0" encoding="UTF-8"?>
+           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+           <plist version="1.0">
+               <dict>
+                   <key>Author</key>
+                   <string>Professor Rick Hathaway</string>
+                   <key>Comment</key>
+                   <string>Strangely, things fall together. Sorry Yeats.</string>
+                   <key>Copyright</key>
+                   <string>Copyright (c) 2007 Vox Clamantis College</string>
+                   <key>Description</key>
+                   <string>Gravitation is a phenomenon through which all objects attract each other.</string>
+                   <key>Keywords</key>
+                   <string>gravitation phys13</string>
+                   <key>Title</key>
+                   <string>Lecture 4 -- The theory of gravitation</string>
+               </dict>
+           </plist>
+
+OUTPUT EXAMPLES
+     Sample output from the --listworkflows command example (see COMMAND
+     EXAMPLES above):
+
+           <?xml version="1.0" encoding="UTF-8"?>
+           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+           <plist version='1.0'>
+               <dict>
+                   <key>workflows</key>
+                   <array>
+                       <dict>
+                           <key>name</key>
+                           <string>Workflow1</string>
+                           <key>title</key>
+                           <string>Physics 13 Workflow</string>
+                           <key>description</key>
+                           <string>Create podcast for Fall 2007 Physics 13</string>
+                           <key>uuid</key>
+                           <string>53F32376-B563-4A01-B481-120E9E337DB7</string>
+                           <key>user_requirements</key>
+                           <array>
+                               <string>Title</string>
+                               <string>Description</string>
+                           </array>
+                       </dict>
+                       <dict>
+                           <key>name</key>
+                           <string>Workflow2</string>
+                           <key>title</key>
+                           <string>Chemistry 5 Workflow</string>
+                           <key>description</key>
+                           <string>Create podcast for Fall 2007 Chemistry 5</string>
+                           <key>uuid</key>
+                           <string>BBA1DB24-F6DE-475D-B51B-E7A780888F16</string>
+                           <key>user_requirements</key>
+                           <array>
+                               <string>Title</string>
+                               <string>Description</string>
+                           </array>
+                       </dict>
+                   </array>
+               </dict>
+           </plist>
+
+     Sample output from the --listcameras command example (see COMMAND
+     EXAMPLES above):
+
+           <?xml version="1.0" encoding="UTF-8"?>
+           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+           <plist version='1.0'>
+               <dict>
+                   <key>cameras</key>
+                   <array>
+                       <dict>
+                           <key>name</key>
+                           <string>WilderHall_Room102</string>
+                           <key>uuid</key>
+                           <string>A4640553-1C93-4FCD-98FE-917AF1700C6B</string>
+                           <key>preview_url</key>
+                           <string>https://podcastproducer.voxclamantis.edu:8170/agent_previews/A4640553-1C93-4FCD-98FE-917AF1700C6B.jpg</string>
+                       </dict>
+                       <dict>
+                           <key>name</key>
+                           <string>SteeleHall_Room006</string>
+                           <key>uuid</key>
+                           <string>B6DBECAC-3472-4692-B0FC-6143A46A7B53</string>
+                           <key>preview_url</key>
+                           <string>https://podcastproducer.voxclamantis.edu:8170/agent_previews/B6DBECAC-3472-4692-B0FC-6143A46A7B53.jpg</string>
+                       </dict>
+                   </array>
+               </dict>
+           </plist>
+
+Mac OS X                      September 18, 2009                      Mac OS X
