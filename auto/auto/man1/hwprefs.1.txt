@@ -1,0 +1,86 @@
+HWPREFS(1)                BSD General Commands Manual               HWPREFS(1)
+
+NAME
+     hwprefs -- inspect and control low-level system and processor parameters
+
+SYNOPSIS
+     hwprefs [-v] [-h] [cpu_count={1..N}] [cpu_enable {1..N}] [cpu_disable
+             {1..N}] [cpu_l2_cache={true, false}] [cpu_l3_cache={true, false}]
+             [cpu_nap={true, false}] [cpu_hwprefetch={0, 4, 8}]
+             [cpu_nop_dsts={true, false}] [memctl_readbypass={true, false}]
+             [os_class] [os_type] [machine_type] [memory_size] [cpu_type]
+             [cpu_freq] [cpu_bus_freq] [memctl_type] [ioctl_type"]
+
+DESCRIPTION
+     hwprefs inspects and controls low-level system and processor parameters
+
+     -v       verbose mode
+
+     -h       display help message
+
+     cpu_count={1..N}
+              number of processors available for use by MacOS X
+
+     cpu_enable {1..N}
+              enable a specific processor
+
+     cpu_disable {1..N}
+              disable a specific processor
+
+     cpu_nap={true, false}
+              processor nap
+
+     cpu_l2_cache={true, false}
+              processor L2 cache
+
+     cpu_l3_cache={true, false}
+              processor L3 cache
+
+     cpu_hwprefetch={0, 4, 8}
+              prefetch engines used by hardware prefetcher (PPC970 only):
+
+              0 - all prefetch engines disabled, DST instructions treated as
+              NOPs
+
+              4 - four automatic hardware prefetch engines, four used by DST
+              instructions
+
+              8 - eight automatic hardware prefetch engines, DST instructions
+              treated as NOPs
+
+     cpu_nop_dsts={true, false}
+              treat DST instructions as nops
+
+     memctl_readbypass={true, false}
+              memory controller (U3 only) read-bypass optimization (allows
+              read commands to memory to bypass straight to read memory
+              request queue, saving a significant number of cycles)
+
+     os_class
+              displays OS class {Cheetah, Puma, Jaguar, Smeagol, Panther,
+              Tiger}
+
+     os_type  displays operating system type
+
+     machine_type
+              displays machine type
+
+     memory_size
+              displays system memory
+
+     cpu_type
+              displays processor type and version
+
+     cpu_freq
+              displays processor clock frequency
+
+     cpu_bus_freq
+              displays processor bus frequency
+
+     memctl_type
+              displays memory controller type
+
+     ioctl_type
+              displays io controller type
+
+Darwin                         December 21, 2005                        Darwin

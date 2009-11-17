@@ -1,0 +1,24 @@
+PCAP-CONFIG(1)                                                  PCAP-CONFIG(1)
+
+
+
+NAME
+       pcap-config  - write libpcap compiler and linker flags to standard out-
+       put
+
+SYNOPSIS
+       pcap-config [ --cflags | --libs ]
+
+DESCRIPTION
+       When run with the --cflags option, pcap-config writes to  the  standard
+       output  the  -I  compiler  flags  required  to include libpcap's header
+       files.  When run with the --libs  option,  pcap-config  writes  to  the
+       standard  output  the  -L  and -l linker required to link with libpcap,
+       including -l flags for libraries required by libpcap.
+
+SEE ALSO
+       pcap(3PCAP)
+
+
+
+                               23 September 2008                PCAP-CONFIG(1)

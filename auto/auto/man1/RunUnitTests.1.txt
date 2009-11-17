@@ -1,0 +1,133 @@
+RunUnitTests(1)           BSD General Commands Manual          RunUnitTests(1)
+
+NAME
+     RunUnitTests -- run unit tests for the current target
+
+SYNOPSIS
+     RunUnitTests
+
+DESCRIPTION
+     RunUnitTests examines its environment to determine what type of test bun-
+     dle the current target represents, and runs the bundle's tests in the
+     most appropriate fashion.  If possible, it will run the tests for all
+     appropriate architectures in sequence, and will run the tests with Objec-
+     tive-C garbage collection enabled or disabled as appropriate.
+
+     RunUnitTests is intended to be called from a shell script build phase in
+     a unit test bundle target.  It expects certain environment variables to
+     be configured from Xcode project build settings; these environment vari-
+     ables are described below.  When called from a shell script build phase,
+     RunUnitTests will only run tests on build, not on install or any other
+     build action.  See xcodebuild(1) for more information on build actions.
+
+     If no host application is specified in the TEST_HOST environment vari-
+     able, RunUnitTests will use the extension of the test bundle (as speci-
+     fied by the WRAPPER_EXTENSION environment variable) to determine whether
+     to use CPlusTestRig(1) or otest(1) to load and run the tests in the test
+     bundle, for extensions "cptest" and "octest" respectively.
+
+     If a host application is specified, RunUnitTests will execute the appli-
+     cation directly and inject the test bundle into the application, and pass
+     arguments to the application to cause its tests to be run based on the
+     extension of the test bundle.
+
+     In either case, if additional test arguments are specified in the
+     OTHER_TEST_FLAGS environment variable, these will be passed to the test
+     rig or to the application being tested in an appropriate fashion.
+
+     If RunUnitTests is not run from a shell script build phase, unless other-
+     wise specified it will use the current working directory as BUILT_PROD-
+     UCTS_DIR and assume "build" is the current build action.
+
+ENVIRONMENT
+     ACTION              The current build action.  Tests are only run for
+                         "build" builds, not "install" or other builds.
+                         Defaults to "build" if unspecified.
+
+     ARCHS               (Optional) The architectures the tests have been
+                         built for.  Defaults to the result of arch(1) if not
+                         specified.
+
+     CURRENT_ARCH        (Optional) The currently-selected Active Architec-
+                         ture.  Defaults to the result of arch(1) if not spec-
+                         ified.
+
+     DEVELOPER_DIR       The Xcode folder, e.g. "/Developer". Defaults to
+                         "/Developer" if unspecified.
+
+     BUILT_PRODUCTS_DIR  The directory containing built products; when tests
+                         are run, this is specified as DYLD_LIBRARY_PATH and
+                         DYLD_FRAMEWORK_PATH.  Defaults to the current working
+                         directory if unspecified.
+
+     GCC_ENABLE_OBJC_GC  (Optional) Whether the test bundle has been built
+                         with Objective-C garbage collection support; used to
+                         determine whether to run the test bundle with garbage
+                         collection enabled or disabled.  Possible values are
+                         unsupported, supported, and required.  Defaults to
+                         unsupported if unspecified.
+
+                         When set to supported, RunUnitTests will run the
+                         tests for all appropriate architectures once with
+                         Objective-C garbage collection enabled, and again
+                         with Objective-C garbage collection disabled, under
+                         the assumption that dual-mode code (that is, code
+                         that can be used both with and without Objective-C
+                         garbage collection) should be tested in both modes.
+
+     NATIVE_ARCH_ACTUAL  (Optional) The native architecture of the hardware
+                         running tests; used to determine the architectures of
+                         tests that can be run.  For example, ppc64 hardware
+                         can run tests for ppc and ppc64 while i386 hardware
+                         can run tests for i386 and ppc.  Defaults to the
+                         result of arch(1) if not specified.
+
+     ONLY_ACTIVE_ARCH    (Optional) If set to YES, only the current Active
+                         Architecture as specified by CURRENT_ARCH will be
+                         tested, regardless of the value of ARCHS.  Defaults
+                         to NO if unspecified.
+
+     OTHER_TEST_FLAGS    (Optional) Additional arguments to pass to the test
+                         rig or application under test.  If being passed to a
+                         test rig, these arguments are passed prior to the
+                         path of the test bundle to load; for an application,
+                         these are its final arguments.
+
+     PRODUCT_NAME        The name (with no extension) of the product generated
+                         by the unit test bundle target.
+
+     TEST_HOST           (Optional) The full path to an executable into which
+                         to "inject" the specified unit test bundle.  For an
+                         application, this must be the full path to the appli-
+                         cation within its wrapper.  Do not set this for
+                         frameworks or libraries.
+
+     TEST_RIG            (Optional) The full path to an executable to use as a
+                         test rig instead of either CPlusTestRig(1) or
+                         otest(1).  The executable must take a path to a test
+                         bundle as its final argument.  Its DYLD_FRAME-
+                         WORK_PATH and DYLD_LIBRARY_PATH will be configured to
+                         point to the BUILT_PRODUCTS_DIR prior to execution.
+                         Do not set this if you are using one of the default
+                         test rigs.
+
+     VALID_ARCHS         (Optional) The architectures for which it is valid to
+                         build and run tests, which is normally a superset of
+                         the architectures for which the tests are actually
+                         built.  Defaults to the result of arch(1) if not
+                         specified.
+
+     WRAPPER_EXTENSION   The extension of the product generated by the unit
+                         test bundle target.  RunUnitTests will use this to
+                         infer the appropriate test rig to use.  For "cptest"
+                         it will use CPlusTestRig(1).  For "octest" it will
+                         use otest(1).  For anything else, it will return an
+                         error unless a TEST_RIG is also specified.
+
+FILES
+     /Developer/Tools/RunUnitTests
+
+SEE ALSO
+     arch(1), CPlusTestRig(1), otest(1), xcodebuild(1)
+
+Mac OS X                      September 18, 2009                      Mac OS X

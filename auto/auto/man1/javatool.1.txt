@@ -1,0 +1,12 @@
+javatool(1)               BSD General Commands Manual              javatool(1)
+
+NAME
+     javatool -- tool used in building older Java software projects
+
+DESCRIPTION
+     This tool is used by the old /Developer/Makefile/pb_makefiles in building
+     older Java software projects.  Xcode does not use this tool.  This tool
+     should not be used in other contexts since it may be removed from future
+     versions of Mac OS X.
+
+Mac OS X                      September 18, 2009                      Mac OS X

@@ -1,0 +1,16 @@
+WXPERL_XSPP(1)        User Contributed Perl Documentation       WXPERL_XSPP(1)
+
+
+
+NAME
+       wxperl_xspp - XS++ preprocessor
+
+SYNOPSIS
+           wxperl_xspp [--typemap=typemap.xsp [--typemap=typemap2.xsp]] Foo.xsp
+
+DOCUMENTATION
+       See "XSpp.pod" in the wxPerl distribution.
+
+
+
+perl v5.10.0                      2008-01-21                    WXPERL_XSPP(1)

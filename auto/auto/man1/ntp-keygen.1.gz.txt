@@ -1,0 +1,163 @@
+NTP-KEYGEN(1)                 Programmer's Manual                NTP-KEYGEN(1)
+
+
+
+NAME
+       ntp-keygen - Create a NTP host key
+
+SYNOPSIS
+       ntp-keygen [-flag [value]]... [--opt-name [[=| ]value]]...
+
+       All arguments must be options.
+
+DESCRIPTION
+       This  manual page documents, briefly, the ntp-keygen command.  If there
+       is no new host key, look for an existing one.  If  one  is  not  found,
+       create it.
+
+OPTIONS
+       -c scheme, --certificate=scheme
+              certificate scheme.
+
+              Just some descriptive text.
+
+       -d, --debug-level
+              Increase  output debug message level.  This option may appear an
+              unlimited number of times.
+
+              Increase the debugging message output level.
+
+       -D string, --set-debug-level=string
+              Set the output debug message level.  This option may  appear  an
+              unlimited number of times.
+
+              Set the output debugging level.  Can be supplied multiple times,
+              but each overrides the previous value(s).
+
+       -e, --id-key
+              Write identity keys.
+
+              Just some descriptive text.
+
+       -G, --gq-params
+              Generate GQ parameters and keys.
+
+              Just some descriptive text.
+
+       -g, --gq-keys
+              update GQ keys.
+
+              Just some descriptive text.
+
+       -H, --host-key
+              generate RSA host key.
+
+              Just some descriptive text.
+
+       -I, --iffkey
+              generate IFF parameters.
+
+              Just some descriptive text.
+
+       -i, --issuer-name
+              set issuer name.
+
+              Just some descriptive text.
+
+       -M, --md5key
+              generate MD5 keys.
+
+              Just some descriptive text.
+
+       -m modulus, --modulus=modulus
+              modulus.  This option takes an integer number as  its  argument.
+              The value of modulus is constrained to being:
+                  in the range  256 through 2048
+
+              Just some descriptive text.
+
+       -P, --pvt-cert
+              generate PC private certificate.
+
+              Just some descriptive text.
+
+       -p passwd, --pvt-passwd=passwd
+              output private password.
+
+              Just some descriptive text.
+
+       -q passwd, --get-pvt-passwd=passwd
+              input private password.
+
+              Just some descriptive text.
+
+       -S sign, --sign-key=sign
+              generate sign key (RSA or DSA).
+
+              Just some descriptive text.
+
+       -s host, --subject-name=host
+              set subject name.
+
+              Just some descriptive text.
+
+       -T, --trusted-cert
+              trusted certificate (TC scheme).
+
+              Just some descriptive text.
+
+       -V num, --mv-params=num
+              generate <num> MV parameters.  This option takes an integer num-
+              ber as its argument.
+
+              Just some descriptive text.
+
+       -v num, --mv-keys=num
+              update <num> MV keys.  This option takes an integer number as
+              its argument.
+
+              Just some descriptive text.
+
+       -?, --help
+              Display usage information and exit.
+
+       -!, --more-help
+              Extended usage information passed thru pager.
+
+       -> [rcfile], --save-opts[=rcfile]
+              Save the option state to rcfile.  The default is the last con-
+              figuration file listed in the OPTION PRESETS section, below.
+
+       -< rcfile, --load-opts=rcfile, --no-load-opts
+              Load options from rcfile.  The no-load-opts form will disable
+              the loading of earlier RC/INI files.  --no-load-opts is handled
+              early, out of order.
+
+       -v [{v|c|n}], --version[={v|c|n}]
+              Output version of program and exit.  The default mode is `v', a
+              simple version.  The `c' mode will print copyright information
+              and `n' will print the full copyright notice.
+
+OPTION PRESETS
+       Any option that is not marked as not presettable may be preset by load-
+       ing values from configuration ("RC" or ".INI") file(s) and values from
+       environment variables named:
+         NTP_KEYGEN_<option-name> or NTP_KEYGEN
+       The environmental presets take precedence (are processed later than)
+       the configuration files.  The homerc files are "$HOME", and ".".  If
+       any of these are directories, then the file .ntprc is searched for
+       within those directories.
+
+AUTHOR
+       David L. Mills and/or others
+       Please send bug reports to:  http://bugs.ntp.isc.org, bugs@ntp.org
+
+
+       see html/copyright.html
+
+       This  manual page was AutoGen-erated from the ntp-keygen option defini-
+       tions.
+
+
+
+(ntp 4.2.4p4)                     2007-09-10                     NTP-KEYGEN(1)

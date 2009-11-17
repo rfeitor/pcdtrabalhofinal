@@ -1,0 +1,353 @@
+SNTP(1)                       Programmer's Manual                      SNTP(1)
+
+
+
+NAME
+       sntp - standard SNTP program
+
+SYNOPSIS
+       sntp [-flag [value]]... [--opt-name [[=| ]value]]...
+
+       All arguments must be options.
+
+DESCRIPTION
+       This  manual  page  documents,  briefly, the sntp command.  sntp can be
+       used as a SNTP client to query a NTP or SNTP server and either  display
+       the time or set the local system's time (given suitable privilege).  It
+       can be run as an interactive command or in a cron job.  NTP is the Net-
+       work  Time Protocol (RFC 1305) and SNTP is the Simple Network Time Pro-
+       tocol (RFC 2030, which supersedes RFC 1769).
+
+   Options
+       sntp recognizes the following options:
+
+       -v     indicates that diagnostic messages for non-fatal  errors  and  a
+              limited  amount  of tracing should be written to standard error.
+              Fatal ones always produce a diagnostic.  This option  should  be
+              set  when  there is a suspected problem with the server, network
+              or the source.
+
+       -V     requests more and less comprehensible output, mainly for  inves-
+              tigating problems with apparently inconsistent timestamps.  This
+              option should be set when the program fails with a message indi-
+              cating that is the trouble.
+
+       -W     requests  very verbose debugging output, and will interfere with
+              the timing  when  writing  to  the  terminal  (because  of  line
+              buffered  output  from C).  Note that the times produced by this
+              are the corrections needed, and  not  the  error  in  the  local
+              clock.   This  option  should  be  set  only  when debugging the
+              source.
+
+       -q     indicates that it should query a daemon save  file  being  main-
+              tained  by  it.  This needs no privilege and will change neither
+              the save file nor the clock.
+
+       The default is that it should behave as a  client,  and  the  following
+       options are then relevant:
+
+       -r     indicates that the system clock should be reset by settimeofday.
+              Naturally, this will work only if the user has enough privilege.
+
+       -a     indicates  that  the  system  clock  should be reset by adjtime.
+              Naturally, this will work only if the user has enough privilege.
+
+       The default is to write the estimated correct local date and time (i.e.
+       not UTC) to  the  standard  output  in  a  format  like  '1996  Oct  15
+       20:17:25.123  +  4.567  +/-  0.089  secs', where the '+ 4.567 +/- 0.089
+       secs' indicates the estimated error in the time on the local system.
+
+       -l lockfile
+              sets the name of the lock file to ensure that there is only  one
+              copy  of  sntp  running  at  once.  The default is installation-
+              dependent, but will usually be /etc/sntp.pid.
+
+       -e minerr
+              sets the maximum ignorable variation between the clocks to  min-
+              err.   Acceptable values are from 0.001 to 1, and the default is
+              0.1 if a NTP host is is specified and 0.5 otherwise.
+
+       -E maxerr
+              sets the maximum value of various delays that are deemed accept-
+              able  to  maxerr.   Acceptable  values are from 1 to 60, and the
+              default is 5.  It should sometimes be  increased  if  there  are
+              problems  with the network, NTP server or system clock, but take
+              care.
+
+       -P prompt
+              sets the maximum clock change that will be made automatically to
+              maxerr.   Acceptable  values  are  from 1 to 3600 or no, and the
+              default is 30.  If the program is  being  run  interactively  in
+              ordinary  client  mode,  and  the system clock is to be changed,
+              larger corrections will prompt the user for confirmation.  Spec-
+              ifying  no  will  disable  this  and the correction will be made
+              regardless.
+
+       -c count
+              sets the maximum  number  of  NTP  packets  required  to  count.
+              Acceptable  values  are  from 1 to 25 if a NTP host is specified
+              and from 5 to 25 otherwise, and the default is 5.  If the  maxi-
+              mum  isn't  enough,  the system needs a better consistency algo-
+              rithm than this program uses.
+
+       -d delay
+              sets a rough limit on the total running time to  delay  seconds.
+              Acceptable values are from 1 to 3600, and the default is 15 if a
+              NTP host is specified and 300 otherwise.
+
+       -4     force IPv4 DNS resolution.
+
+       -6     force IPv6 DNS resolution.
+
+       address(es) are the DNS names or IP numbers of hosts  to  use  for  the
+       challenge  and  response  protocol;  if no names are given, the program
+       waits for broadcasts.  Polling a server is vastly  more  reliable  than
+       listening  to broadcasts.  Note that a single component numeric address
+       is not allowed, to avoid ambiguities.  If more than one name  is  give,
+       they will be used in a round-robin fashion.
+
+       Constraints:
+
+              minerr  must  be  less than maxerr which must be less than delay
+              (or, if a NTP host is not specified delay/count), and count must
+              be less than half of delay.
+
+              In update mode, maxerr must be less than prompt.
+
+       Note  that  none  of  the above values are closely linked to the limits
+       described in the NTP protocol (RFC 1305).
+
+USAGE
+       The simplest use of this program is as an unprivileged command to check
+       the current time and error in the local clock.  For example:
+
+              sntp ntpserver.somewhere
+
+       With suitable privilege, it can be run as a command or in a cron job to
+       reset the local clock from a reliable  server,  like  the  ntpdate  and
+       rdate commands.  For example:
+
+              sntp -a ntpserver.somewhere
+
+       More information on how to use this utility is given in the README file
+       in the distribution.  In particular, this man page  does  not  describe
+       how  to set it up as a server, which needs special care to avoid propa-
+       gating misinformation.
+
+RETURN VALUE
+       When used as a client in non-daemon mode, the program  returns  a  zero
+       exit  status  for success, and a non-zero one otherwise. When used as a
+       daemon (either client or server), it does not  return  except  after  a
+       serious error.
+
+BUGS
+       The  program implements the SNTP protocol, and does not provide all NTP
+       facilities.  In particular, it contains no checks against any  form  of
+       spoofing.   If  this is a serious concern, some network security mecha-
+       nism (like a firewall or even just tcpwrappers) should be installed.
+
+       There are some errors, ambiguities and inconsistencies in the RFCs, and
+       this  code  may  not interwork with all other NTP implementations.  Any
+       unreasonable restrictions should be reported  as  bugs  to  whoever  is
+       responsible.  It may be difficult to find out who that is.
+
+       The  program  will stop as soon as it feels that things have got out of
+       control.  In client  daemon  mode,  it  will  usually  fail  during  an
+       extended  period  of  network  or server inaccessibility or excessively
+       slow performance, or when the local clock is reset by another  process.
+       It  will then need restarting manually.  Experienced system administra-
+       tors can write a shell script, a cron job or put it in inittab,  to  do
+       this automatically.
+
+       The  error  cannot  be estimated reliably with broadcast packets or for
+       the drift in daemon mode (even with  client-server  packets),  and  the
+       guess  made by the program may be wrong (possibly even very wrong).  If
+       this is a problem, then setting the -c option to  a  larger  value  may
+       help.  Or it may not.
+
+AUTHOR
+       sntp was developed by N.M. Maclaren of the University of Cambridge Com-
+       puting Service.
+
+OPTIONS
+       -4, --ipv4
+              Force IPv4 DNS name resolution.  This option is a member of  the
+              ipv4 class of options.
+
+              Force DNS resolution of following host names on the command line
+              to the IPv4 namespace.
+
+       -6, --ipv6
+              Force IPv6 DNS name resolution.  This option is a member of  the
+              ipv4 class of options.
+
+              Force DNS resolution of following host names on the command line
+              to the IPv6 namespace.
+
+       -u, --unprivport
+              Use an unprivileged port.
+
+              Use an unprivilegded UDP port for our queries.
+
+       -v, --normalverbose
+              Slightly verbose.  This option must not  appear  in  combination
+              with any of the following options: extraverbose, megaverbose.
+
+              Diagnostic messages for non-fatal errors and a limited amount of
+              tracing should be written to standard error.  Fatal ones  always
+              produce a diagnostic.  This option should be set when there is a
+              suspected problem with the server, network or the source.
+
+       -V, --extraverbose
+              Extra verbose.  This option must not appear in combination  with
+              any of the following options: normalverbose, megaverbose.
+
+              Produce more and less comprehensible output, mainly for investi-
+              gating problems with apparently inconsistent  timestamps.   This
+              option should be set when the program fails with a message indi-
+              cating that is the trouble.
+
+       -W, --megaverbose
+              Mega verbose.  This option must not appear in  combination  with
+              any of the following options: normalverbose, extraverbose.
+
+              Very  verbose debugging output that will interfere with the tim-
+              ing when writing to the terminal (because of line buffered  out-
+              put  from C).  Note that the times produced by this are the cor-
+              rections needed, and not the error in  the  local  clock.   This
+              option should be set only when debugging the source.
+
+       -r, --settimeofday
+              Set  (step)  the time with settimeofday().  This option must not
+              appear in combination with any of the  following  options:  adj-
+              time.
+
+
+
+       -a, --adjtime
+              Set (slew) the time with adjtime().  This option must not appear
+              in combination with any of the following options:  settimeofday.
+
+
+
+       -?, --help
+              Display usage information and exit.
+
+       -!, --more-help
+              Extended usage information passed thru pager.
+
+       -> [rcfile], --save-opts[=rcfile]
+              Save  the  option state to rcfile.  The default is the last con-
+              figuration file listed in the OPTION PRESETS section, below.
+
+       -< rcfile, --load-opts=rcfile, --no-load-opts
+              Load options from rcfile.  The no-load-opts  form  will  disable
+              the  loading of earlier RC/INI files.  --no-load-opts is handled
+              early, out of order.
+
+       -v [{v|c|n}], --version[={v|c|n}]
+              Output version of program and exit.  The default mode is `v',  a
+              simple  version.   The `c' mode will print copyright information
+              and `n' will print the full copyright notice.
+
+OPTION PRESETS
+       Any option that is not marked as not presettable may be preset by load-
+       ing  values from configuration ("RC" or ".INI") file(s) and values from
+       environment variables named:
+         SNTP_<option-name> or SNTP
+       The environmental presets take precedence (are  processed  later  than)
+       the  configuration  files.   The homerc files are "$HOME", and ".".  If
+       any of these are directories, then the  file  .ntprc  is  searched  for
+       within those directories.
+
+AUTHOR
+       ntp.org
+       Please send bug reports to:  http://bugs.ntp.isc.org, bugs@ntp.org
+
+
+               General Public Licence for the software known as MSNTP
+               ------------------------------------------------------
+
+              (c) Copyright, N.M. Maclaren, 1996, 1997, 2000
+              (c) Copyright, University of Cambridge, 1996, 1997, 2000
+
+
+
+       Free use of MSNTP in source and binary forms is permitted, provided that this
+       entire licence is duplicated in all copies, and that any documentation,
+       announcements, and other materials related to use acknowledge that the software
+       was developed by N.M. Maclaren (hereafter refered to as the Author) at the
+       University of Cambridge.  Neither the name of the Author nor the University of
+       Cambridge may be used to endorse or promote products derived from this material
+       without specific prior written permission.
+
+       The Author and the University of Cambridge retain the copyright and all other
+       legal rights to the software and make it available non-exclusively.  All users
+       must ensure that the software in all its derivations carries a copyright notice
+       in the form:
+              (c) Copyright N.M. Maclaren,
+              (c) Copyright University of Cambridge.
+
+
+
+                                  NO WARRANTY
+
+       Because the MSNTP software is licensed free of charge, the Author and the
+       University of Cambridge provide absolutely no warranty, either expressed or
+       implied, including, but not limited to, the implied warranties of
+       merchantability and fitness for a particular purpose.  The entire risk as to
+       the quality and performance of the MSNTP software is with you.  Should MSNTP
+       prove defective, you assume the cost of all necessary servicing or repair.
+
+       In no event, unless required by law, will the Author or the University of
+       Cambridge, or any other party who may modify and redistribute this software as
+       permitted in accordance with the provisions below, be liable for damages for
+       any losses whatsoever, including but not limited to lost profits, lost monies,
+       lost or corrupted data, or other special, incidental or consequential losses
+       that may arise out of the use or inability to use the MSNTP software.
+
+
+
+                                COPYING POLICY
+
+       Permission is hereby granted for copying and distribution of copies of the
+       MSNTP source and binary files, and of any part thereof, subject to the
+       following licence conditions:
+
+       1. You may distribute MSNTP or components of MSNTP, with or without additions
+       developed by you or by others.  No charge, other than an "at-cost" distribution
+       fee, may be charged for copies, derivations, or distributions of this material
+       without the express written consent of the copyright holders.
+
+       2. You may also distribute MSNTP along with any other product for sale,
+       provided that the cost of the bundled package is the same regardless of whether
+       MSNTP is included or not, and provided that those interested only in MSNTP must
+       be notified that it is a product freely available from the University of
+       Cambridge.
+
+       3. If you distribute MSNTP software or parts of MSNTP, with or without
+       additions developed by you or others, then you must either make available the
+       source to all portions of the MSNTP system (exclusive of any additions made by
+       you or by others) upon request, or instead you may notify anyone requesting
+       source that it is freely available from the University of Cambridge.
+
+       4. You may not omit any of the copyright notices on either the source files,
+       the executable files, or the documentation.
+
+       5. You may not omit transmission of this License agreement with whatever
+       portions of MSNTP that are distributed.
+
+       6. Any users of this software must be notified that it is without warranty or
+       guarantee of any nature, express or implied, nor is there any fitness for use
+       represented.
+
+
+       October 1996
+       April 1997
+       October 2000
+
+       This manual page was AutoGen-erated from the sntp option definitions.
+
+
+
+( 4.2.4p4)                        2007-09-10                           SNTP(1)

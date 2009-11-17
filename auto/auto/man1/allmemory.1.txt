@@ -1,0 +1,309 @@
+
+allmemory(1)              BSD General Commands Manual             allmemory(1)
+
+NAME
+     allmemory -- User-program and framework memory analysis tool.
+
+SYNOPSIS
+     allmemory [-f] [-sections] [-v] [-vf v_filter] [-p] [-n] [-F] [-FD]
+               [-purge] [-noframework] [-noprocess] [-proc pid | process_name]
+               [-noproc pid | process_name] [-32bit] [-64bit] [-i path]
+               [-o path] [-d]
+
+     allmemory diff path1 path2 [-p] [-f] [-F] [-noframework] [-noprocess]
+               [-ff framework_filter] [-pf process_filter]
+               [-proc pid | process_name] [-noproc pid | process_name]
+               [-32bit] [-64bit] [-no32v64]
+
+DESCRIPTION (Normal mode)
+     In its normal operating mode, the allmemory tool collects and analyses
+     data on the resident memory usage of user processes.  Data from each run
+     of allmemory is saved and can be viewed and analyzed at a later time.
+     The save location of the collected data can be specified by the user.
+     (See the -i and -o flags below).  By default allmemory presents top level
+     summary information on all user processes and frameworks found on the
+     system.  More or less data can be displayed using the Data Reporting
+     options specified below.
+
+     IMPORTANT NOTES:
+
+     This is a completely new version of the allmemory tool.  To use the old
+     version of allmemory, run /usr/local/bin/allmemory_old.
+
+     If fresh data is being collected, new version of allmemory takes signifi-
+     cantly longer to run than the old version (~30 seconds).  If the state of
+     the system has not significantly changed since the last time allmemory
+     data was collected, make sure to use the -i or -d flags to save time when
+     viewing data.
+
+     Data Reporting options (Specify zero or more):
+
+     -f       Display a per-segment residency information breakdown for each
+              framework.
+
+     -sections
+              Display a per-section residency information breakdown for each
+              framework.
+
+     -v       Display information on address space layouts of each process
+              (similar to vmmap).
+
+     -vf v_filter
+              Filter the address space output from the -v flag to only show VM
+              Regions with more resident pages than v_filter.
+
+     -p       Display detailed total residency information for each process on
+              a per VM region category basis.
+
+     -F       Display summary information on per-process private pages that
+              contribute to the total resident pages for each framework.
+
+     -FD      Display per-segment information on per-process private pages
+              that contribute to the total resident pages for each framework.
+
+     -purge   Displays the NoVolatile resident column for all processes.
+              Purgeable volatile pages are not counted towards this total.
+
+     -n       Do NOT display collected data (i.e. when an automated test is
+              running allmemory).  This lowers allmemory's highwater memory
+              usage mark.
+
+     -noframework
+              Do NOT display data collected on frameworks.
+
+     -noprocess
+              Do NOT display data collected on processes.
+
+     -proc pid | process_name
+              Display data about the process with the specified pid/name.
+              This option can be specified more than once to display data on
+              more than one process.
+
+     -32bit   Display data only for 32-bit processes.  Cannot be used in con-
+              junction with the -64bit flag.
+
+     -64bit   Display data only for 64-bit processes.  Cannot be used in con-
+              junction with the -32bit flag.
+
+     Data Saving/Restoring options: (Specify one at most):
+
+     -d       Load and display the data from the default save directory (
+              /tmp/allmemoryDataFiles/ )
+
+     -i path  Load and display the data from a previous run of allmemory
+              stored in the <path> directory
+
+     -o path  Specify a directory in which to store the data collected in this
+              run of allmemory.  Defaults to: /tmp/allmemoryDataFiles/
+
+DESCRIPTION (diff Mode)
+     In diff mode, allmemory is used to compare data taken at two different
+     times.  This is useful when trying to track down the specifics of a mem-
+     ory-related regression and saves time that would be otherwise spent on
+     tedious and error-prone arithmetic.  Since allmemory has knowledge of its
+     own data structures, this mode is robust against output format changes.
+
+     Required (specify all):
+
+     <path1> <path2>
+     Paths to the two data sets to compare.  Options (Specify zero or more):
+
+     -proc pid | process_name
+              Display data about the process with the specified pid/name.
+              This option can be specified more than once to display data on
+              more than one process.
+
+     -f       Display a per-segment residency information breakdown for each
+              framework.
+
+     -F       Display summary information on per-process private pages that
+              contribute to the total resident pages for each framework.
+
+     -noframework
+              Do NOT display data collected on frameworks.
+
+     -noprocess
+              Do NOT display data collected on processes.
+
+     -ff framework_filter
+              Only displays frameworks for which the difference number of res-
+              ident pages is equal to or above the framework_filter value.
+
+     -pf process_filter
+              Only displays processes for which the difference number of resi-
+              dent pages is equal to or above the process_filter value.
+
+     -p       Provides a detailed breakdown of the differences between the
+              specified data sets on a per VM-region category basis.
+
+     -32bit   Display data only for 32-bit processes.  Cannot be used in con-
+              junction with the -64bit flag.
+
+     -64bit   Display data only for 64-bit processes.  Cannot be used in con-
+              junction with the -32bit flag.
+
+     -no32v64
+              Do not compare 32-bit processes and frameworks versus 64-bit
+              processes and frameworks. By default, the comparison will hap-
+              pen.
+
+EXPLANATION OF OUTPUT
+     Individual Process Data Columns:
+
+     PrivateRes (In pages):
+
+     The number of pages resident in physical memory in a given process's
+     address space that are not shared with other processes.
+
+     This total includes private pages as well as copied pages in COW regions
+     and resident pages in shared regions that are not used by other pro-
+     cesses.
+
+     NoSpec PrivateRes is the number of pages resident in physical memory in a
+     process's address space not counting pages brought in speculatively.
+
+     If one were to simply count the total number of pages resident in a
+     process's address space, that total would be the sum of Shared and Resi-
+     dent pages.
+
+     Copied (In pages):
+
+     The number of copied pages resident in physical memory in a given
+     process's address space.
+
+     Copied pages are assumed to be private to the process and are counted
+     towards the Resident total.  The Copied and Dirty columns are non-exclu-
+     sive, as pages can be both dirty and copied.
+
+     Dirty (In pages):
+
+     The number of dirty pages resident in physical memory in a given
+     process's address space.
+
+     Dirty pages are not assumed to be private to the process and so do not
+     automatically count towards the Resident total.  The Copied and Dirty
+     columns are non-exclusive, as pages can be both dirty and copied.
+
+     Swapped (In pages):
+
+     Pages swapped out of a given process's address space.  These pages were
+     previously resident in physical memory and are now swapped to disk.
+
+     Swapped pages do not count towards any other totals.
+
+     Shared (In pages):
+
+     The number of shared pages resident in physical memory in a given
+     process's address space.
+
+     This total does not count towards the Resident pages category or any
+     other category.
+
+     As was the case with NoSpec Resident pages, the NoSpec Shared pages total
+     ignores shared pages brought in speculatively.
+
+     If one were to simply count the total number of pages resident in a
+     process's address space, that total would be the sum of Shared and Resi-
+     dent pages.
+
+     Total Process Data Columns:
+
+     TotalRes (In pages):
+
+     The number of pages resident in physical memory across the entire system.
+
+     This total includes private pages as well as copied pages in COW regions.
+     Shared pages are counted towards this total once (i.e. double counting is
+     avoided).
+
+     NoSpec TotalRes is the number of pages resident in physical memory across
+     the system not counting pages brought in speculatively.
+
+     Copied (In pages):
+
+     The number of copied pages resident in physical memory in a given
+     process's address space.
+
+     Copied pages are assumed to be private to the process and are counted
+     towards the Resident total.  The Copied and Dirty columns are non-exclu-
+     sive, as pages can be both dirty and copied.
+
+     Dirty (In pages):
+
+     The number of dirty pages resident in physical memory in a given
+     process's address space.
+
+     Dirty pages are not assumed to be private to the process and so do not
+     automatically count towards the Resident total.  The Copied and Dirty
+     columns are non-exclusive, as pages can be both dirty and copied.
+
+     Swapped (In pages):
+
+     Pages swapped out of a given process's address space.  These pages were
+     previously resident in physical memory and are now swapped to disk.
+
+     Swapped pages do not count towards any other totals.
+
+     Shared (In pages):
+
+     The number of shared pages resident in physical memory across the entire
+     system.
+
+     This total counts towards the TotalRes pages category and its subcate-
+     gories (i.e. Copied, Dirty, Swapped).
+
+     As was the case with NoSpec Resident pages, the NoSpec Shared pages total
+     ignores shared pages brought in speculatively.
+
+     Framework Data Columns:
+
+     Resident (In pages):
+
+     The number of pages resident in physical memory attributed to a given
+     framework across the address spaces of all processes.  A heuristic is
+     used to avoid double counting pages shared across several processes.
+
+     Any copied pages encountered are assumed to be private to the process
+     being examined and are counted towards the Resident total.  In other
+     words, Resident is the total number of private pages attributed to a
+     given framework, plus the number of shared resident pages (avoiding dou-
+     ble counting).
+
+     NoSpec Resident total is calculated in the same way, ignoring speculative
+     pages.
+
+     Copied (In pages):
+
+     The number of copied pages resident in physical memory attributed to the
+     given framework across the address spaces of all processes.
+
+     As described above, this total is included in the total Resident and
+     NoSpec Resident framework totals.
+
+     The Copied and Dirty columns are non-exclusive, as pages can be both
+     dirty and copied.
+
+     Dirty (In pages):
+
+     The number of dirty pages resident in physical memory attributed to the
+     given framework across the address spaces of all processes.
+
+     The Copied and Dirty columns are non-exclusive, as pages can be both
+     dirty and copied.
+
+     Swapped (In pages):
+
+     The number of pages swapped out of physical memory attributed to the
+     given framework.  These pages were previously resident in physical memory
+     and are now swapped to disk.
+
+     These pages do not count towrds any other total.
+
+     Filesize (In pages):
+
+     The size in pages of the framework on disk.
+
+SEE ALSO
+     heap(1), leaks(1), top(1), vmmap(1)
+
+Apple Inc.                    September 18, 2009                    Apple Inc.

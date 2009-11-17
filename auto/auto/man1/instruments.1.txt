@@ -1,0 +1,58 @@
+instruments(1)            BSD General Commands Manual           instruments(1)
+
+NAME
+     instruments, version 1.0
+
+USAGE
+     instruments [-t template] [-d document] [-l timeLimit] [-i #] [-w device]
+     [[-p pid] | [-a application [-e variable value] [-g argument]]]
+
+DESCRIPTION
+     Runs an Instruments template from the command line.
+
+     Options are :
+
+     -t template
+              The path to the template to run
+
+     -s       Show list of known templates and exit
+
+     -d document
+              The path to save the trace document data to (This may already
+              exist, in which case a new Run will be added)
+
+     -l #     The limit of milliseconds to record until termination ( infinite
+              is default )
+
+     -i #     The index of the instrument to apply the following target data
+              to ( default if missing )
+
+     -p pid   The ID of the process to attach to
+
+     -a application
+              The path to the application or command to launch
+
+     -w hardware device
+              The identifier of the hardware to target
+
+     -e variable value
+              An environment variable setting (You may specify more than one)
+
+     -g argument
+              Command line argument to be sent to the launched process (You
+              may specify more than one)
+
+     -v       Turn on verbose logging
+
+FILES
+     /usr/bin/instruments                          Executable
+
+SEE ALSO
+     /Developer/Applications/Instruments.app may be used to perform trace exe-
+     cutions in a graphical environment and may also be used to open trace
+     documents created in either instruments or Instruments.app.
+
+EXAMPLES
+     instruments -t mytemplate -a myapp.app
+
+Mac OS                        September 18, 2009                        Mac OS

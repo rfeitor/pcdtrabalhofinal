@@ -1,0 +1,51 @@
+FIXUPRESOURCEFORKS(1)     BSD General Commands Manual    FIXUPRESOURCEFORKS(1)
+
+NAME
+     /System/Library/CoreServices/FixupResourceForks -- Join AppleDouble files
+     into two-fork HFS resource files.
+
+SYNOPSIS
+     /System/Library/CoreServices/FixupResourceForks [-q[uiet]] [-nosetinfo]
+                                                     [-nodelete] path ...
+
+DESCRIPTION
+     FixupResourceForks is to SplitForks what matter is to antimatter.  Given
+     one or more directories that reside on an HFS or Extended HFS ("HFS+")
+     volume, it scans those directories for AppleDouble files and, if found,
+     rejoins them into two-fork resource files.  The resource fork data can
+     then be accessed with normal Carbon Resource Manager calls, be processed
+     with DeRez(1), and accessed from the POSIX file system interface through
+     the ..namedfork/rsrc path mechanism.
+
+     /System/Library/CoreServices/FixupResourceForks takes the following flags
+     and arguments:
+
+     -q[uiet]
+              Suppress verbose diagnostics to standard output.
+
+     -nosetinfo
+              Do not set file system metadata (type, creator, flags, permis-
+              sions) from the data in the AppleDouble file.
+
+     -nodelete
+              Leave the AppleDouble files in the directory after copying their
+              resource data into the resource fork of the main file.
+
+     path ...
+              One or more directory paths.  Note that FixupResourceForks only
+              acts on entire directories, not in individual files.
+
+FILES
+     foo     Data fork of file 'foo'
+
+NOTES
+     SplitForks will fail with error 2 if the designated file is not on an HFS
+     or Extended HFS file system volume.
+
+SEE ALSO
+     FixupResourceForks(1), MvMac(1), CpMac(1)
+
+STANDARDS
+     Consult RFC 1740 for details on AppleSingle/AppleDouble formats.
+
+Mac OS X                        April 12, 2004                        Mac OS X

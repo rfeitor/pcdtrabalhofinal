@@ -1,0 +1,101 @@
+XCODEINDEX(1)             BSD General Commands Manual            XCODEINDEX(1)
+
+NAME
+     xcodeindex -- indexes Xcode projects
+
+SYNOPSIS
+     xcodeindex [-project projectname] [-configuration configurationname]
+                [-quiet] [-destPath path] [-loglevel level] [indexaction ...]
+     xcodeindex -version
+     xcodeindex -help
+
+DESCRIPTION
+     xcodeindex indexes an Xcode project.
+
+   Usage
+     Run xcodeindex from the directory containing your project (i.e. the
+     directory containing the projectname.xcode package). If you have multiple
+     projects in the this directory you will need to use -project to indicate
+     which project should be indexed.
+
+     By default, xcodeindex updates the project index if it exists, otherwise
+     it creates a new index.
+
+   Options
+     -project projectname
+           Index the project specified by projectname.  Required if there are
+           multiple project files in the same directory.
+
+     -configuration configurationname
+           Use the build configuration specified by configurationname when
+           indexing the project. If none is specified, the active configura-
+           tion is used.
+
+     -quiet
+           Suppresses all logging while indexing.
+
+     -destPath path
+           Places the project index in the directory specified by path.
+
+     -loglevel level
+           Turns on varying degrees of indexing debugging. The level range is
+           from zero to six, enabling a staggered number of the existing
+           indexing defaults for the indexer. If an option greater than six is
+           used, then the maximum level of logging is enabled. The logging
+           levels are defined as:
+
+           0           No logging
+
+           1           Prints the name of the file being indexed. This is the
+                       default logging level.
+
+           2           File processing output
+
+           3           Symbol updating output
+
+           4           Symbol insertion and creation output
+
+           5           Parser basic output
+
+           6           Parser error output
+           The levels are inclusive (thus enabling log level 4 would also
+           automatically include levels 1, 2, and 3).  Output from higher log-
+           ging levels than the default (level 1) is not expected to be useful
+           for most developers, but could be valuable in troubleshooting cases
+           where there is a problem with indexing a particular Xcode project.
+
+     indexaction ...
+           Specify an index action (or actions) to perform on the project.
+           Available build actions are:
+
+           clean       Removes the index for the project.
+
+           build       Updates the index for the project, creating it if nec-
+                       essary. This is the default index action.
+
+           stats       Prints the statistics for the index (number of classes,
+                       etc)
+
+           dump        Dumps a tab-delimited format of the index (for major
+                       symbols - classes, methods, etc) to stdout
+
+     -version
+           Displays component version numbers for xcodeindex.  These can be
+           compared to the version numbers in the Xcode application's About
+           Xcode window.
+
+     -help
+           Displays usage information for xcodeindex.
+
+EXAMPLES
+     xcodeindex clean
+
+             Cleans the index.
+
+     xcodeindex -project FirstProject -project SecondProject -project
+             ThirdProject -configuration Debug -quiet
+
+             Indexes three projects using the Debug configuration and sup-
+             presses all logging.
+
+Mac OS X                      September 16, 2008                      Mac OS X

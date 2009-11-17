@@ -1,0 +1,95 @@
+XCODE_SELECT(1)           BSD General Commands Manual          XCODE_SELECT(1)
+
+NAME
+     xcode-select -- Manages the path to the Xcode folder for Xcode BSD tools.
+
+SYNOPSIS
+     xcode-select [-help]
+     xcode-select [-switch xcode_folder_path]
+     xcode-select [-print-path]
+     xcode-select [-version]
+
+DESCRIPTION
+     xcode-select controls the location of the Xcode folder which will be used
+     by xcodebuild(1) and other, related Xcode BSD tools. This allows you to
+     easily switch between using different versions of the Xcode tools, and
+     can be used to update the path to the current Xcode folder if it is moved
+     after installation.
+
+     xcode-select does not affect gcc(1), ld(1), gdb(1), and many of the other
+     Xcode BSD tools. For a list of the tools which do use xcode-select, see
+     FILES below.
+
+   Usage
+     When multiple Xcode folders are installed on a system (e.g. "/Xcode2.5",
+     containing Xcode 2.5, and "/Developer", containing Xcode 3.0), use
+     xcode-select -switch xcode_folder_path to specify the Xcode folder that
+     you wish to use.
+
+     After setting an Xcode folder, running /usr/bin/xcodebuild will automati-
+     cally invoke the version of xcodebuild(1) out of the current Xcode
+     folder. Your own scripts, makefiles, and other tools can use xcode-select
+     -print-path to find this path, making it easy to switch them between dif-
+     ferent versions of the Xcode tools and allowing them to function properly
+     on systems where the Xcode folder has been installed to a non-default
+     location.
+
+     xcode-select does not guarantee a valid path to an Xcode folder. If the
+     current Xcode folder is moved, xcode-select -switch new_xcode_folder_path
+     should be run to update to its new location.
+
+   Options
+     -help
+           Prints the usage message.
+
+     -switch xcode_folder_path
+           Sets the path to the current Xcode folder, e.g. "/Developer". This
+           command must be run with superuser permissions, and will affect all
+           users on the system. To set the path without superuser permissions
+           or only for the current shell session, use the DEVELOPER_DIR envi-
+           ronment variable instead.
+
+     -print-path
+           Prints the path of the current Xcode folder. This is a recommended
+           way for scripts and other tools to locate the current Xcode folder.
+
+     -version
+           Prints xcode-select version information.
+
+ENVIRONMENT
+     DEVELOPER_DIR  Overrides the Xcode folder path. When DEVELOPER_DIR is
+                    set, its value will be used instead of the value last
+                    passed to -switch xcode_folder_path
+
+EXAMPLES
+     xcode-select -switch /Developer
+
+             Sets xcodebuild(1), ibtool(1), and other tools which use the
+             xcode-select path to find these tools in "/Developer" (e.g.
+             "/Developer/usr/bin/xcodebuild").
+
+     `xcode-select -print-path`/usr/bin/gcc
+
+             Runs gcc out of the current Xcode folder.
+
+     export DEVELOPER_DIR="/Xcode2.5"; /usr/bin/xcodebuild
+
+             Runs /Xcode2.5/usr/bin/xcodebuild.
+
+FILES
+     /usr/bin/agvtool     Runs agvtool(1) from the current Xcode folder.
+     /usr/bin/ibtool      Runs ibtool(1) from the current Xcode folder.
+     /usr/bin/opendiff    Runs opendiff(1) from the current Xcode folder.
+     /usr/bin/xcodebuild  Runs xcodebuild(1) from the current Xcode folder.
+     /usr/bin/xcodeindex  Runs xcodeindex(1) from the current Xcode folder.
+     /usr/bin/instruments
+                          Runs instruments(1) from the current Xcode folder.
+
+SEE ALSO
+     agvtool(1), ibtool(1), opendiff(1), xcodebuild(1), xcodeindex(1),
+     instruments(1)
+
+HISTORY
+     The xcode-select command first appeared in Xcode 3.0.
+
+                              September 18, 2009

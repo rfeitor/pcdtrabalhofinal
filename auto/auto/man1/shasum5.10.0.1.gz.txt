@@ -1,0 +1,64 @@
+SHASUM(1)              Perl Programmers Reference Guide              SHASUM(1)
+
+
+
+NAME
+       shasum - Print or Check SHA Checksums
+
+SYNOPSIS
+        Usage: shasum [OPTION] [FILE]...
+           or: shasum [OPTION] --check [FILE]
+        Print or check SHA checksums.
+        With no FILE, or when FILE is -, read standard input.
+
+         -a, --algorithm    1 (default), 224, 256, 384, 512
+         -b, --binary       read files in binary mode (default on DOS/Windows)
+         -c, --check        check SHA sums against given list
+         -p, --portable     read files in portable mode
+                                produces same digest on Windows/Unix/Mac
+         -t, --text         read files in text mode (default)
+
+        The following two options are useful only when verifying checksums:
+
+         -s, --status       don't output anything, status code shows success
+         -w, --warn         warn about improperly formatted SHA checksum lines
+
+         -h, --help         display this help and exit
+         -v, --version      output version information and exit
+
+        The sums are computed as described in FIPS PUB 180-2.  When checking,
+        the input should be a former output of this program.  The default mode
+        is to print a line with checksum, a character indicating type (`*'
+        for binary, `?' for portable, ` ' for text), and name for each FILE.
+
+DESCRIPTION
+       The shasum script provides the easiest and most convenient way to
+       compute SHA message digests.  Rather than writing a program, the user
+       simply feeds data to the script via the command line, and waits for the
+       results to be printed on standard output.  Data can be fed to shasum
+       through files, standard input, or both.
+
+       The following command shows how easy it is to compute digests for
+       typical inputs such as the NIST test vector "abc":
+
+               perl -e "print qw(abc)" | shasum
+
+       Or, if you want to use SHA-256 instead of the default SHA-1, simply
+       say:
+
+               perl -e "print qw(abc)" | shasum -a 256
+
+       Since shasum uses the same interface employed by the familiar sha1sum
+       program (and its somewhat outmoded anscestor md5sum), you can install
+       this script as a convenient drop-in replacement.
+
+AUTHOR
+       Copyright (c) 2003-2007 Mark Shelor <mshelor@cpan.org>.
+
+SEE ALSO
+       shasum is implemented using the Perl module Digest::SHA or
+       Digest::SHA::PurePerl.
+
+
+
+perl v5.10.0                      2009-06-24                         SHASUM(1)

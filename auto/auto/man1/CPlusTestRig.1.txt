@@ -1,0 +1,39 @@
+CPlusTestRig(1)           BSD General Commands Manual          CPlusTestRig(1)
+
+NAME
+     CPlusTestRig -- runs CPlusTest unit test bundles
+
+SYNOPSIS
+     CPlusTestRig [-test testname] testbundle
+
+DESCRIPTION
+     CPlusTestRig loads and runs the bundle testbundle containing unit tests
+     built with the CPlusTest framework (/System/Library/Frameworks/CPlus-
+     Test.framework).  If one or more [-test testname] pairs is specified only
+     those tests (TestCase and TestSuite instances) in testbundle are run.  If
+     no such pairs are specified, all TestCase and TestSuite instances are run
+     as part of the default "All" test suite.
+
+     CPlusTestRig is intended for testing frameworks and libraries.  That is,
+     it must be possible for CPlusTestRig to load testbundle into its own
+     address space.  To test applications, use RunUnitTests(1) instead.
+
+     To test a framework or library in a location other than the one recorded
+     in testbundle at link time, use dyld(1) environment variables such as
+     DYLD_FRAMEWORK_PATH and DYLD_LIBRARY_PATH to ensure that the nonstandard
+     location is searched.
+
+ENVIRONMENT
+     CPlusTestDelayExit  If this environment variable is present, CPlusTestRig
+                         will print its process ID to standard output and
+                         delay exit indefinitely upon completion.  This is
+                         useful for running leaks(1) or other debugging tools.
+
+FILES
+     /Developer/Tools/CPlusTestRig
+     /System/Library/Frameworks/CPlusTest.framework
+
+SEE ALSO
+     dyld(1), leaks(1), RunUnitTests(1)
+
+Mac OS X                      September 18, 2009                      Mac OS X

@@ -1,0 +1,39 @@
+MERGEPEF(1)               BSD General Commands Manual              MERGEPEF(1)
+
+NAME
+     /usr/bin/MergePef -- Merge multiple PEF containers into one file
+
+SYNOPSIS
+     /usr/bin/MergePef [-v] [-t type] [-c creator] <input-file> ... -o
+                       <output-file>
+
+DESCRIPTION
+     The /usr/bin/MergePef command reads all input files, interpreting them as
+     PowerPC Executable Format (PEF) container files.  It combines the files
+     into one PEF containter and writes it to the output file.  MergePEF does
+     not read Standard Input and will not write Standard Output.
+
+     The /usr/bin/MergePef command accepts the following arguments:
+
+     -v            Produce verbose diagnostics to standard output.
+
+     -t type       Set the Extended HFS file type of the output file.  The
+                   default value is 'shlb'.
+
+     -c creator    Set the Extended HFS file creator of the output file.  The
+                   default value is 'MACS'.
+
+     <input-file>  One or more paths to PEF file containers.
+
+     -o <output-file>
+                   Path to the output file.
+
+NOTES
+     The PEF container format is supported on Mac OS X by the Carbon runtime
+     libraries, but is not the preferred executable format on Mac OS X.  There
+     are no developer tools to create PEF containers natively on Mac OS X.
+
+SEE ALSO
+     LaunchCFMApp(1)
+
+Mac OS X                        April 12, 2004                        Mac OS X
