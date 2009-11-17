@@ -1,0 +1,60 @@
+ACL_CREATE_ENTRY(3)      BSD Library Functions Manual      ACL_CREATE_ENTRY(3)
+
+NAME
+     acl_create_entry, acl_create_entry_np -- create a new ACL entry
+
+LIBRARY
+     Standard C Library (libc, -lc)
+
+SYNOPSIS
+     #include <sys/types.h>
+     #include <sys/acl.h>
+
+     int
+     acl_create_entry(acl_t *acl_p, acl_entry_t *entry_p);
+
+     int
+     acl_create_entry_np(acl_t *acl_p, acl_entry_t *entry_p, int entry_index);
+
+DESCRIPTION
+     The acl_create_entry() function is a POSIX.1e call that creates a new ACL
+     entry in the ACL pointed to by acl_p.
+
+     The acl_create_entry_np() function is a non-portable extension which
+     allows the caller to specify the position of the created entry within the
+     ACL.  If entry_index is ACL_FIRST_ENTRY the entry will be created at the
+     head of the ACL.  If entry_index is ACL_LAST_ENTRY the entry will be cre-
+     ated at the end of the ACL.  After inserting an ACL entry with an
+     entry_index other than ACL_LAST_ENTRY the behaviour of any acl_entry_t's
+     previously obtained from the ACL by acl_create_entry() or acl_get_entry()
+     is undefined.
+
+RETURN VALUES
+     The acl_create_entry() function returns the value 0 if successful; other-
+     wise the value -1 is returned and the global variable errno is set to
+     indicate the error.
+
+ERRORS
+     The acl_create_entry() and acl_create_entry_np() functions fail if:
+
+     [EINVAL]           Argument acl_p does not point to a pointer to a valid
+                        ACL.
+
+     [ENOMEM]           The ACL working storage requires more memory than is
+                        allowed by the hardware or system-imposed memory man-
+                        agement constraints.
+
+     [ERANGE]           The entry_index argument to acl_create_entry_np() is
+                        greater than the number of entries in the ACL.
+
+SEE ALSO
+     acl(3), acl_delete_entry(3), acl_get_entry(3), posix1e(3)
+
+STANDARDS
+     POSIX.1e is described in IEEE POSIX.1e draft 17.
+
+AUTHORS
+     Michael Smith
+     Chris D Fulhaber
+
+BSD                             March 16, 2001                             BSD

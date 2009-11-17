@@ -1,0 +1,41 @@
+ACL_DELETE_FLAG_NP(3)    BSD Library Functions Manual    ACL_DELETE_FLAG_NP(3)
+
+NAME
+     acl_delete_flag_np -- delete flags from a flag set
+
+LIBRARY
+     Standard C Library (libc, -lc)
+
+SYNOPSIS
+     #include <sys/types.h>
+     #include <sys/acl.h>
+
+     int
+     acl_delete_flag_np(acl_flagset_t flagset_d, acl_flag_t flag);
+
+DESCRIPTION
+     The acl_delete_flag_np() function is a nonstandard extension that removes
+     the specific flag flag from the flag set flagset_d.
+
+RETURN VALUES
+     The acl_delete_flag_np() function returns the value 0 if successful; oth-
+     erwise the value -1 is returned and the global variable errno is set to
+     indicate the error.
+
+ERRORS
+     The acl_delete_flag_np() function fails if:
+
+     [EINVAL]           Argument flagset_d is not a valid descriptor for a
+                        flag set.  Argument flag does not contain an
+                        acl_flag_t value that is valid for the flagset_d
+                        flagset.
+
+SEE ALSO
+     acl(3), acl_add_flag_np(3), acl_clear_flags_np(3), acl_get_flagset_np(3),
+     acl_set_flagset_np(3)
+
+AUTHORS
+     Michael Smith
+     Chris D. Faulhaber
+
+BSD                             March 10, 2001                             BSD
