@@ -1,0 +1,35 @@
+ALLOCA(3)                BSD Library Functions Manual                ALLOCA(3)
+
+NAME
+     alloca -- memory allocator
+
+LIBRARY
+     Standard C Library (libc, -lc)
+
+SYNOPSIS
+     #include <alloca.h>
+     or
+     #include <stdlib.h>
+
+     void *
+     alloca(size_t size);
+
+DESCRIPTION
+     The alloca() function allocates size bytes of space in the stack frame of
+     the caller.  This temporary space is automatically freed on return.
+
+RETURN VALUES
+     The alloca() function returns a pointer to the beginning of the allocated
+     space.  If the allocation failed, a NULL pointer is returned.
+
+SEE ALSO
+     brk(2), calloc(3), getpagesize(3), malloc(3), realloc(3)
+
+HISTORY
+     The alloca() function appeared in Version 32V AT&T UNIX.
+
+BUGS
+     The alloca() function is machine and compiler dependent; its use is dis-
+     couraged.
+
+BSD                              June 4, 1993                              BSD

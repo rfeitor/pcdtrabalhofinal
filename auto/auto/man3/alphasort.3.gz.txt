@@ -1,0 +1,62 @@
+SCANDIR(3)               BSD Library Functions Manual               SCANDIR(3)
+
+NAME
+     scandir, scandir_b, alphasort -- scan a directory
+
+SYNOPSIS
+     #include <sys/types.h>
+     #include <dirent.h>
+
+     int
+     scandir(const char *dirname, struct dirent ***namelist,
+         int (*select)(struct dirent *),
+         int (*compar)(const void *, const void *));
+
+     int
+     alphasort(const void *d1, const void *d2);
+
+     int
+     scandir_b(const char *dirname, struct dirent ***namelist,
+         int (^select)(struct dirent *),
+         int (^compar)(const void *, const void *));
+
+DESCRIPTION
+     The scandir() function reads the directory dirname and builds an array of
+     pointers to directory entries using malloc(3).  It returns the number of
+     entries in the array.  A pointer to the array of directory entries is
+     stored in the location referenced by namelist.
+
+     The select argument is a pointer to a user supplied subroutine which is
+     called by scandir() to select which entries are to be included in the
+     array.  The select routine is passed a pointer to a directory entry and
+     should return a non-zero value if the directory entry is to be included
+     in the array.  If select is null, then all the directory entries will be
+     included.
+
+     The compar argument is a pointer to a user supplied subroutine which is
+     passed to qsort(3) to sort the completed array.  If this pointer is null,
+     the array is not sorted.  Note that from within the compar subroutine,
+     the two arguments are of type const struct dirent **, so that a double-
+     dereference is needed to access the fields in the dirent structure.
+
+     The alphasort() function is a routine which can be used for the compar
+     argument to sort the array alphabetically.
+
+     The memory allocated for the array can be deallocated with free(3), by
+     freeing each pointer in the array and then the array itself.
+
+     The scandir_b() function works the same way as the scandir() function,
+     except that select and compar are blocks instead of subroutines.
+
+DIAGNOSTICS
+     Returns -1 if the directory cannot be opened for reading or if malloc(3)
+     cannot allocate enough memory to hold all the data structures.
+
+SEE ALSO
+     directory(3), malloc(3), qsort(3), dir(5)
+
+HISTORY
+     The scandir() and alphasort() functions appeared in 4.2BSD.  The
+     scandir_b() function appeared in Mac OS X 10.6.
+
+BSD                              May 20, 2008                              BSD
