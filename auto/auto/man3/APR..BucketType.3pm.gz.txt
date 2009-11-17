@@ -1,0 +1,51 @@
+apache_modpperl-103~96::modCperl-2.0.4::docs::api::APR::BucketType(3)etType(3)
+
+
+
+NAME
+       APR::BucketType - Perl API for APR bucket types
+
+Synopsis
+         use APR::BucketType ();
+
+         my $name = $b_type->name;
+
+Description
+       "APR::BucketType" allows you to query bucket object type properties.
+
+API
+       "APR::BucketType" provides the following functions and/or methods:
+
+       "name"
+
+       Get the name of the bucket type:
+
+         my $bucket_type_name = $b_type->name;
+
+       arg1: $b_type ( "APR::BucketType object" )
+       ret: $bucket_type_name ( string )
+       since: 2.0.00
+
+       Example:
+
+         use APR::Bucket ();
+         use APR::BucketType ();
+         my $eos_b = APR::Bucket::eos_create($ba);
+         my $b_type = $eos_b->type;
+         my $name = $b_type->name;
+
+       Now $name contains 'EOS'.
+
+See Also
+       mod_perl 2.0 documentation.
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Authors
+       The mod_perl development team and numerous contributors.
+
+
+
+perl v5.10.0che_mod_perl-103~96::m2007-11-110.4::docs::api::APR::BucketType(3)

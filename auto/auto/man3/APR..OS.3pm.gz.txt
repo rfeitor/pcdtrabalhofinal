@@ -1,0 +1,59 @@
+apache_mod_perl-103~96::modCperl-2.0.4::docs::api::APR::OS(3)::api::APR::OS(3)
+
+
+
+NAME
+       APR::OS - Perl API for Platform-specific APR API
+
+Synopsis
+         use APR::OS ();
+
+         # get current thread id
+         my $tid = APR::OS::current_thread_id();
+
+Description
+       "APR::OS" provides the Perl interface to platform-specific APR API.
+
+       You should be extremely careful when relying on any of the API provided
+       by this module, since they are no portable. So if you use those you
+       application will be non-portable as well.
+
+API
+       "APR::OS" provides the following methods:
+
+       "current_thread_id"
+
+       Get the current thread ID
+
+         $tid = APR::OS::current_thread_id();
+
+       ret: $tid ( integer )
+           under threaded MPMs returns the current thread ID, otherwise 0.
+
+       since: 2.0.00
+
+       Example:
+
+           use Apache2::MPM ();
+           use APR::OS ();
+           if (Apache2::MPM->is_threaded) {
+               my $tid_obj = APR::OS::current_thread_id();
+               print "TID: $tid";
+           }
+           else {
+               print "PID: $$";
+           }
+
+See Also
+       mod_perl 2.0 documentation.
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Authors
+       The mod_perl development team and numerous contributors.
+
+
+
+perl v5.10.0     apache_mod_perl-12007-11-11_perl-2.0.4::docs::api::APR::OS(3)

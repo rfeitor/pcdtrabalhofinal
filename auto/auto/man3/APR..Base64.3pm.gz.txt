@@ -1,0 +1,78 @@
+apache_mod_perl-103~96::modCperl-2.0.4::docs::api::APR::Base64(3)PR::Base64(3)
+
+
+
+NAME
+       APR::Base64 - Perl API for APR base64 encoding/decoding functionality
+
+Synopsis
+         use APR::Base64 ();
+
+         my $clear   = "foo"
+         my $encoded = APR::Base64::encode($clear);
+         my $decoded = APR::Base64::decode($encoded);
+         my $len_enc = APR::Base64::encode_len(length $clear);
+
+Description
+       "APR::Base64" provides the access to APR's base64 encoding and decoding
+       API.
+
+API
+       "APR::Base64" provides the following functions and/or methods:
+
+       "decode"
+
+       Decode a base64 encoded string
+
+         $decoded = decode($encoded);
+
+       arg1: $encoded ( string )
+           The encoded string.
+
+       ret: $decoded ( string )
+           The decoded string.
+
+       since: 2.0.00
+
+       "encode"
+
+       Encode a string to base64
+
+         $encoded = encode($clear);
+
+       arg1: $clear ( string )
+           The unencoded string.
+
+       ret: $encoded ( string )
+           The encoded string.
+
+       since: 2.0.00
+
+       "encode_len"
+
+       Given the length of an unencoded string, get the length of the encoded
+       string.
+
+         $len_enc = encode_len($len_clear);
+
+       arg1: $len_clear ( integer )
+           the length of an unencoded string.
+
+       ret: $len_enc ( integer )
+           the length of the string after it is encoded
+
+       since: 2.0.00
+
+See Also
+       mod_perl 2.0 documentation.
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Authors
+       The mod_perl development team and numerous contributors.
+
+
+
+perl v5.10.0 apache_mod_perl-103~92007-11-11l-2.0.4::docs::api::APR::Base64(3)
