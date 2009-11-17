@@ -1,0 +1,50 @@
+App::CLI(3)           User Contributed Perl Documentation          App::CLI(3)
+
+
+
+NAME
+       App::CLI - Dispatcher module for command line interface programs
+
+SYNOPSIS
+         package MyApp;
+         use base 'App::CLI';
+
+         package main;
+
+         MyApp->dispatch;
+
+         package MyApp::Help;
+         use base 'App::CLI::Command';
+
+         sub options {
+           ('verbose' => 'verbose');
+         }
+
+         sub run {
+           my ($self, $arg) = @_;
+         }
+
+DESCRIPTION
+       "App::CLI" dispatches CLI (command line interface) based commands into
+       command classes.  It also supports subcommand and per-command options.
+
+TODO
+       More documentation
+
+SEE ALSO
+       App::CLI::Command
+
+AUTHORS
+       Chia-liang Kao <clkao@clkao.org>
+
+COPYRIGHT
+       Copyright 2005-2006 by Chia-liang Kao <clkao@clkao.org>.
+
+       This program is free software; you can redistribute it and/or modify it
+       under the same terms as Perl itself.
+
+       See <http://www.perl.com/perl/misc/Artistic.html>
+
+
+
+perl v5.8.9                       2006-11-24                       App::CLI(3)

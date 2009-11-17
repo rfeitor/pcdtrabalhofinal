@@ -1,0 +1,61 @@
+apache_modcperl-103~96::modCperl-2.0.4::docs::api::Apache2::Resource(3)urce(3)
+
+
+
+NAME
+       Apache2::Resource - Limit resources used by httpd children
+
+Synopsis
+         PerlModule Apache2::Resource
+         # set child memory limit in megabytes
+         # default is 64 Meg
+         PerlSetEnv PERL_RLIMIT_DATA 32:48
+
+         # linux does not honor RLIMIT_DATA
+         # RLIMIT_AS (address space) will work to limit the size of a process
+         PerlSetEnv PERL_RLIMIT_AS 32:48
+
+         # set child cpu limit in seconds
+         # default is 360 seconds
+         PerlSetEnv PERL_RLIMIT_CPU 120
+
+         PerlChildInitHandler Apache2::Resource
+
+Description
+       "Apache2::Resource" uses the "BSD::Resource" module, which uses the C
+       function "setrlimit" to set limits on system resources such as memory
+       and cpu usage.
+
+       Any "RLIMIT" operation available to limit on your system can be set by
+       defining that operation as an environment variable with a "PERL_"
+       prefix.  See your system "setrlimit" manpage for available resources
+       which can be limited.
+
+       The following limit values are in megabytes: "DATA", "RSS", "STACK",
+       "FSIZE", "CORE", "MEMLOCK"; all others are treated as their natural
+       unit.
+
+       If the value of the variable is of the form "S:H", "S" is treated as
+       the soft limit, and "H" is the hard limit.  If it is just a single
+       number, it is used for both soft and hard limits.
+
+Defaults
+       To set reasonable defaults for all RLIMITs, add this to your
+       httpd.conf:
+
+         PerlSetEnv PERL_RLIMIT_DEFAULTS On
+         PerlModule Apache2::Resource
+
+See Also
+       BSD::Resource(3), setrlimit(2)
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Author
+       Doug MacEachern
+
+
+
+perl v5.10.0e_mod_perl-103~96::mod2007-11-114::docs::api::Apache2::Resource(3)
