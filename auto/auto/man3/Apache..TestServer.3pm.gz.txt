@@ -1,0 +1,16 @@
+Apache::TestServer(3) User Contributed Perl DocumentationApache::TestServer(3)
+
+
+
+       stop()
+
+       attempt to stop the server.
+
+       returns:
+
+         on success: $pid of the server
+         on failure: -1
+
+
+
+perl v5.10.0                      2007-12-30             Apache::TestServer(3)
