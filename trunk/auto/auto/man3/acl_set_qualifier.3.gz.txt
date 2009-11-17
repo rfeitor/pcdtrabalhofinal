@@ -1,0 +1,53 @@
+ACL_SET_QUALIFIER(3)     BSD Library Functions Manual     ACL_SET_QUALIFIER(3)
+
+NAME
+     acl_set_qualifier -- set ACL tag qualifier
+
+LIBRARY
+     Standard C Library (libc, -lc)
+
+SYNOPSIS
+     #include <sys/types.h>
+     #include <sys/acl.h>
+
+     int
+     acl_set_qualifier(acl_entry_t entry_d, const void *tag_qualifier_p);
+
+DESCRIPTION
+     The acl_set_qualifier() function is a POSIX.1e call that sets the quali-
+     fier of the tag for the ACL entry entry_d to the value referred to by
+     tag_qualifier_p.
+
+     The tag type of the ACL entry, as previously set with
+     acl_set_tag_type(3), must be either ACL_EXTENDED_ALLOW or
+     ACL_EXTENDED_DENY, and tag_qualifier_p should be a pointer to a global
+     unique identifier (of type guid_t).
+
+RETURN VALUES
+     The acl_set_qualifier() function returns the value 0 if successful; oth-
+     erwise the value -1 is returned and the global variable errno is set to
+     indicate the error.
+
+ERRORS
+     The acl_set_qualifier() function fails if:
+
+     [EINVAL]           Argument entry_d is not a valid descriptor for an ACL
+                        entry.  The tag type of the ACL entry entry_d is not
+                        ACL_EXTENDED_ALLOW or ACL_EXTENDED_DENY.  The value
+                        pointed to by tag_qualifier_p is not valid.
+
+     [ENOMEM]           The value to be returned requires more memory than is
+                        allowed by the hardware or system-imposed memory man-
+                        agement constraints.
+
+SEE ALSO
+     acl(3), acl_get_qualifier(3), acl_set_tag_type(3), posix1e(3)
+
+STANDARDS
+     POSIX.1e is described in IEEE POSIX.1e draft 17.
+
+AUTHORS
+     Michael Smith
+     Chris D. Faulhaber
+
+BSD                              Sept 2, 2008                              BSD
