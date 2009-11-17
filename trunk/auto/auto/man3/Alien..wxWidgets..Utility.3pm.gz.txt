@@ -1,0 +1,10 @@
+Alien::wxWidgets::Utility(3)ontributed Perl DocumentationwxWidgets::Utility(3)
+
+
+
+NAME
+       Alien::wxWidgets::Utility - INTERNAL: do not use
+
+
+
+perl v5.10.0                      2009-05-18      Alien::wxWidgets::Utility(3)

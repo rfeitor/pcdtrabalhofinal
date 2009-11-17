@@ -1,0 +1,257 @@
+Alien::wxWidgets(3)   User Contributed Perl Documentation  Alien::wxWidgets(3)
+
+
+
+NAME
+       Alien::wxWidgets - building, finding and using wxWidgets binaries
+
+SYNOPSIS
+           use Alien::wxWidgets <options>;
+
+           my $version = Alien::wxWidgets->version;
+           my $config = Alien::wxWidgets->config;
+           my $compiler = Alien::wxWidgets->compiler;
+           my $linker = Alien::wxWidgets->linker;
+           my $include_path = Alien::wxWidgets->include_path;
+           my $defines = Alien::wxWidgets->defines;
+           my $cflags = Alien::wxWidgets->c_flags;
+           my $linkflags = Alien::wxWidgets->link_flags;
+           my $libraries = Alien::wxWidgets->libraries( qw(gl adv core base) );
+           my @libraries = Alien::wxWidgets->link_libraries( qw(gl adv core base) );
+           my @implib = Alien::wxWidgets->import_libraries( qw(gl adv core base) );
+           my @shrlib = Alien::wxWidgets->shared_libraries( qw(gl adv core base) );
+           my @keys = Alien::wxWidgets->library_keys; # 'gl', 'adv', ...
+           my $library_path = Alien::wxWidgets->shared_library_path;
+           my $key = Alien::wxWidgets->key;
+           my $prefix = Alien::wxWidgets->prefix;
+
+DESCRIPTION
+       Please see Alien for the manifesto of the Alien namespace.
+
+       In short "Alien::wxWidgets" can be used to detect and get configuration
+       settings from an installed wxWidgets.
+
+METHODS
+       load/import
+
+           use Alien::wxWidgets version          => 2.004 | [ 2.004, 2.005 ],
+                                compiler_kind    => 'gcc' | 'cl', # Windows only
+                                compiler_version => '3.3', # only GCC for now
+                                toolkit          => 'gtk2',
+                                debug            => 0 | 1,
+                                unicode          => 0 | 1,
+                                mslu             => 0 | 1,
+                                key              => $key,
+                                ;
+
+           Alien::wxWidgets->load( <same as the above> );
+
+       Using "Alien::wxWidgets" without parameters will load a default
+       configuration (for most people this will be the only installed
+       confiuration). Additional parameters allow to be more selective.
+
+       If there is no matching configuration the method will "die()".
+
+       In case no arguments are passed in the "use", "Alien::wxWidgets" will
+       try to find a reasonable default configuration.
+
+       Please note that when the version is pecified as "version =" 2.004> it
+       means "any version >= 2.004" while when specified as "version =" [
+       2.004, 2.005 ]> it means "any version => 2.004 and < 2.005".
+
+       key
+
+           my $key = Alien::wxWidgets key;
+
+       Returns an unique key that can be used to reload the currently-loaded
+       configuration.
+
+       version
+
+           my $version = Alien::wxWidgets->version;
+
+       Returns the wxWidgets version for this "Alien::wxWidgets" installation
+       in the form MAJOR + MINOR / 1_000 + RELEASE / 1_000_000 e.g. 2.006002
+       for wxWidgets 2.6.2 and 2.004 for wxWidgets 2.4.0.
+
+       config
+
+           my $config = Alien::wxWidgets->config;
+
+       Returns some miscellaneous configuration informations for wxWidgets in
+       the form
+
+           { toolkit   => 'msw' | 'gtk' | 'motif' | 'x11' | 'cocoa' | 'mac',
+             debug     => 1 | 0,
+             unicode   => 1 | 0,
+             mslu      => 1 | 0,
+             }
+
+       include_path
+
+           my $include_path = Alien::wxWidgets->include_path;
+
+       Returns the include paths to be used in a format suitable for the
+       compiler (usually something like "-I/usr/local/include
+       -I/opt/wx/include").
+
+       defines
+
+           my $defines = Alien::wxWidgets->defines;
+
+       Returns the compiler defines to be used in a format suitable for the
+       compiler (usually something like "-D__WXDEBUG__ -DFOO=bar").
+
+       c_flags
+
+           my $cflags = Alien::wxWidgets->c_flags;
+
+       Returns additional compiler flags to be used.
+
+       compiler
+
+           my $compiler = Alien::wxWidgets->compiler;
+
+       Returns the (C++) compiler used for compiling wxWidgets.
+
+       linker
+
+           my $linker = Alien::wxWidgets->linker;
+
+       Returns a linker suitable for linking C++ binaries.
+
+       link_flags
+
+           my $linkflags = Alien::wxWidgets->link_flags;
+
+       Returns additional link flags.
+
+       libraries
+
+           my $libraries = Alien::wxWidgets->libraries( qw(gl adv core base) );
+
+       Returns link flags for linking the libraries passed as arguments. This
+       usually includes some search path specification in addition to the
+       libraries themselves. The caller is responsible for the correct order
+       of the libraries.
+
+       link_libraries
+
+           my @libraries = Alien::wxWidgets->link_libraries( qw(gl adv core base) );
+
+       Returns a list of linker flags that can be used to link the libraries
+       passed as arguments.
+
+       import_libraries
+
+           my @implib = Alien::wxWidgets->import_libraries( qw(gl adv core base) );
+
+       Windows specific. Returns a list of import libraries corresponding to
+       the libraries passed as arguments.
+
+       shared_libraries
+
+           my @shrlib = Alien::wxWidgets->shared_libraries( qw(gl adv core base) );
+
+       Returns a list of shared libraries corresponding to the libraries
+       passed as arguments.
+
+       library_keys
+
+           my @keys = Alien::wxWidgets->library_keys;
+
+       Returns a list of keys that can be passed to "shared_libraries",
+       "import_libraries" and "link_libraries".
+
+       library_path
+
+           my $library_path = Alien::wxWidgets->shared_library_path;
+
+       Windows specific. Returns the path at which the private copy of
+       wxWidgets libraries has been installed.
+
+       prefix
+
+           my $prefix = Alien::wxWidgets->prefix;
+
+       Returns the install prefix for wxWidgets.
+
+       dump_configurations
+
+           Alien::wxWidgets->dump_configurations( %filters );
+
+       Prints a list of available configurations (mainly useful for
+       interactive use/debugging).
+
+       show_configurations
+
+           Alien::wxWidgets->show_configurations( %filters );
+
+       Prints a human-readable list of available configurations (mainly useful
+       for interactive use/debugging).
+
+       get_configurations
+
+          my $configs = Alien::wxWidgets->get_configurations( %filters );
+
+       Returns a list of configurations matching the given filters.
+
+AUTHOR
+       Mattia Barbon <mbarbon@cpan.org>
+
+LICENSE
+       Alien::wxWidgets
+           Copyright (c) 2005-2008 Mattia Barbon <mbarbon@cpan.org>
+
+           This program is free software; you can redistribute it and/or
+           modify it under the same terms as Perl itself
+
+       inc/bin/patch
+           was taken from the Perl Power Tools distributions
+
+           Copyright (c) 1999 Moogle Stuffy Software <tgy@chocobo.org>
+
+           You may play with this software in accordance with the Perl
+           Artistic License.
+
+           You may use this documentation under the auspices of the GNU
+           General Public License.
+
+       inc/bin/patch.exe
+           was downloaded from
+           http://gnuwin32.sourceforge.net/packages/patch.htm ad is
+           copyrighted by its authors, sources are included inside the inc/src
+           directory.
+
+           This program is free software; you can redistribute it and/or
+           modify it under the terms of the GNU General Public License as
+           published by the Free Software Foundation; either version 2 of the
+           License, or (at your option) any later version.
+
+           This program is distributed in the hope that it will be useful, but
+           WITHOUT ANY WARRANTY; without even the implied warranty of
+           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+           General Public License for more details.
+
+           You should have received a copy of the GNU General Public License
+           along with this program; if not, write to the Free Software
+           Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+           02111-1307  USA
+
+       bundled files from CPAN
+               inc/File/Fetch/Item.pm
+               inc/File/Fetch.pm
+               inc/File/Spec/Unix.pm
+               inc/IPC/Cmd.pm
+               inc/Locale/Maketext/Simple.pm
+               inc/Module/Load/Conditional.pm
+               inc/Module/Load.pm
+               inc/Params/Check.pm
+               inc/Archive/Extract.pm
+
+           Are copyright their respective authors an can be used according to
+           the license specified in their CPAN distributions.
+
+
+
+perl v5.8.9                       2009-05-18               Alien::wxWidgets(3)
