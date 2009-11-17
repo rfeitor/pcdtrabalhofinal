@@ -1,0 +1,86 @@
+curs_opaque(3X)                                                curs_opaque(3X)
+
+
+
+NAME
+       is_cleared, is_idlok, is_idcok, is_immedok, is_keypad, is_leaveok,
+       is_nodelay, is_timeout, is_scrollok, is_syncok - curses window
+       properties
+
+SYNOPSIS
+       #include <curses.h>
+
+       bool is_cleared(const WINDOW *win);
+       bool is_idcok(const WINDOW *win);
+       bool is_idlok(const WINDOW *win);
+       bool is_immedok(const WINDOW *win);
+       bool is_keypad(const WINDOW *win);
+       bool is_leaveok(const WINDOW *win);
+       bool is_nodelay(const WINDOW *win);
+       bool is_notimeout(const WINDOW *win);
+       bool is_scrollok(const WINDOW *win);
+       bool is_syncok(const WINDOW *win);
+       WINDOW * wgetparent(const WINDOW *win);
+       int wgetscrreg(const WINDOW *win, int *top, int *bottom);
+
+DESCRIPTION
+       This  implementation  provides functions which return properties set in
+       the WINDOW structure, allowing it to be ``opaque'' if the symbol NCURS-
+       ES_OPAQUE is defined:
+
+       is_cleared
+            returns the value set in clearok
+
+       is_idcok
+            returns the value set in idcok
+
+       is_idlok
+            returns the value set in idlok
+
+       is_immedok
+            returns the value set in immedok
+
+       is_keypad
+            returns the value set in keypad
+
+       is_leaveok
+            returns the value set in leaveok
+
+       is_nodelay
+            returns the value set in nodelay
+
+       is_notimeout
+            returns the value set in notimeout
+
+       is_scrollok
+            returns the value set in scrollok
+
+       is_syncok
+            returns the value set in syncok
+
+       wgetparent
+            returns the parent WINDOW pointer for subwindows, or NULL for win-
+            dows having no parent.
+
+       wgetscrreg
+            returns the top and bottom rows for the scrolling margin as set in
+            wsetscrreg.
+
+RETURN VALUE
+       These functions all return TRUE or FALSE, except as noted.
+
+NOTES
+       Both a macro and a function are provided for each name.
+
+PORTABILITY
+       These  routines  are  specific  to ncurses.  They were not supported on
+       Version 7, BSD or System V implementations.  It is recommended that any
+       code  depending on ncurses extensions be conditioned using NCURSES_VER-
+       SION.
+
+SEE ALSO
+       curses(3X), curs_inopts(3X), curs_outopts(3X), curs_window(3X)
+
+
+
+                                                               curs_opaque(3X)

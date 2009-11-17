@@ -1,0 +1,36 @@
+ExtUtils::MM_NW5(3pm)  Perl Programmers Reference Guide  ExtUtils::MM_NW5(3pm)
+
+
+
+NAME
+       ExtUtils::MM_NW5 - methods to override UN*X behaviour in
+       ExtUtils::MakeMaker
+
+SYNOPSIS
+        use ExtUtils::MM_NW5; # Done internally by ExtUtils::MakeMaker if needed
+
+DESCRIPTION
+       See ExtUtils::MM_Unix for a documentation of the methods provided
+       there. This package overrides the implementation of these methods, not
+       the semantics.
+
+       os_flavor
+           We're Netware in addition to being Windows.
+
+       init_platform
+           Add Netware macros.
+
+           LIBPTH, BASE_IMPORT, NLM_VERSION, MPKTOOL, TOOLPATH, BOOT_SYMBOL,
+           NLM_SHORT_NAME, INCLUDE, PATH, MM_NW5_REVISION
+
+       platform_constants
+           Add Netware macros initialized above to the Makefile.
+
+       const_cccmd
+       static_lib
+       dynamic_lib
+           Defines how to produce the *.so (or equivalent) files.
+
+
+
+perl v5.10.0                      2007-12-18             ExtUtils::MM_NW5(3pm)

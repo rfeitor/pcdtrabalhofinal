@@ -1,0 +1,19 @@
+B::Stackobj(3pm)       Perl Programmers Reference Guide       B::Stackobj(3pm)
+
+
+
+NAME
+       B::Stackobj - Helper module for CC backend
+
+SYNOPSIS
+               use B::Stackobj;
+
+DESCRIPTION
+       See ext/B/README.
+
+AUTHOR
+       Malcolm Beattie, "mbeattie@sable.ox.ac.uk"
+
+
+
+perl v5.8.9                       2001-09-21                  B::Stackobj(3pm)
