@@ -1,0 +1,95 @@
+apache_mod_perl-103~96::modCperl-2.0.4::docs::api::Apache2::MPM(3)che2::MPM(3)
+
+
+
+NAME
+       Apache2::MPM - Perl API for accessing Apache MPM information
+
+Synopsis
+         use Apache2::MPM ();
+
+         # check whether Apache MPM is threaded
+         if (Apache2::MPM->is_threaded) { do_something() }
+
+         # which mpm is used
+         my $mpm = lc Apache2::MPM->show;
+
+         # query mpm properties
+         use Apache2::Const -compile => qw(:mpmq);
+         if (Apache2::MPM->query(Apache2::Const::MPMQ_STATIC)) { ... }
+
+Description
+       "Apache2::MPM" provides the Perl API for accessing Apache MPM
+       information.
+
+API
+       "Apache2::MPM" provides the following functions and/or methods:
+
+       "query"
+
+       Query various attributes of the MPM
+
+         my $query = Apache2::MPM->query($const);
+
+       obj: $class ( "Apache2::MPM class" )
+           the class name
+
+       arg1: $const ( "Apache2::Const :mpmq group constant" )
+           The MPM attribute to query.
+
+       ret: $query ( boolean )
+           the result of the query
+
+       since: 2.0.00
+
+       For example to test whether the mpm is static:
+
+         use Apache2::Const -compile => qw(MPMQ_STATIC);
+         if (Apache2::MPM->query(Apache2::Const::MPMQ_STATIC)) { ... }
+
+       "is_threaded"
+
+       Check whether the running Apache MPM is threaded.
+
+         my $is_threaded = Apache2::MPM->is_threaded;
+
+       obj: $class ( "Apache2::MPM class" )
+           the class name
+
+       ret: $is_threaded ( boolean )
+           threaded or not
+
+       since: 2.0.00
+
+       Note that this functionality is just a shortcut for:
+
+         use Apache2::Const -compile => qw(MPMQ_IS_THREADED);
+         my $is_threaded = Apache2::MPM->query(Apache2::Const::MPMQ_IS_THREADED);
+
+       "show"
+
+       What mpm is used
+
+         my $mpm = Apache2::MPM->show();
+
+       obj: $class ( "Apache2::MPM class" )
+           the class name
+
+       ret: $mpm ( string )
+           the name of the MPM. e.g., "Prefork".
+
+       since: 2.0.00
+
+See Also
+       mod_perl 2.0 documentation.
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Authors
+       The mod_perl development team and numerous contributors.
+
+
+
+perl v5.10.0apache_mod_perl-103~962007-11-11-2.0.4::docs::api::Apache2::MPM(3)

@@ -1,0 +1,79 @@
+apacheemoddperl-103~96::modCperl-2.0.4::docs::api::Apache2::ConnectionUtil(3))
+
+
+
+NAME
+       Apache2::ConnectionUtil - Perl API for Apache connection utils
+
+Synopsis
+          use Apache2::Connection     ();
+          use Apache2::ConnectionUtil ();
+          use Apache2::RequestRec     ();
+
+          # grab the connection object;
+          my $c = $r->connection;
+
+          # share perl objects like $r->pnotes
+          $old_val = $c->pnotes($key => $value);
+
+Description
+       "Apache2::ConnectionUtil" provides the Apache connection record object
+       utilities API.
+
+API
+       "Apache2::ConnectionUtil" provides the following functions and/or
+       methods:
+
+       "pnotes"
+
+       Share Perl variables between requests over the lifetime of the
+       connection.
+
+          $old_val  = $c->pnotes($key => $val);
+          $val      = $c->pnotes($key);
+          $hash_ref = $c->pnotes();
+
+       obj: $c ( "Apache2::Connection object" )
+       opt arg1: $key ( string )
+           A key value
+
+       opt arg2: $val ( SCALAR )
+           Any scalar value (e.g. a reference to an array)
+
+       ret: (3 different possible values)
+           if both, $key and $val are passed the previous value for $key is
+           returned if such existed, otherwise undef is returned.
+
+           if only $key is passed, the current value for the given key is
+           returned.
+
+           if no arguments are passed, a hash reference is returned, which can
+           then be directly accessed without going through the "pnotes()"
+           interface.
+
+       since: 2.0.3
+
+       See ("Apache2::RequestUtil::pnotes") for the details of the "pnotes"
+       method usage.  The usage is identical except for a few differences.
+       First is the use of $c instead of $r as the invocant.  The second is
+       that the the data persists for the lifetime of the connection instead
+       of the lifetime of the request.  If the connection is lost, so is the
+       data stored in "pnotes".
+
+See Also
+       Apache2::Connection.
+
+       Apache2::RequestUtil::pnotes.
+
+       mod_perl 2.0 documentation.
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Authors
+       The mod_perl development team and numerous contributors.
+
+
+
+perlcv5.10.0perl-103~96::mod_perl-2007-11-11s::api::Apache2::ConnectionUtil(3)

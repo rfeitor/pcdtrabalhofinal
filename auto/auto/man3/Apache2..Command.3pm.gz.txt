@@ -1,0 +1,109 @@
+apache_modaperl-103~96::modCperl-2.0.4::docs::api::Apache2::Command(3)mmand(3)
+
+
+
+NAME
+       Apache2::Command - Perl API for accessing Apache module command
+       information
+
+Synopsis
+         use Apache2::Module ();
+         use Apache2::Command ();
+         my $module = Apache2::Module::find_linked_module('mod_perl.c');
+
+         for (my $cmd = $module->cmds; $cmd; $cmd = $cmd->next) {
+             $cmd->args_how();
+             $cmd->errmsg();
+             $cmd->name();
+             $cmd->req_override();
+         }
+
+Description
+       "Apache2::Command" provides the Perl API for accessing Apache module
+       command information
+
+API
+       "Apache2::Command" provides the following functions and/or methods:
+
+       "args_how"
+
+       What the command expects as arguments:
+
+         $how = $cmd->args_how();
+
+       obj: $cmd ( "Apache2::Command object" )
+       ret: $how ( "Apache2::Const :cmd_how constant" )
+           The flag value representing the type of this command (i.e.
+           "Apache2::Const::ITERATE", "Apache2::Const::TAKE2").
+
+       since: 2.0.00
+
+       "errmsg"
+
+       Get usage message for that command, in case of syntax errors:
+
+         $error = $cmd->errmsg();
+
+       obj: $cmd ( "Apache2::Command object" )
+       ret: $error ( string )
+           The error message
+
+       since: 2.0.00
+
+       "name"
+
+       Get the name of this command:
+
+         $name = $cmd->name();
+
+       obj: $cmd ( "Apache2::Command object" )
+       ret: $name ( string )
+           The command name
+
+       since: 2.0.00
+
+       "next"
+
+       Get the next command in the chain of commands for this module:
+
+         $next = $cmd->next();
+
+       obj: $cmd ( "Apache2::Command object" )
+       ret: $next ( "Apache2::Command object" )
+           Returns the next command in the chain for this module, "undef" for
+           the last command.
+
+       since: 2.0.00
+
+       "req_override"
+
+       What overrides need to be allowed to enable this command:
+
+         $override = $cmd->req_override
+
+       obj: $cmd ( "Apache2::Command object" )
+       ret: $override ( "Apache2::Const :override constant" )
+           The bit mask representing the overrides this command is allowed in
+           (i.e "Apache2::Const::OR_ALL"/"Apache2::Const::ACCESS_CONF").
+
+       since: 2.0.00
+
+       For example:
+
+         use Apache2::Const -compile => qw(:override);
+         $cmd->req_override() & Apache2::Const::OR_AUTHCFG;
+         $cmd->req_override() & Apache2::Const::OR_LIMIT;
+
+See Also
+       mod_perl 2.0 documentation.
+
+Copyright
+       mod_perl 2.0 and its core modules are copyrighted under The Apache
+       Software License, Version 2.0.
+
+Authors
+       The mod_perl development team and numerous contributors.
+
+
+
+perl v5.10.0he_mod_perl-103~96::mo2007-11-11.4::docs::api::Apache2::Command(3)
