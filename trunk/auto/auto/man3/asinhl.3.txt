@@ -1,0 +1,33 @@
+ASINH(3)                 BSD Library Functions Manual                 ASINH(3)
+
+NAME
+     asinh -- inverse hyperbolic sine function
+
+SYNOPSIS
+     #include <math.h>
+
+     double
+     asinh(double x);
+
+     long double
+     asinhl(long double x);
+
+     float
+     asinhf(float x);
+
+DESCRIPTION
+     The asinh() function computes the inverse hyperbolic sine of the real
+     argument
+
+SPECIAL VALUES
+     asinh(+-0) returns +-0.
+
+     asinh(+-infinity) returns +-infinity.
+
+SEE ALSO
+     acosh(3), atanh(3), exp(3), math(3)
+
+STANDARDS
+     The asinh() function conforms to ISO/IEC 9899:1999(E).
+
+4.3 Berkeley Distribution      December 11, 2006     4.3 Berkeley Distribution
