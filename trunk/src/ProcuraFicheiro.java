@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -15,10 +19,25 @@ public class ProcuraFicheiro {
 	static String palavra;
 	static String line;
 	static int encontradas;
-
+	static ArrayList<File> test = new ArrayList<File>();
+	static HashMap<String, ArrayList<File>> set_test = new HashMap<String, ArrayList<File>>();
+	static File file;
+	static File file2;
+	
 	public static void lerFicheiro() {
 		try {
 			fr = new FileReader(new File("testeeeee.txt"));
+			file = new File("testeeeee.txt");
+			br = new BufferedReader(fr);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void lerFicheiro2() {
+		try {
+			fr = new FileReader(new File("teste.txt"));
+			file = new File("teste.txt");
 			br = new BufferedReader(fr);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -32,9 +51,11 @@ public class ProcuraFicheiro {
 
 			while (line != null) {
 				st = new StringTokenizer(line);
+				
 				while (st.hasMoreTokens()) {
-					if (st.nextToken().equals(palavra)) {
-						encontradas++;
+					
+					if(set_test.put(st.nextToken(),){
+						;
 					}
 				}
 				line = br.readLine();
@@ -60,6 +81,8 @@ public class ProcuraFicheiro {
 		palavra = scanner.next();
 		lerFicheiro();
 		lerToken();
-		System.out.println(encontradas);
+		lerFicheiro2();
+		lerToken();
+		System.out.println(set_test);
 	}
 }
