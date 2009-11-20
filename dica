@@ -1,0 +1,10 @@
+if(INDEX == null)
+			INDEX = new Hashtable<String, HashSet<String>>();
+		
+		HashSet<String> hash = INDEX.get(word);
+		
+		if(hash == null)
+			hash = new HashSet<String>();
+		hash.add(source);
+		
+		INDEX.put(word, hash);
