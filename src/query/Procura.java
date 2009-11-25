@@ -1,20 +1,27 @@
 package query;
-import java.util.Scanner;
-
 import index.Indexação;
 
-public class Procura {
-Indexação ind = new Indexação();
+//import java.util.Scanner;
+
+public class Procura extends AbstractQuery{
 	
-	public void procuraPalavra(){
-		String palavra_a_procurar = new String();
-		Scanner sc;
+	Indexação ind;
+	
+	public Procura(String queryString) {
+		super(queryString);
+	}
+
+	public void run(){
+		//Scanner sc;
+		ind = new Indexação();
 
 		while(true){
-			sc = new Scanner(System.in);
-			palavra_a_procurar = sc.next();
-			System.out.println(">" + palavra_a_procurar);
-			System.out.println(ind.findSourcesForWord(palavra_a_procurar));
+			//sc = new Scanner(System.in);
+			//palavra_a_procurar = sc.next();
+			
+			System.out.println(">" + queryString);
+			System.out.println(ind.findSourcesForWord(queryString));
 		}
 	}
+	
 }
