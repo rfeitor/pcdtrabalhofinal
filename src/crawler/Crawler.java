@@ -1,4 +1,5 @@
 package crawler;
+import index.Indexação;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,25 +13,25 @@ public class Crawler {
 	BufferedReader br;
 	String line;
 	StringTokenizer st;
+	Indexação ind;
 	
-	public void lerFicheiro(String source) {
-		
+	public void lerFicheiro(File file) {
+
 		try {
-			fr = new FileReader(new File(source));
+			fr = new FileReader(file);
 			br = new BufferedReader(fr);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	
 		try {
-			
-			System.out.println("ler ficheiro");
 			line = br.readLine();
-
+			ind = new Indexação();
+			
 			while (line != null) {
 				st = new StringTokenizer(line);
 				while (st.hasMoreTokens()) {
-					//index.Index.this.addSourceForWord((String)st.nextToken(), source);
+					ind.addSourceForWord((String)st.nextToken(), file.getName());
 					}
 				line = br.readLine();
 			}
