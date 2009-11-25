@@ -4,19 +4,32 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 
 public class Grafico extends JFrame {
+
+	BufferedReader f = null;
+
+	DefaultListModel model = new DefaultListModel();
+
+	String[] lista;
+	int x = 0;
 
 	JFrame janela;
 	JButton crawl;
@@ -43,9 +56,11 @@ public class Grafico extends JFrame {
 
 	JLabel espaço;
 
-	JList campo1;
-	JList campo2;
-	JList campo3;
+	JTextArea campo1;
+	// JTextField campo1;
+	// JList campo1 = new JList(listagem);
+	JList campo_lista = new JList(model);
+	JTextArea campo3;
 
 	public Grafico() {
 
@@ -67,13 +82,19 @@ public class Grafico extends JFrame {
 		espaço = new JLabel("   ");
 		separador = new JSeparator();
 
-		campo1 = new JList();
+		
+		lista = new String []{"A", "B", "C"};
+		// campo1 = new JList(lista);
+		campo1 = new JTextArea();
 		campo1.setPreferredSize(new java.awt.Dimension(900, 500));
 
-		campo2 = new JList();
-		campo2.setPreferredSize(new java.awt.Dimension(250, 500));
+		campo_lista = new JList(model);
+		campo_lista.setPreferredSize(new java.awt.Dimension(250, 500));
+		campo_lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		campo_lista.setSelectedIndex(-1);
+		campo_lista.setLayoutOrientation(JList.VERTICAL);
 
-		campo3 = new JList();
+		campo3 = new JTextArea();
 		campo3.setPreferredSize(new java.awt.Dimension(1200, 150));
 
 		// definição dos campos de texto e acréscimo à janela
@@ -126,7 +147,7 @@ public class Grafico extends JFrame {
 
 		janela.add(barra1);
 
-		janela.add(campo2);
+		janela.add(campo_lista);
 		janela.add(barra2);
 
 		janela.add(barra4);
@@ -158,8 +179,7 @@ public class Grafico extends JFrame {
 		});
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JTextField x = new JTextField("OLLO");
-				x.requestFocus();
+
 			}
 		});
 		save.addActionListener(new ActionListener() {
@@ -173,6 +193,35 @@ public class Grafico extends JFrame {
 				janela.setVisible(false);
 			}
 		});
+		crawl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// campo1 = new JList(new String [] {"123455"});
+								
+
+				String pesquisa = new String (campo_pesquisa.getText());
+	
+				
+				try {
+                    BufferedReader in = new BufferedReader(new FileReader(pesquisa));
+                    String str, texto = "";
+                    while((str = in.readLine()) != null){
+                        texto += str + "\n";
+                    }
+                    campo1.setText(texto);
+                    in.close();
+                 } 
+                 catch (IOException ioe){
+                    // possiveis erros são tratatos aqui
+                 }
+                 
+
+                 poe_Na_Lista(pesquisa);
+
+				janela.getContentPane().validate();
+			}
+		});
+		
 
 		// item.addActionListener(actionListener);
 		menu1.add(exit);
@@ -186,6 +235,13 @@ public class Grafico extends JFrame {
 
 	}
 
+	public void poe_Na_Lista(String item){
+		model.addElement(item);
+		campo_lista.setSelectedIndex(campo_lista.getModel().getSize() - 1);
+		
+	}
+	
+	
 	public void executa() {
 
 		janela.setVisible(true);
