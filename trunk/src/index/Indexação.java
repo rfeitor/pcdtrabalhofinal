@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 
 public class Indexação implements Index {
-	
+
 	Crawler procura = new Crawler();
 	
 	public void addSourceForWord(String word, String source){
@@ -63,8 +63,6 @@ public class Indexação implements Index {
 		Indexação ind = new Indexação();
 		ind.indexaFicheiros(user);
 		
-		Procura procura = new Procura();
-		procura.procuraPalavra();
+		new Procura("rato").start();
 	}
-
 }
