@@ -1,8 +1,10 @@
 package index;
 import crawler.Crawler;
+import query.Procura;
 
 import java.io.File;
 import java.util.HashSet;
+
 
 
 public class Indexação implements Index {
@@ -60,7 +62,9 @@ public class Indexação implements Index {
 		File user = new File(userDir);
 		Indexação ind = new Indexação();
 		ind.indexaFicheiros(user);
-		System.out.println("rato" + ind.findSourcesForWord("rato"));
+		
+		Procura procura = new Procura();
+		procura.procuraPalavra();
 	}
 
 }
