@@ -1,27 +1,28 @@
 package query;
+
+import java.util.HashSet;
+
 import index.Indexação;
 
-//import java.util.Scanner;
+public class Procura extends AbstractQuery {
 
-public class Procura extends AbstractQuery{
-	
 	Indexação ind;
-	
+	HashSet<String> coleccao = new HashSet<String>();
+
 	public Procura(String queryString) {
 		super(queryString);
 	}
 
-	public void run(){
-		//Scanner sc;
+	public void run() {
 		ind = new Indexação();
-
-		while(true){
-			//sc = new Scanner(System.in);
-			//palavra_a_procurar = sc.next();
-			
-			System.out.println(">" + queryString);
-			System.out.println(ind.findSourcesForWord(queryString));
-		}
+		// System.out.println(">" + queryString);
+		// System.out.println(ind.findSourcesForWord(queryString));
+		coleccao = ind.findSourcesForWord(queryString);
 	}
-	
+
+	@Override
+	public HashSet<String> getResults() {
+		return coleccao;
+	}
+
 }
