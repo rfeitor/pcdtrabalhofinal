@@ -1,26 +1,34 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JLabel;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Grafico extends JFrame {
 
@@ -30,6 +38,10 @@ public class Grafico extends JFrame {
 
 	String[] lista;
 	int x = 0;
+	
+	String pesquisa;
+	
+	String [] lista_12;
 
 	JFrame janela;
 	JButton crawl;
@@ -82,6 +94,7 @@ public class Grafico extends JFrame {
 		espaço = new JLabel("   ");
 		separador = new JSeparator();
 
+		lista_12 = new String[] {"a.txt", "b.txt", "c.txt", "dica"};
 		
 		lista = new String []{"A", "B", "C"};
 		// campo1 = new JList(lista);
@@ -193,32 +206,79 @@ public class Grafico extends JFrame {
 				janela.setVisible(false);
 			}
 		});
+		
+	
+		
+		 campo_lista.addListSelectionListener( new ListSelectionListener() {  
+			            public void valueChanged(ListSelectionEvent e) {  
+			               Object object = campo_lista.getSelectedValue();
+			               
+
+			               try {
+
+			                    BufferedReader in = new BufferedReader(new FileReader((String) object));
+			                    String str, texto = "";
+			                    while((str = in.readLine()) != null){
+			                        texto += str + "\n";
+			                    }
+
+		                    	campo1.setText(texto);
+
+			                    in.close();
+			                 }
+			               catch (IOException ioe){
+			                    // possiveis erros são tratatos aqui
+			                 }
+			               
+//			               campo1.setText((String) object);  
+			            }  
+			         });
+		 	
+		 
 		crawl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				apaga_lista();
 				// campo1 = new JList(new String [] {"123455"});
-								
+			
+				 pesquisa = new String (campo_pesquisa.getText());
+				
+				for(int i =0; i!=lista_12.length;i++){
+					ProcuraFicheiro2.retira_encontradas();
+					
+				System.out.println(lista_12[i]);
+				
+				ProcuraFicheiro2.Palav(pesquisa);
 
-				String pesquisa = new String (campo_pesquisa.getText());
-	
+				ProcuraFicheiro2.lerFicheiro(lista_12[i]);
+				ProcuraFicheiro2.lerToken();
 				
 				try {
-                    BufferedReader in = new BufferedReader(new FileReader(pesquisa));
+                    BufferedReader in = new BufferedReader(new FileReader(lista_12[i]));
                     String str, texto = "";
                     while((str = in.readLine()) != null){
                         texto += str + "\n";
                     }
-                    campo1.setText(texto);
+                    if(ProcuraFicheiro2.encontradas>0){
+//                    	campo1.setText(texto);
+                    	  poe_Na_Lista(lista_12[i]);
+
+                    }
+
+ 
                     in.close();
                  } 
                  catch (IOException ioe){
                     // possiveis erros são tratatos aqui
                  }
+				}
                  
 
-                 poe_Na_Lista(pesquisa);
+//                 poe_Na_Lista(pesquisa);
 
 				janela.getContentPane().validate();
+
+				if ((ProcuraFicheiro2.encontradas != 0))
+					ProcuraFicheiro2.encontradas--;
 			}
 		});
 		
@@ -239,8 +299,12 @@ public class Grafico extends JFrame {
 		model.addElement(item);
 		campo_lista.setSelectedIndex(campo_lista.getModel().getSize() - 1);
 		
+		
 	}
-	
+	public void apaga_lista(){
+		if(!model.isEmpty())
+			model.removeAllElements();
+	}
 	
 	public void executa() {
 
