@@ -27,14 +27,6 @@ public class Indexação implements Index {
 
 	}
 
-	public HashSet<String> findSourcesForWord(String words) {
-		HashSet<String> hash;
-
-		hash = tabela.get(words);
-
-		return hash;
-	}
-
 	public void indexaFicheiros(File dir) {
 
 		File[] children = dir.listFiles();
@@ -54,14 +46,29 @@ public class Indexação implements Index {
 		indexaFicheiros(file);
 	}
 
+	public HashSet<String> findSourcesForWord(String words) {
+		HashSet<String> hash;
+
+		hash = tabela.get(words);
+
+		return hash;
+	}
+	
 	public synchronized void procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
 		HashSet<String> hash = new HashSet<String>();
 		
 		while(st.hasMoreElements()) {
-			new Procura(st.nextToken()).start();
+			Procura procura = new Procura(st.nextToken());
+			procura.start();
+			
+			if(hash.isEmpty())
+			hash = procura.getResults();
+			
+			System.out.println(procura.getResults());
+			hash.retainAll(procura.getResults());
+			System.out.println(hash);
 		}
-		
 	}
 
 	public static void main(String args[]) {
