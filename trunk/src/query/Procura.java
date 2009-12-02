@@ -16,7 +16,6 @@ public class Procura extends AbstractQuery {
 	public void run() {
 		ind = new Indexação();	
 		coleccao = ind.findSourcesForWord(queryString);
-		System.out.println(coleccao);
 	}
 	
 	@Override

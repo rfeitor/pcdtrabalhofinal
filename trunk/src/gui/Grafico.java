@@ -1,5 +1,7 @@
 package gui;
 
+import index.Indexação;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
@@ -9,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -238,39 +242,42 @@ public class Grafico extends JFrame {
 		crawl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				apaga_lista();
-				// campo1 = new JList(new String [] {"123455"});
-			
-				 pesquisa = new String (campo_pesquisa.getText());
-				
-				for(int i =0; i!=lista_12.length;i++){
-					ProcuraFicheiro2.retira_encontradas();
 					
-				System.out.println(lista_12[i]);
+//				 pesquisa = new String (campo_url.getText());
+//				
+//				for(int i =0; i!=lista_12.length;i++){
+//					ProcuraFicheiro2.retira_encontradas();
+//					
+//				System.out.println(lista_12[i]);
+//				
+//				ProcuraFicheiro2.Palav(pesquisa);
+//
+//				ProcuraFicheiro2.lerFicheiro(lista_12[i]);
+//				ProcuraFicheiro2.lerToken();
 				
-				ProcuraFicheiro2.Palav(pesquisa);
-
-				ProcuraFicheiro2.lerFicheiro(lista_12[i]);
-				ProcuraFicheiro2.lerToken();
-				
-				try {
-                    BufferedReader in = new BufferedReader(new FileReader(lista_12[i]));
-                    String str, texto = "";
-                    while((str = in.readLine()) != null){
-                        texto += str + "\n";
-                    }
-                    if(ProcuraFicheiro2.encontradas>0){
-//                    	campo1.setText(texto);
-                    	  poe_Na_Lista(lista_12[i]);
-
-                    }
-
- 
-                    in.close();
-                 } 
-                 catch (IOException ioe){
-                    // possiveis erros são tratatos aqui
-                 }
-				}
+				File user = new File(campo_url.getText());
+				Indexação ind = new Indexação();
+				ind.indexaFicheiros(user);
+				poe_Na_Lista(ind.findSourcesForWord("rato"));
+//				try {
+//                    BufferedReader in = new BufferedReader(new FileReader(lista_12[i]));
+//                    String str, texto = "";
+//                    while((str = in.readLine()) != null){
+//                        texto += str + "\n";
+//                    }
+//                    if(ProcuraFicheiro2.encontradas>0){
+////                    	campo1.setText(texto);
+//                    	  poe_Na_Lista(lista_12[i]);
+//
+//                    }
+//
+// 
+//                    in.close();
+//                 } 
+//                 catch (IOException ioe){
+//                    // possiveis erros são tratatos aqui
+//                 }
+		//	}
                  
 
 //                 poe_Na_Lista(pesquisa);
@@ -295,11 +302,16 @@ public class Grafico extends JFrame {
 
 	}
 
-	public void poe_Na_Lista(String item){
-		model.addElement(item);
-		campo_lista.setSelectedIndex(campo_lista.getModel().getSize() - 1);
-		
-		
+	public void poe_Na_Lista(HashSet<String> item){
+		if(!item.isEmpty()){
+			Iterator<String> it = item.iterator();
+			while(it.hasNext()){
+				model.addElement(it.next());
+				campo_lista.setSelectedIndex(campo_lista.getModel().getSize() - 1);
+			}
+		}
+		else
+			System.out.println("Null");
 	}
 	public void apaga_lista(){
 		if(!model.isEmpty())

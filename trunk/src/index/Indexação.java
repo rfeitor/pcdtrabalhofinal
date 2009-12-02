@@ -1,5 +1,4 @@
 package index;
-
 import crawler.Crawler;
 import query.Procura;
 
@@ -10,6 +9,7 @@ import java.util.StringTokenizer;
 public class Indexação implements Index {
 
 	Crawler procura = new Crawler();
+	int contar = 0;
 
 	public void addSourceForWord(String word, String source) {
 		HashSet<String> hash = new HashSet<String>();
@@ -38,6 +38,7 @@ public class Indexação implements Index {
 				search(file);
 			} else if (file.getName().endsWith(".txt")) {
 				procura.lerFicheiro(file);
+				System.out.println("Ficheiro: " + file.getAbsolutePath());
 			}
 		}
 	}
@@ -69,14 +70,15 @@ public class Indexação implements Index {
 			hash.retainAll(procura.getResults());
 			System.out.println(hash);
 		}
+		
 	}
 
-	public static void main(String args[]) {
-		String userDir = System.getProperty("user.dir");
-		File user = new File(userDir);
-		Indexação ind = new Indexação();
-		ind.indexaFicheiros(user);
-
-		ind.procuraPartilhada("rato rei");
-	}
+//	public static void main(String args[]) {
+//		String userDir = System.getProperty("user.dir");
+//		File user = new File(userDir);
+//		Indexação ind = new Indexação();
+//		ind.indexaFicheiros(user);
+//
+//		ind.procuraPartilhada("rato rei");
+//	}
 }
