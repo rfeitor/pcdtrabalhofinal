@@ -258,7 +258,7 @@ public class Grafico extends JFrame {
 				File user = new File(campo_url.getText());
 				Indexação ind = new Indexação();
 				ind.indexaFicheiros(user);
-				poe_Na_Lista(ind.findSourcesForWord("rato"));
+				poe_Na_Lista(ind.findSourcesForWord(campo_pesquisa.getText()));
 //				try {
 //                    BufferedReader in = new BufferedReader(new FileReader(lista_12[i]));
 //                    String str, texto = "";

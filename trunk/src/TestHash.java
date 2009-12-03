@@ -13,28 +13,36 @@ public class TestHash {
 	HashSet<String> results = new HashSet<String>();
 	
 	
-	public void testar(String testar){
-		HashSet<String> Testar = new HashSet<String>();
+//	public void testar(String testar){
+//		HashSet<String> Testar = new HashSet<String>();
+//		Testar = tabela.get(testar);
+//		
+//		if(results.isEmpty())
+//			results = tabela.get(testar);
+//
+//		results.retainAll(Testar);
+//		System.out.println(results);
+//		
+//	}
+	
+	public HashSet<String> getHash(String testar){
+		HashSet<String> Testar = new HashSet<String>();	
+		
+		System.out.println(tabela);
 		Testar = tabela.get(testar);
-		
-		if(results.isEmpty())
-			results = tabela.get(testar);
 
-		results.retainAll(Testar);
-		System.out.println(results);
-		
-		// System.out.println(">" + queryString);
-		// System.out.println(ind.findSourcesForWord(queryString));
+		return Testar;
 	}
 	
 	public void procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
-		HashSet<String> hash = new HashSet<String>();
+		//HashSet<String> hash = new HashSet<String>();
 		
 		while(st.hasMoreElements()) {
-			testar(st.nextToken());	
-		}	
-		
+			String next = st.nextToken();
+			Procurar procurar = new Procurar();
+			procurar.run(next);
+		}
 	}
 	
 	public void correr(){
