@@ -3,6 +3,7 @@ package gui;
 import index.Indexação;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -22,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
@@ -42,10 +45,10 @@ public class Grafico extends JFrame {
 
 	String[] lista;
 	int x = 0;
-	
+
 	String pesquisa;
-	
-	String [] lista_12;
+
+	String[] lista_12;
 
 	JFrame janela;
 	JButton crawl;
@@ -65,28 +68,34 @@ public class Grafico extends JFrame {
 
 	JSeparator separador;
 
-	JScrollBar barra1;
-	JScrollBar barra2;
-	JScrollBar barra3;
-	JScrollBar barra4;
+	// TODO deixei isto aqui só para confirmar que isto era mesmo para apagar
+	// JScrollBar barra1;
+	// JScrollBar barra2;
+	// JScrollBar barra3;
+	// JScrollBar barra4;
+	JScrollPane painel_lista, painel_texto, painel_consola;
 
 	JLabel espaço;
 
-	JTextArea campo1;
+	JTextArea campo_texto;
 	// JTextField campo1;
-	// JList campo1 = new JList(listagem);
+	// JList campo_texto = new JList(listagem);
 	JList campo_lista = new JList(model);
-	JTextArea campo3;
+	JTextArea campo_consola;
+
+	ListSelectListener list_listener;
+	ActListener sentinela;
 
 	public Grafico() {
 
 		// definições básicas da janela
 
 		janela = new JFrame("PCD Google by Nagios Team");
-		janela.setSize(1500, 800);
+		janela.setSize(1300, 800);
 		janela.setResizable(true);
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		janela.setLayout(new FlowLayout());
+		janela.setExtendedState(MAXIMIZED_BOTH);
 
 		// definição das Labels e acréscimo destas à janela
 
@@ -98,12 +107,12 @@ public class Grafico extends JFrame {
 		espaço = new JLabel("   ");
 		separador = new JSeparator();
 
-		lista_12 = new String[] {"a.txt", "b.txt", "c.txt", "dica"};
-		
-		lista = new String []{"A", "B", "C"};
-		// campo1 = new JList(lista);
-		campo1 = new JTextArea();
-		campo1.setPreferredSize(new java.awt.Dimension(900, 500));
+		lista_12 = new String[] { "a.txt", "b.txt", "c.txt", "dica" };
+
+		lista = new String[] { "A", "B", "C" };
+		// campo_texto = new JList(lista);
+		campo_texto = new JTextArea();
+		campo_texto.setPreferredSize(new java.awt.Dimension(900, 500));
 
 		campo_lista = new JList(model);
 		campo_lista.setPreferredSize(new java.awt.Dimension(250, 500));
@@ -111,8 +120,8 @@ public class Grafico extends JFrame {
 		campo_lista.setSelectedIndex(-1);
 		campo_lista.setLayoutOrientation(JList.VERTICAL);
 
-		campo3 = new JTextArea();
-		campo3.setPreferredSize(new java.awt.Dimension(1200, 150));
+		campo_consola = new JTextArea();
+		campo_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
 
 		// definição dos campos de texto e acréscimo à janela
 
@@ -123,21 +132,45 @@ public class Grafico extends JFrame {
 
 		crawl = new JButton("CRAWL");
 
-		barra1 = new JScrollBar();
-		barra1.setPreferredSize(new java.awt.Dimension(20, 500));
-
-		barra2 = new JScrollBar();
-		barra2.setPreferredSize(new java.awt.Dimension(20, 500));
-
-		barra3 = new JScrollBar();
-		barra3.setPreferredSize(new java.awt.Dimension(20, 150));
-
-		barra4 = new JScrollBar();
-		barra4.setPreferredSize(new java.awt.Dimension(1200, 20));
-		barra4.setOrientation(0);
+		// TODO acho que isto também é para apagar
+		// barra1 = new JScrollBar();
+		// barra1.setPreferredSize(new java.awt.Dimension(20, 500));
+		// barra2 = new JScrollBar();
+		// barra2.setPreferredSize(new java.awt.Dimension(20, 500));
+		// barra3 = new JScrollBar();
+		// barra3.setPreferredSize(new java.awt.Dimension(20, 150));
+		// barra4 = new JScrollBar();
+		// barra4.setPreferredSize(new java.awt.Dimension(1200, 20));
+		// barra4.setOrientation(0);
+		painel_lista = new JScrollPane();
+		painel_lista.setPreferredSize(new java.awt.Dimension(250, 500));
+		painel_lista.getViewport().setView(campo_lista);
+		painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
+				Color.red));
+		// TODO teste - painel_lista.setBorder(blackline);
+		// TODO teste1 -
+		// painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
+		// Color.red));
+		painel_texto = new JScrollPane();
+		painel_texto.setPreferredSize(new java.awt.Dimension(900, 500));
+		painel_texto.getViewport().setView(campo_texto);
+		painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
+				Color.red));
+		// TODO teste - painel_texto.setBorder(blackline);
+		// TODO teste1 -
+		// painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
+		// Color.red));
+		painel_consola = new JScrollPane();
+		painel_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
+		painel_consola.getViewport().setView(campo_consola);
+		painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
+				Color.red));
+		// TODO teste - painel_consola.setBorder(blackline);
+		// TODO teste1 -
+		// painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
+		// Color.red));
 
 		// definição do botão Crawl e acréscimo
-
 		// menu
 
 		menubar = new JMenuBar();
@@ -160,19 +193,19 @@ public class Grafico extends JFrame {
 		janela.add(campo_prof);
 		janela.add(crawl);
 
-		janela.add(campo1);
-
-		janela.add(barra1);
-
+		janela.add(campo_texto);
 		janela.add(campo_lista);
-		janela.add(barra2);
+		janela.add(campo_consola);
 
-		janela.add(barra4);
-
-		janela.add(campo3);
-		janela.add(barra3);
+		janela.add(painel_lista);
+		janela.add(painel_consola);
+		janela.add(painel_texto);
 
 		menubar.setVisible(true);
+
+		// TODO inicializacao das sentinelas
+		list_listener = new ListSelectListener();
+		sentinela = new ActListener();
 
 		// A partir daqui é que coloquei o código do Menu
 		JMenuBar menuBar = new JMenuBar();
@@ -210,85 +243,11 @@ public class Grafico extends JFrame {
 				janela.setVisible(false);
 			}
 		});
-		
-	
-		
-		 campo_lista.addListSelectionListener( new ListSelectionListener() {  
-			            public void valueChanged(ListSelectionEvent e) {  
-			               Object object = campo_lista.getSelectedValue();
-			               
 
-			               try {
-
-			                    BufferedReader in = new BufferedReader(new FileReader((String) object));
-			                    String str, texto = "";
-			                    while((str = in.readLine()) != null){
-			                        texto += str + "\n";
-			                    }
-
-		                    	campo1.setText(texto);
-
-			                    in.close();
-			                 }
-			               catch (IOException ioe){
-			                    // possiveis erros são tratatos aqui
-			                 }
-			               
-//			               campo1.setText((String) object);  
-			            }  
-			         });
-		 	
-		 
-		crawl.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				apaga_lista();
-					
-//				 pesquisa = new String (campo_url.getText());
-//				
-//				for(int i =0; i!=lista_12.length;i++){
-//					ProcuraFicheiro2.retira_encontradas();
-//					
-//				System.out.println(lista_12[i]);
-//				
-//				ProcuraFicheiro2.Palav(pesquisa);
-//
-//				ProcuraFicheiro2.lerFicheiro(lista_12[i]);
-//				ProcuraFicheiro2.lerToken();
-				
-				File user = new File(campo_url.getText());
-				Indexação ind = new Indexação();
-				ind.indexaFicheiros(user);
-				poe_Na_Lista(ind.findSourcesForWord(campo_pesquisa.getText()));
-//				try {
-//                    BufferedReader in = new BufferedReader(new FileReader(lista_12[i]));
-//                    String str, texto = "";
-//                    while((str = in.readLine()) != null){
-//                        texto += str + "\n";
-//                    }
-//                    if(ProcuraFicheiro2.encontradas>0){
-////                    	campo1.setText(texto);
-//                    	  poe_Na_Lista(lista_12[i]);
-//
-//                    }
-//
-// 
-//                    in.close();
-//                 } 
-//                 catch (IOException ioe){
-//                    // possiveis erros são tratatos aqui
-//                 }
-		//	}
-                 
-
-//                 poe_Na_Lista(pesquisa);
-
-				janela.getContentPane().validate();
-
-				if ((ProcuraFicheiro2.encontradas != 0))
-					ProcuraFicheiro2.encontradas--;
-			}
-		});
-		
+		campo_lista.addListSelectionListener(list_listener);
+		crawl.addActionListener(sentinela);
+		campo_pesquisa.addActionListener(sentinela);
+		campo_url.addActionListener(sentinela);
 
 		// item.addActionListener(actionListener);
 		menu1.add(exit);
@@ -302,32 +261,85 @@ public class Grafico extends JFrame {
 
 	}
 
-	public void poe_Na_Lista(HashSet<String> item){
-		if(!item.isEmpty()){
-			Iterator<String> it = item.iterator();
-			while(it.hasNext()){
-				model.addElement(it.next());
-				campo_lista.setSelectedIndex(campo_lista.getModel().getSize() - 1);
+	public void tira_da_lista() {
+		if (!model.isEmpty()) {
+			model.removeAllElements();
+			campo_lista.removeListSelectionListener(list_listener);
+		}
+	}
+
+	public void poe_Na_Lista(HashSet<String> item) {
+		try {
+			if (!item.isEmpty()) {
+				Iterator<String> it = item.iterator();
+				while (it.hasNext()) {
+					model.addElement(it.next());
+				}
+			}
+		} catch (NullPointerException e) {
+			// TODO Isto é a pedreiro, mas pelo menos não rebenta :-P
+			campo_texto.setText("Nenhum ficheiro encontrado");
+		}
+	}
+
+	private class ListSelectListener implements ListSelectionListener {
+		@Override
+		public void valueChanged(ListSelectionEvent arg0) {
+			// TODO Auto-generated method stub
+			if (arg0.getSource() == campo_lista) {
+				if (!campo_lista.isSelectionEmpty()) {
+					try {
+						BufferedReader br = new BufferedReader(new FileReader(
+								campo_lista.getSelectedValue().toString()));
+						String text = "";
+						String text2 = null;
+						while ((text2 = br.readLine()) != null)
+							text += text2 + "\n";
+						campo_texto.setText(text);
+						br.close();
+					} catch (IOException io) {
+						// TODO Possíveis erros são tratados aqui
+					}
+				}
 			}
 		}
-		else
-			System.out.println("Null");
+
 	}
-	public void apaga_lista(){
-		if(!model.isEmpty())
-			model.removeAllElements();
+
+	private class ActListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			if (arg0.getSource() == crawl || arg0.getSource() == campo_pesquisa
+					|| arg0.getSource() == campo_url)
+				if (campo_pesquisa.getText() != null
+						&& campo_url.getText() != null) {
+					tira_da_lista();
+					campo_lista.addListSelectionListener(list_listener);
+					File user_dir = new File(campo_url.getText());
+					Indexação ind = new Indexação();
+					ind.indexaFicheiros(user_dir);
+					if (ind.getFileAvailable())
+						poe_Na_Lista(ind.findSourcesForWord(campo_pesquisa
+								.getText()));
+					else
+						campo_texto.setText("FILE NOT AVAILABLE");
+					janela.getContentPane().validate();
+				} else
+					// TODO não esta a funcionar
+					campo_texto.setText("BURRO FALTA PREENCHER UM CAMPO");
+		}
+
 	}
-	
+
 	public void executa() {
 
 		janela.setVisible(true);
 	}
 
 	public static void main(String[] args) {
-
 		Grafico interfaceGráfica = new Grafico();
 		interfaceGráfica.executa();
 
 	}
-
 }

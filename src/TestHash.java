@@ -39,9 +39,8 @@ public class TestHash {
 		//HashSet<String> hash = new HashSet<String>();
 		
 		while(st.hasMoreElements()) {
-			String next = st.nextToken();
-			Procurar procurar = new Procurar();
-			procurar.run(next);
+			Procurar procurar = new Procurar(st.nextToken());
+			procurar.run();
 		}
 	}
 	
