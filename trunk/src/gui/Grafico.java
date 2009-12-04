@@ -145,30 +145,12 @@ public class Grafico extends JFrame {
 		painel_lista = new JScrollPane();
 		painel_lista.setPreferredSize(new java.awt.Dimension(250, 500));
 		painel_lista.getViewport().setView(campo_lista);
-		painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
-				Color.red));
-		// TODO teste - painel_lista.setBorder(blackline);
-		// TODO teste1 -
-		// painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
-		// Color.red));
 		painel_texto = new JScrollPane();
 		painel_texto.setPreferredSize(new java.awt.Dimension(900, 500));
 		painel_texto.getViewport().setView(campo_texto);
-		painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
-				Color.red));
-		// TODO teste - painel_texto.setBorder(blackline);
-		// TODO teste1 -
-		// painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
-		// Color.red));
 		painel_consola = new JScrollPane();
 		painel_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
 		painel_consola.getViewport().setView(campo_consola);
-		painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
-				Color.red));
-		// TODO teste - painel_consola.setBorder(blackline);
-		// TODO teste1 -
-		// painel_lista.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1,
-		// Color.red));
 
 		// definição do botão Crawl e acréscimo
 		// menu
