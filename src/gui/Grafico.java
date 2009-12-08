@@ -3,8 +3,6 @@ package gui;
 import index.Indexação;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,24 +13,18 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuBar;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JLabel;
-import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -132,16 +124,6 @@ public class Grafico extends JFrame {
 
 		crawl = new JButton("CRAWL");
 
-		// TODO acho que isto também é para apagar
-		// barra1 = new JScrollBar();
-		// barra1.setPreferredSize(new java.awt.Dimension(20, 500));
-		// barra2 = new JScrollBar();
-		// barra2.setPreferredSize(new java.awt.Dimension(20, 500));
-		// barra3 = new JScrollBar();
-		// barra3.setPreferredSize(new java.awt.Dimension(20, 150));
-		// barra4 = new JScrollBar();
-		// barra4.setPreferredSize(new java.awt.Dimension(1200, 20));
-		// barra4.setOrientation(0);
 		painel_lista = new JScrollPane();
 		painel_lista.setPreferredSize(new java.awt.Dimension(250, 500));
 		painel_lista.getViewport().setView(campo_lista);
@@ -175,13 +157,9 @@ public class Grafico extends JFrame {
 		janela.add(campo_prof);
 		janela.add(crawl);
 
-		janela.add(campo_texto);
-		janela.add(campo_lista);
-		janela.add(campo_consola);
-
+		janela.add(painel_texto);
 		janela.add(painel_lista);
 		janela.add(painel_consola);
-		janela.add(painel_texto);
 
 		menubar.setVisible(true);
 
