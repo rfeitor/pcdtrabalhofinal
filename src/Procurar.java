@@ -2,8 +2,8 @@ import java.util.HashSet;
 
 
 public class Procurar extends Thread {
-	
-	TestHash hashtest = null;
+	TestHash hashtest;
+	String test;
 	HashSet<String> Testar = new HashSet<String>();
 	String testar;
 	
