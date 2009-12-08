@@ -284,7 +284,7 @@ public class Grafico extends JFrame {
 								.getText()));
 					else
 						campo_texto.setText("FILE NOT AVAILABLE");
-					janela.getContentPane().validate();
+						janela.getContentPane().validate();
 				} else
 					// TODO não esta a funcionar
 					campo_texto.setText("BURRO FALTA PREENCHER UM CAMPO");
