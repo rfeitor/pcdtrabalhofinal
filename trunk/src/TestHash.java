@@ -4,6 +4,9 @@ import java.util.StringTokenizer;
 
 
 public class TestHash {
+
+	
+	
 	HashSet<String> coleccao = new HashSet<String>();
 	HashSet<String> coleccao2 = new HashSet<String>();
 	HashSet<String> coleccao3 = new HashSet<String>();
@@ -36,15 +39,21 @@ public class TestHash {
 	
 	public void procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
-		//HashSet<String> hash = new HashSet<String>();
+		Procurar procurar;
+		
+		//Ter cuidado quando devolve nulls
 		
 		while(st.hasMoreElements()) {
 			String next = st.nextToken();
-			System.out.println(tabela);
-			Procurar procurar = new Procurar(next);
+			//System.out.println(tabela);
+			procurar = new Procurar(next, this);
 			procurar.run();
-
 		}
+//		while(st.hasMoreElements()){
+//			String next = st.nextToken();
+//
+//			procurar.
+//		}
 	}
 	
 	public void correr(){
@@ -70,8 +79,7 @@ public class TestHash {
 	}
 	
 	public static void main(String args[]){
-		TestHash test = new TestHash();
-		test.correr();
-	}
-	
+		 TestHash test = new TestHash();
+		 test.correr();
+	}	
 }
