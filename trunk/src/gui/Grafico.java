@@ -105,13 +105,11 @@ public class Grafico extends JFrame {
 		// campo_texto = new JList(lista);
 		campo_texto = new JTextArea();
 		campo_texto.setPreferredSize(new java.awt.Dimension(900, 500));
-
 		campo_lista = new JList(model);
 		campo_lista.setPreferredSize(new java.awt.Dimension(250, 500));
 		campo_lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		campo_lista.setSelectedIndex(-1);
 		campo_lista.setLayoutOrientation(JList.VERTICAL);
-
 		campo_consola = new JTextArea();
 		campo_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
 
@@ -131,7 +129,7 @@ public class Grafico extends JFrame {
 		painel_texto.setPreferredSize(new java.awt.Dimension(900, 500));
 		painel_texto.getViewport().setView(campo_texto);
 		painel_consola = new JScrollPane();
-		painel_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
+		painel_consola.setPreferredSize(new java.awt.Dimension(1155, 150));
 		painel_consola.getViewport().setView(campo_consola);
 
 		// definição do botão Crawl e acréscimo
@@ -201,6 +199,7 @@ public class Grafico extends JFrame {
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janela.setVisible(false);
+				System.exit(0);
 			}
 		});
 
@@ -279,12 +278,15 @@ public class Grafico extends JFrame {
 					File user_dir = new File(campo_url.getText());
 					Indexação ind = new Indexação();
 					ind.indexaFicheiros(user_dir);
-					if (ind.getFileAvailable())
+					if (ind.getFileAvailable()) {
 						poe_Na_Lista(ind.findSourcesForWord(campo_pesquisa
 								.getText()));
-					else
+						campo_consola.setText("Resultados : " + model.getSize()
+								+ "\n" + "Numero de Crawlers : "
+								+ campo_num_crw.getText().toString() + "\n");
+					} else
 						campo_texto.setText("FILE NOT AVAILABLE");
-						janela.getContentPane().validate();
+					janela.getContentPane().validate();
 				} else
 					// TODO não esta a funcionar
 					campo_texto.setText("BURRO FALTA PREENCHER UM CAMPO");
