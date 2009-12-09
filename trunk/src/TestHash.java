@@ -1,12 +1,12 @@
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class TestHash {
 
-	
-	
 	HashSet<String> coleccao = new HashSet<String>();
 	HashSet<String> coleccao2 = new HashSet<String>();
 	HashSet<String> coleccao3 = new HashSet<String>();
@@ -15,6 +15,7 @@ public class TestHash {
 	
 	HashSet<String> results = new HashSet<String>();
 	
+	ExecutorService executor;	
 	
 //	public void testar(String testar){
 //		HashSet<String> Testar = new HashSet<String>();
@@ -42,8 +43,9 @@ public class TestHash {
 		Procurar procurar;
 		
 		//Ter cuidado quando devolve nulls
+		executor = Executors.newFixedThreadPool(st.countTokens());
 		
-		
+		//executor = new Executors.newFixedThreadPool(st.countTokens());
 		
 		while(st.hasMoreElements()) {
 			String next = st.nextToken();
@@ -54,7 +56,7 @@ public class TestHash {
 		while(st.hasMoreElements()){
 			String next = st.nextToken();
 
-			procurar.getHashSet();
+			//procurar.getHashSet();
 		}
 	}
 	
@@ -84,10 +86,4 @@ public class TestHash {
 		 TestHash test = new TestHash();
 		 test.correr();
 	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}	
 }
