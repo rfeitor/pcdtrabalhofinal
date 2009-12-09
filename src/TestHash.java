@@ -40,24 +40,22 @@ public class TestHash {
 	
 	public void procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
-		Procurar procurar;
-		
+		results = null;
 		//Ter cuidado quando devolve nulls
 		executor = Executors.newFixedThreadPool(st.countTokens());
 		
 		//executor = new Executors.newFixedThreadPool(st.countTokens());
 		
 		while(st.hasMoreElements()) {
-			String next = st.nextToken();
-			//System.out.println(tabela);
-			procurar = new Procurar(next, this);
-			procurar.run();
+			executor.execute(new Procurar(st.nextToken(),this));
 		}
-		while(st.hasMoreElements()){
-			String next = st.nextToken();
-
-			//procurar.getHashSet();
+	}
+	
+	public void pop(HashSet<String> hs) throws InterruptedException {
+		if(results.isEmpty()){
+			results = hs;
 		}
+		results.retainAll(hs);
 	}
 	
 	public void correr(){
