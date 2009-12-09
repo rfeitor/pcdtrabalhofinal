@@ -28,7 +28,7 @@ public class TestHash {
 //		
 //	}
 	
-	public HashSet<String> getHash(String testar){
+	public synchronized HashSet<String> getHash(String testar){
 		HashSet<String> Testar = new HashSet<String>();	
 		
 		System.out.println(tabela);
@@ -49,11 +49,11 @@ public class TestHash {
 			procurar = new Procurar(next, this);
 			procurar.run();
 		}
-//		while(st.hasMoreElements()){
-//			String next = st.nextToken();
-//
-//			procurar.
-//		}
+		while(st.hasMoreElements()){
+			String next = st.nextToken();
+
+			procurar.getHashSet();
+		}
 	}
 	
 	public void correr(){
