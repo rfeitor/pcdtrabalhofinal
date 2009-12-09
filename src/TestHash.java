@@ -43,6 +43,8 @@ public class TestHash {
 		
 		//Ter cuidado quando devolve nulls
 		
+		
+		
 		while(st.hasMoreElements()) {
 			String next = st.nextToken();
 			//System.out.println(tabela);
@@ -81,5 +83,11 @@ public class TestHash {
 	public static void main(String args[]){
 		 TestHash test = new TestHash();
 		 test.correr();
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}	
 }
