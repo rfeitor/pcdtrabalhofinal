@@ -17,10 +17,13 @@ public class BlockingQueueTest implements Runnable {
 	 * 
 	 * @param obj
 	 */
-	/*
-	 * public void push(Object obj) { // TODO possivelmente Crawler em vez de
-	 * Object synchronized (queue) { queue.add(obj); queue.notify(); } }
-	 */
+
+	public void push(Object obj) { // TODO possivelmente Crawler em vez de
+		synchronized (messageQueue) {
+			messageQueue.add(obj);
+			messageQueue.notify();
+		}
+	}
 
 	/**
 	 * The pop operation blocks until either an object is returned or the thread
@@ -29,10 +32,13 @@ public class BlockingQueueTest implements Runnable {
 	 * @return queue.wait() or queue.removeFirst()
 	 * @throws InterruptedException
 	 */
-	/*
-	 * public Object pop() throws InterruptedException { synchronized (queue) {
-	 * while (queue.isEmpty()) queue.wait(); return queue; } }
-	 */
+	public Object pop() throws InterruptedException {
+		synchronized (messageQueue) {
+			while (messageQueue.isEmpty())
+				messageQueue.wait();
+			return messageQueue;
+		}
+	}
 
 	/**
 	 * Return the number of elements currently in the queue.
