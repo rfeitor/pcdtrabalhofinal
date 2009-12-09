@@ -20,9 +20,8 @@ public class Procurar extends Thread {
 		}
 		Testar = hashtest.getHash(testar);
 		System.out.println(Testar);
+	
+		hashtest.pop(Testar);
 	}
 	
-	public HashSet<String> getHashSet(){
-		return Testar;
-	}
 }
