@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Indexação implements Index {
 
-	Crawler procura = new Crawler();
+	Crawler crawl = new Crawler();
 	int contar = 0;
 	boolean file_available = false;
 	boolean algum_null = false;
@@ -55,7 +55,7 @@ public class Indexação implements Index {
 				if (file.isDirectory()) {
 					search(file);
 				} else if (file.getName().endsWith(".txt")) {
-					procura.lerFicheiro(file);
+					crawl.lerFicheiro(file);
 					System.out.println("Ficheiro: " + file.getAbsolutePath());
 				}
 			}
@@ -76,17 +76,17 @@ public class Indexação implements Index {
 		return hash;
 	}
 
-	// TODO ISTO NAO DEVERIA ESTAR NO ADDSOURCEFORSTRING()
 	public HashSet<String> procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
 		results.clear();
 		algum_null = false;
 
 		executor = Executors.newFixedThreadPool(st.countTokens());
-
+		
 		while (st.hasMoreElements()) {
 			executor.execute(new Procura(st.nextToken(), this));
 		}
+		
 		try {
 			executor.awaitTermination(5, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
