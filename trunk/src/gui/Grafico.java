@@ -270,26 +270,28 @@ public class Grafico extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			if (arg0.getSource() == crawl || arg0.getSource() == campo_pesquisa
-					|| arg0.getSource() == campo_url)
-				if (campo_pesquisa.getText() != null
-						&& campo_url.getText() != null) {
+					|| arg0.getSource() == campo_url) {
+				if (campo_pesquisa.getText().isEmpty()){
+					campo_consola.setText("NADA PARA PESQUISAR");
+				} else if (campo_url.getText().isEmpty()) {
+					campo_consola.setText("URL NOT AVAILABLE");
+				} else if (!campo_pesquisa.getText().isEmpty()
+						&& !campo_url.getText().isEmpty()) {
 					tira_da_lista();
 					campo_lista.addListSelectionListener(list_listener);
 					File user_dir = new File(campo_url.getText());
 					Indexação ind = new Indexação();
 					ind.indexaFicheiros(user_dir);
 					if (ind.getFileAvailable()) {
-						poe_Na_Lista(ind.findSourcesForWord(campo_pesquisa
-								.getText()));
+						poe_Na_Lista(ind.procuraPartilhada(campo_pesquisa.getText()));
 						campo_consola.setText("Resultados : " + model.getSize()
 								+ "\n" + "Numero de Crawlers : "
 								+ campo_num_crw.getText().toString() + "\n");
 					} else
-						campo_texto.setText("FILE NOT AVAILABLE");
+						campo_consola.setText("FILE NOT AVAILABLE");
 					janela.getContentPane().validate();
-				} else
-					// TODO não esta a funcionar
-					campo_texto.setText("BURRO FALTA PREENCHER UM CAMPO");
+				}
+			}
 		}
 
 	}

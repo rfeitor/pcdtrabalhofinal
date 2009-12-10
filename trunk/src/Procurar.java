@@ -21,7 +21,6 @@ public class Procurar extends Thread {
 		Testar = hashtest.getHash(testar);
 		System.out.println(Testar);
 	
-		hashtest.pop(Testar);
 	}
 	
 }
