@@ -7,13 +7,17 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
-import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Indexação implements Index {
 
 	Crawler procura = new Crawler();
 	int contar = 0;
 	boolean file_available = false;
+	
+	HashSet<String> results = new HashSet<String>();
+	ExecutorService executor;
 	
 	public boolean getFileAvailable() {
 		return file_available;
@@ -59,51 +63,62 @@ public class Indexação implements Index {
 		indexaFicheiros(file);
 	}
 
-	public HashSet<String> compara(HashSet<String> hash,
-			HashSet<String> hash_compara) {
-		Iterator<String> it = hash_compara.iterator();
-		HashSet<String> hash_return = new HashSet<String>();
-
-		while (it.hasNext()) {
-			if (hash.contains(it.next())) {
-				hash_return.add(it.next());
-			}
-		}
-
-		return hash_return;
-	}
+//	public HashSet<String> compara(HashSet<String> hash,
+//			HashSet<String> hash_compara) {
+//		Iterator<String> it = hash_compara.iterator();
+//		HashSet<String> hash_return = new HashSet<String>();
+//
+//		while (it.hasNext()) {
+//			if (hash.contains(it.next())) {
+//				hash_return.add(it.next());
+//			}
+//		}
+//
+//		return hash_return;
+//	}
 
 	public HashSet<String> findSourcesForWord(String words) {
 		HashSet<String> hash;
-
+		System.out.println(tabela);
 		hash = tabela.get(words);
 
 		return hash;
 	}
 
-	public synchronized void procuraPartilhada(String string_procurar) {
+	public HashSet<String> procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
-		HashSet<String> hash = new HashSet<String>();
-
-		while (st.hasMoreElements()) {
-			Procura procura = new Procura(st.nextToken());
-			procura.start();
-
-			if (hash.isEmpty())
-				hash = procura.getResults();
-
-			System.out.println(procura.getResults());
-			hash.retainAll(procura.getResults());
-			System.out.println(hash);
+		results = null;
+		
+		executor = Executors.newFixedThreadPool(st.countTokens());
+		
+		while(st.hasMoreElements()) {
+			executor.execute(new Procura(st.nextToken()));
 		}
+		
+		return results;
 	}
-
-	// public static void main(String args[]) {
-	// String userDir = System.getProperty("user.dir");
-	// File user = new File(userDir);
-	// Indexação ind = new Indexação();
-	// ind.indexaFicheiros(user);
-	//
-	// ind.procuraPartilhada("rato rei");
-	// }
+	
+	public void pop(HashSet<String> hs) throws InterruptedException {
+		if(results.isEmpty()){
+			results = hs;
+		}
+		results.retainAll(hs);
+	}
+	
+//	public synchronized void procuraPartilhada(String string_procurar) {
+//		StringTokenizer st = new StringTokenizer(string_procurar);
+//		HashSet<String> hash = new HashSet<String>();
+//
+//		while (st.hasMoreElements()) {
+//			Procura procura = new Procura(st.nextToken());
+//			procura.start();
+//
+//			if (hash.isEmpty())
+//				hash = procura.getResults();
+//
+//			System.out.println(procura.getResults());
+//			hash.retainAll(procura.getResults());
+//			System.out.println(hash);
+//		}
+//	}	
 }
