@@ -283,6 +283,7 @@ public class Grafico extends JFrame {
 					Indexação ind = new Indexação();
 					ind.indexaFicheiros(user_dir);
 					if (ind.getFileAvailable()) {
+						// TODO NAO DEVERIAMOS UTILIZAR O METODO FINDSOURCESFORWORDS()
 						poe_Na_Lista(ind.procuraPartilhada(campo_pesquisa.getText()));
 						System.out.println("Ola");
 						campo_consola.setText("Resultados : " + model.getSize()

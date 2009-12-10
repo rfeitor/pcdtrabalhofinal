@@ -60,7 +60,7 @@ public class Indexação implements Index {
 				}
 			}
 		} catch (NullPointerException e) {
-			// TODO continuacao de apanhar excepções à pedreiro
+			// TODO 
 		}
 	}
 
@@ -76,6 +76,7 @@ public class Indexação implements Index {
 		return hash;
 	}
 
+	// TODO ISTO NAO DEVERIA ESTAR NO ADDSOURCEFORSTRING()
 	public HashSet<String> procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
 		results.clear();
@@ -89,7 +90,6 @@ public class Indexação implements Index {
 		try {
 			executor.awaitTermination(5, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return results;
