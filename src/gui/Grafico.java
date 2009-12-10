@@ -236,7 +236,7 @@ public class Grafico extends JFrame {
 				}
 			}
 		} catch (NullPointerException e) {
-			// TODO Isto é a pedreiro, mas pelo menos não rebenta :-P
+			// TODO 
 			campo_texto.setText("Nenhum ficheiro encontrado");
 		}
 	}
@@ -284,9 +284,12 @@ public class Grafico extends JFrame {
 					ind.indexaFicheiros(user_dir);
 					if (ind.getFileAvailable()) {
 						poe_Na_Lista(ind.procuraPartilhada(campo_pesquisa.getText()));
+						System.out.println("Ola");
 						campo_consola.setText("Resultados : " + model.getSize()
 								+ "\n" + "Numero de Crawlers : "
 								+ campo_num_crw.getText().toString() + "\n");
+		
+						
 					} else
 						campo_consola.setText("FILE NOT AVAILABLE");
 					janela.getContentPane().validate();
