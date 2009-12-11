@@ -1,6 +1,7 @@
 package query;
 
 import java.util.HashSet;
+import java.util.concurrent.locks.ReentrantLock;
 
 import index.Indexação;
 
