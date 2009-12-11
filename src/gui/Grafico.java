@@ -34,12 +34,15 @@ public class Grafico extends JFrame {
 	BufferedReader f = null;
 
 	DefaultListModel model = new DefaultListModel();
-
+	Indexação ind = new Indexação();
+	
 	String[] lista;
 	int x = 0;
-
+	boolean pesquisa_nova = false;
+	
+	
 	String pesquisa;
-
+	
 	String[] lista_12;
 
 	JFrame janela;
@@ -236,7 +239,7 @@ public class Grafico extends JFrame {
 				}
 			}
 		} catch (NullPointerException e) {
-			// TODO 
+			// TODO
 			campo_texto.setText("Nenhum ficheiro encontrado");
 		}
 	}
@@ -269,27 +272,31 @@ public class Grafico extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
+			
 			if (arg0.getSource() == crawl || arg0.getSource() == campo_pesquisa
-					|| arg0.getSource() == campo_url) {
-				if (campo_pesquisa.getText().isEmpty()){
-					campo_consola.setText("NADA PARA PESQUISAR");
-				} else if (campo_url.getText().isEmpty()) {
-					campo_consola.setText("URL NOT AVAILABLE");
-				} else if (!campo_pesquisa.getText().isEmpty()
-						&& !campo_url.getText().isEmpty()) {
+					|| arg0.getSource() == campo_url
+					|| arg0.getSource() == campo_num_crw
+					|| arg0.getSource() == campo_prof) {
+
+				if (!campo_url.getText().isEmpty() && !pesquisa_nova) {
+					pesquisa_nova=true;
+					tira_da_lista();
+					File user_dir = new File(campo_url.getText());
+					ind.indexaFicheiros(user_dir, Integer
+							.parseInt(campo_num_crw.getText()), Integer
+							.parseInt(campo_prof.getText()));
+					
+				} else if (!campo_pesquisa.getText().isEmpty()) {
 					tira_da_lista();
 					campo_lista.addListSelectionListener(list_listener);
-					File user_dir = new File(campo_url.getText());
-					Indexação ind = new Indexação();
-					ind.indexaFicheiros(user_dir);
+					
 					if (ind.getFileAvailable()) {
-						poe_Na_Lista(ind.procuraPartilhada(campo_pesquisa.getText()));
+						poe_Na_Lista(ind.procuraPartilhada(campo_pesquisa
+								.getText()));
 						System.out.println("Ola");
 						campo_consola.setText("Resultados : " + model.getSize()
 								+ "\n" + "Numero de Crawlers : "
 								+ campo_num_crw.getText().toString() + "\n");
-		
-						
 					} else
 						campo_consola.setText("FILE NOT AVAILABLE");
 					janela.getContentPane().validate();
