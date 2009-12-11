@@ -38,7 +38,7 @@ public class Grafico extends JFrame {
 	
 	String[] lista;
 	int x = 0;
-	boolean pesquisa_nova = false;
+	boolean pesquisa_nova = true;
 	
 	
 	String pesquisa;
@@ -185,7 +185,7 @@ public class Grafico extends JFrame {
 
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//				
+				pesquisa_nova = true;				
 			}
 		});
 		open.addActionListener(new ActionListener() {
@@ -277,28 +277,30 @@ public class Grafico extends JFrame {
 					|| arg0.getSource() == campo_url
 					|| arg0.getSource() == campo_num_crw
 					|| arg0.getSource() == campo_prof) {
-
-				if (!campo_url.getText().isEmpty() && !pesquisa_nova) {
-					pesquisa_nova=true;
-					tira_da_lista();
+					
+				tira_da_lista();
+				campo_texto.setText("");
+				
+				if (!campo_url.getText().isEmpty() && pesquisa_nova) {
+					pesquisa_nova=false;
+					
 					File user_dir = new File(campo_url.getText());
 					ind.indexaFicheiros(user_dir, Integer
 							.parseInt(campo_num_crw.getText()), Integer
 							.parseInt(campo_prof.getText()));
+					campo_consola.setText("Indexação acabada");
 					
 				} else if (!campo_pesquisa.getText().isEmpty()) {
-					tira_da_lista();
-					campo_lista.addListSelectionListener(list_listener);
 					
 					if (ind.getFileAvailable()) {
 						poe_Na_Lista(ind.procuraPartilhada(campo_pesquisa
 								.getText()));
-						System.out.println("Ola");
 						campo_consola.setText("Resultados : " + model.getSize()
 								+ "\n" + "Numero de Crawlers : "
 								+ campo_num_crw.getText().toString() + "\n");
 					} else
 						campo_consola.setText("FILE NOT AVAILABLE");
+					campo_lista.addListSelectionListener(list_listener);
 					janela.getContentPane().validate();
 				}
 			}

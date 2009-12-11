@@ -1,7 +1,6 @@
 package query;
 
 import java.util.HashSet;
-import java.util.concurrent.locks.ReentrantLock;
 
 import index.Indexação;
 
@@ -21,15 +20,10 @@ public class Procura extends AbstractQuery {
 			e.printStackTrace();
 		}
 		coleccao = index.findSourcesForWord(queryString);
-
+		
 		try {
 			System.out.println("Coleccao " + coleccao);
-			//if (coleccao == null)
-				index.pop(coleccao);
-//			else {
-//				this.interrupt();
-//				index.setNull();
-//			}
+			index.pop(coleccao);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

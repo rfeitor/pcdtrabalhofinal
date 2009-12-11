@@ -19,7 +19,7 @@ public class Indexação implements Index {
 	boolean file_available = false;
 	boolean algum_null = false;
 
-	HashSet<String> results = new HashSet<String>();
+	HashSet<String> results;
 	ExecutorService executor, executorFile;
 	ReentrantLock pauseLock = new ReentrantLock();
 	Condition unpaused = pauseLock.newCondition();
@@ -30,13 +30,8 @@ public class Indexação implements Index {
 		return file_available;
 	}
 
-	public boolean hasMoreQueues() {
-		return pauseLockFile.hasQueuedThreads();
-	}
-
 	public void addSourceForWord(String word, String source) {
 		HashSet<String> hash = new HashSet<String>();
-
 		if (tabela.containsKey(word)) {
 			hash = tabela.get(word);
 			hash.add(source);
@@ -54,14 +49,15 @@ public class Indexação implements Index {
 
 		try {
 			File[] children = dir.listFiles();
-			int x = 0;
 
 			for (int n = 0; n < children.length; n++) {
 				file_available = true;
 				File file = children[n];
 				pauseLockFile.lock();
-				if (file.isDirectory() && x < depth) {
+				if (file.isDirectory() && depth > 0 || depth <= -1 ) {
+					depth--;
 					search(file, num_crawler, depth);
+					depth++;
 				} else if (file.getName().endsWith(".txt")) {
 					executorFile.execute(new Crawler(file));
 					while (pauseLockFile.getWaitQueueLength(unpausedFile) != 0) {
@@ -75,7 +71,6 @@ public class Indexação implements Index {
 					pauseLockFile.unlock();
 				}
 			}
-
 		} catch (NullPointerException e) {
 			// TODO
 		}
@@ -86,19 +81,13 @@ public class Indexação implements Index {
 	}
 
 	public HashSet<String> findSourcesForWord(String words) {
-		HashSet<String> hash;
-
-		hash = tabela.get(words);
-
-		return hash;
+		return tabela.get(words);
 	}
 
 	public HashSet<String> procuraPartilhada(String string_procurar) {
 		StringTokenizer st = new StringTokenizer(string_procurar);
-
-		results.clear();
+		results = new HashSet<String>();
 		algum_null = false;
-
 		executor = Executors.newFixedThreadPool(st.countTokens());
 
 		pauseLock.lock();
