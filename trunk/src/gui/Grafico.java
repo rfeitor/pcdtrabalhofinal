@@ -107,14 +107,14 @@ public class Grafico extends JFrame {
 		lista = new String[] { "A", "B", "C" };
 		// campo_texto = new JList(lista);
 		campo_texto = new JTextArea();
-		campo_texto.setPreferredSize(new java.awt.Dimension(900, 500));
+		//campo_texto.setPreferredSize(new java.awt.Dimension(900, 500));
 		campo_lista = new JList(model);
-		campo_lista.setPreferredSize(new java.awt.Dimension(250, 500));
+		//campo_lista.setPreferredSize(new java.awt.Dimension(250, 500));
 		campo_lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		campo_lista.setSelectedIndex(-1);
 		campo_lista.setLayoutOrientation(JList.VERTICAL);
 		campo_consola = new JTextArea();
-		campo_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
+		//campo_consola.setPreferredSize(new java.awt.Dimension(1200, 150));
 
 		// definição dos campos de texto e acréscimo à janela
 

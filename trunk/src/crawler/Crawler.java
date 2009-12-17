@@ -24,7 +24,7 @@ public class Crawler extends Thread {
 	public void run() {
 
 		try {
-			System.out.println("CRAWLER" + this.getId());
+			
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
 		} catch (FileNotFoundException e) {
@@ -39,7 +39,8 @@ public class Crawler extends Thread {
 				st = new StringTokenizer(line);
 				while (st.hasMoreTokens()) {
 					ind.addSourceForWord((String)st.nextToken(), file.getName());
-					}
+					System.out.println(file.getPath());
+				}
 				line = br.readLine();
 			}
 			

@@ -94,15 +94,15 @@ public class Indexação implements Index {
 		while (st.hasMoreElements()) {
 			executor.execute(new Procura(st.nextToken(), this));
 		}
-		
-		while (pauseLock.getWaitQueueLength(unpaused) != 0) {
-			try {
-				unpaused.await();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		
+//		while (pauseLock.getWaitQueueLength(unpaused) != 0) {
+//			try {
+//				unpaused.await();
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		pauseLock.unlock();
 		executor.shutdown();
 		while (!executor.isTerminated())
